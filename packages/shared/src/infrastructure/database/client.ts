@@ -1,9 +1,11 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pkg from "pg";
+
 const { Pool } = pkg;
-import config from "../../config/database.js";
+
 import { PrismaClient } from "#generated/client";
+import config from "../../config/database.js";
 
 let prisma: PrismaClient;
 

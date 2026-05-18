@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto, UpdateUserDto } from '@repo/shared/schemas/user.schema';
+import { Injectable } from "@nestjs/common";
+import { CreateUserDto, UpdateUserDto } from "@repo/shared/schemas/user.schema";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class UserService {
@@ -16,7 +16,7 @@ export class UserService {
         is_active: true,
         created_at: true,
         updated_at: true,
-      }
+      },
     });
   }
 
@@ -30,10 +30,10 @@ export class UserService {
         is_active: true,
         created_at: true,
         updated_at: true,
-      }
+      },
     });
-    
-    if (!user) throw new Error('User not found');
+
+    if (!user) throw new Error("User not found");
     return user;
   }
 
@@ -52,7 +52,7 @@ export class UserService {
         is_active: true,
         created_at: true,
         updated_at: true,
-      }
+      },
     });
   }
 
@@ -62,7 +62,7 @@ export class UserService {
       dataToUpdate.password_hash = dto.password; // TODO: Harus di-hash
       delete dataToUpdate.password;
     }
-    
+
     return this.prisma.client.users.update({
       where: { id },
       data: dataToUpdate,
@@ -73,7 +73,7 @@ export class UserService {
         is_active: true,
         created_at: true,
         updated_at: true,
-      }
+      },
     });
   }
 

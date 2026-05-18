@@ -1,9 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { beforeEach, describe, expect, it } from "@jest/globals";
+import { Test, TestingModule } from "@nestjs/testing";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
-describe('AppController', () => {
+describe("AppController", () => {
   let appController: AppController;
 
   beforeEach(async () => {
@@ -15,9 +15,11 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return health check message', () => {
-      expect(appController.getHello()).toBe('Boilerplate Backend API is running!');
+  describe("root", () => {
+    it("should return health check message", () => {
+      expect(appController.getHello()).toBe(
+        "Boilerplate Backend API is running!",
+      );
     });
   });
 });

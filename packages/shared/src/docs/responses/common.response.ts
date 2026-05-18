@@ -1,25 +1,25 @@
 export const CommonErrorResponses = {
   ValidationError: {
-    status: 'error',
+    status: "error",
     code: 400,
-    message: 'Validation failed',
+    message: "Validation failed",
     errors: [
       {
-        field: 'email',
-        message: 'Invalid email format',
+        field: "email",
+        message: "Invalid email format",
       },
     ],
   },
   Unauthorized: {
-    status: 'error',
+    status: "error",
     code: 401,
-    message: 'Unauthorized access',
+    message: "Unauthorized access",
     errors: [],
   },
   InternalServerError: {
-    status: 'error',
+    status: "error",
     code: 500,
-    message: 'An unexpected error occurred',
+    message: "An unexpected error occurred",
     errors: [],
   },
 };

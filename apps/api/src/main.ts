@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { Request, Response } from 'express';
-import helmet from 'helmet';
-import compression from 'compression';
+import { NestFactory } from "@nestjs/core";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import compression from "compression";
+import { Request, Response } from "express";
+import helmet from "helmet";
+import { AppModule } from "./app.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,10 +14,14 @@ async function bootstrap() {
       contentSecurityPolicy: {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-          'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],
-          'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-          'font-src': ["'self'", 'https://fonts.gstatic.com'],
-          'img-src': ["'self'", 'data:', 'https://unpkg.com'],
+          "script-src": ["'self'", "'unsafe-inline'", "https://unpkg.com"],
+          "style-src": [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
+          "font-src": ["'self'", "https://fonts.gstatic.com"],
+          "img-src": ["'self'", "data:", "https://unpkg.com"],
         },
       },
     }),
@@ -26,32 +30,32 @@ async function bootstrap() {
 
   // Swagger Configuration
   const config = new DocumentBuilder()
-    .setTitle('Boilerplate API')
-    .setDescription('API Documentation for Boilerplate Backend')
-    .setVersion('1.0')
+    .setTitle("Boilerplate API")
+    .setDescription("API Documentation for Boilerplate Backend")
+    .setVersion("1.0")
     .addBearerAuth(
       {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'Authorization',
-        description: 'Enter JWT token',
-        in: 'header',
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        name: "Authorization",
+        description: "Enter JWT token",
+        in: "header",
       },
-      'JWT-auth',
+      "JWT-auth",
     )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
 
   // Serve OpenAPI JSON
-  app.getHttpAdapter().get('/api-json', (_req: Request, res: Response) => {
+  app.getHttpAdapter().get("/api-json", (_req: Request, res: Response) => {
     res.json(document);
   });
 
   // Serve RapiDoc UI
-  app.getHttpAdapter().get('/api', (_req: Request, res: Response) => {
-    res.type('html');
+  app.getHttpAdapter().get("/api", (_req: Request, res: Response) => {
+    res.type("html");
     res.send(`
       <!doctype html>
       <html>
