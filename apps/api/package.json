@@ -5,7 +5,12 @@
   "scripts": {
     "build": "nest build",
     "dev": "nest start --watch",
-    "start": "nest start"
+    "start": "nest start",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "lint": "biome lint",
+    "format": "biome check --write"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
@@ -26,6 +31,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.0",
+    "@repo/biome-config": "workspace:*",
     "@types/compression": "^1.7.5",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.0",
@@ -33,5 +39,20 @@
     "jest": "^29.5.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.0"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "roots": ["<rootDir>/src", "<rootDir>/../../packages/shared/src"],
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^@repo/shared/(.*)$": "<rootDir>/../../packages/shared/src/$1",
+      "^#(.*)$": "<rootDir>/../../packages/shared/src/$1"
+    },
+    "collectCoverageFrom": ["**/*.(t|j)s"],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }

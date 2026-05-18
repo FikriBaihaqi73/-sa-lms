@@ -37,7 +37,8 @@
         "useNodejsImportProtocol": "off",
         "noNonNullAssertion": "off",
         "useTemplate": "off",
-        "useConst": "off"
+        "useConst": "off",
+        "useImportType": "off"
       },
       "correctness": {
         "noUnusedVariables": "off"

@@ -47,7 +47,7 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     - Test files must be located in the same directory as the implementation with the `.spec.ts` suffix.
     - Ensure a high test coverage for business logic.
 
-## 6. Operational Rules
+## 7. Operational Rules
 
 ### A. Dependency Management
 - Use the `--filter` flag to manage dependencies for specific packages.
@@ -90,14 +90,14 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     - `@ApiResponse({ status: 200, description: '...' })`: Document possible responses.
 - Documentation is accessible at `/api` (RapiDoc UI) and `/api-json` (OpenAPI JSON).
 
-## 9. Advanced Documentation & Error Standards
+## 9. Advanced Documentation & Standards
 
 ### A. DTO-Driven Documentation (Zod)
 - Do NOT use `@ApiProperty` manually in controllers.
 - **Mandatory**: Use Zod's `.describe("...")` for every field in `packages/shared/src/schemas/`.
 - `nestjs-zod` will automatically convert these descriptions into Swagger schemas.
 
-### API Documentation Standards (Swagger/RapiDoc)
+### B. API Documentation Standards (Swagger/RapiDoc)
 - **Endpoint Explanations**: EVERY endpoint MUST have clear documentation using `@ApiOperation({ summary: '...', description: '...' })`. Explain what the endpoint does clearly.
 - **DTO Documentation**: Always use `.describe("...")` in Zod schemas. This automatically populates field descriptions in the API docs.
 - **Response Examples**: 
@@ -106,7 +106,7 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     - **Structure**: Examples must include the full response structure (`status`, `message`, `data`).
 - **Neatness**: Documentation must be neat, descriptive, and accurately reflect business logic. No empty schemas or missing type definitions allowed.
 
-### Module Resolution & Export Standards
+### C. Module Resolution & Export Standards
 - **Internal Aliases**: Use the `#` alias (Node.js subpath imports) for internal imports within the `shared` package (e.g., `#generated/client`).
 - **Workspace Exports**: Use `@repo/shared/*` for cross-package imports. 
 - **No Extensions**: Do NOT use `.js` or `.ts` extensions in imports.
@@ -118,10 +118,27 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     2.  Add to `apps/*/tsconfig.json` in the `paths` field to ensure the IDE/Compiler recognizes it.
     3.  Restart TypeScript Server in VS Code.
 
-### Response Consistency
+### D. Response Consistency
 - **ResponseHelper**: Always use `ResponseHelper` from `@repo/shared/http/response` to ensure all API responses follow the `{ status, message, data, code }` pattern.
 
-## 6. Implementation Workflow
+## 10. Testing & Frontend Handoff
+
+### A. Testing Standards
+- **Rigorous Unit Testing**: When writing unit tests (e.g., Jest `.spec.ts`), it is **MANDATORY** to create extensive test cases. 
+    - Do not only test the "happy path" (successful cases).
+    - You must actively write tests for **edge cases**, negative scenarios, and hard-to-detect bugs (e.g., handling nulls, unexpected inputs, database transaction failures, and boundary values).
+    - Mocking must be precise and cover all possible outcomes of external dependencies.
+
+### B. Frontend Handoff & Documentation
+- **Mandatory Feature Docs**: Upon completion of ANY new feature, you are **MANDATORY** to create a Markdown (`.md`) documentation file inside the `docs/` folder (e.g., `docs/feature-name-implementation.md`).
+- **Content Requirements**: This document must serve as a clear, detailed, and comprehensive guide for the Frontend Developer, including:
+    - Endpoints available (Methods and URLs).
+    - Request expectations (Headers, Params, Query, Body with examples).
+    - Response structure (Success and Error variations with exact JSON examples).
+    - Step-by-step implementation flow/logic for the frontend side.
+    - Any edge cases or validation rules the frontend needs to handle.
+
+## 11. Implementation Workflow
 - **Granular Errors**: Validation responses MUST include which field failed and why.
 - **Format**:
     ```json
@@ -136,7 +153,7 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     ```
 - **Security Exception**: For **Auth-related** modules (Login/Register), use general error messages (e.g., "Invalid credentials") without pointing to specific fields to prevent enumeration attacks.
 
-## 10. Operational Commands (From Root)
+## 12. Operational Commands (From Root)
 Always run these commands from the project root:
 - **Install Dependencies**: `pnpm install`
 - **Generate Prisma Client**: `pnpm prisma:generate`
@@ -144,8 +161,9 @@ Always run these commands from the project root:
 - **Run Development**: `pnpm dev`
 - **Build All**: `pnpm build`
 
-## 8. Coding Standards & AI Behavior
-- **TypeScript Strict**: Always use proper typing. Avoid `any`.
+## 13. Coding Standards & AI Behavior
+- **Zero Linter Errors**: Your code MUST pass all linter checks (`biome check`). There should be absolutely NO linter warnings or errors.
+- **Strict TypeScript**: NEVER use the `any` type under any circumstances. You must define interfaces, types, or use generics properly.
 - **Modular Design**: If logic is potentially reusable across apps, it MUST live in `packages/shared`.
 - **Test-Driven Mindset**: Every feature implementation is considered incomplete without its corresponding unit tests.
 - **Atomic Operations**: Perform changes in logical steps (e.g., update schema first, then repository).

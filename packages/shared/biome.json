@@ -1,6 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.4/schema.json",
-  "extends": ["@repo/biome-config/biome"],
+  "extends": ["@repo/biome-config/biome.json"],
   "files": {
     "includes": [
       "src/**/*.ts",
