@@ -1,0 +1,14 @@
+model Grades {
+  id           String   @id @default(uuid()) @db.Uuid
+  grade        String   @unique @db.VarChar(255)
+
+  minimumScore Decimal? @map("minimum_score") @db.Decimal(5, 2)
+  maximumScore Decimal? @map("maximum_score") @db.Decimal(5, 2)
+
+  description  String?
+
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("grades")
+}
