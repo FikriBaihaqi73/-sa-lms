@@ -1,4 +1,4 @@
-model Grade {
+model Grades {
   id           String   @id @default(uuid()) @db.Uuid
   grade        String   @unique @db.VarChar(255)
 
