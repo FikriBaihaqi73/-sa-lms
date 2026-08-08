@@ -5,5 +5,7 @@ model InstitutionLevel {
   create_at   DateTime? @default(now()) @db.Timestamp
   updated_at   DateTime? @updatedAt @db.Timestamp
 
+institutions Institution[]
+
   @@index([name])
 }
