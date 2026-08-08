@@ -1,0 +1,26 @@
+model Institution {
+  id                 String   @id @default(uuid()) @db.Uuid
+  institutionLevelId String   @map("institution_level_id") @db.Uuid
+
+  name               String   @db.VarChar(255)
+  shortName          String?  @map("short_name") @db.VarChar(255)
+
+  address            String?
+  city               String?  @db.VarChar(255)
+  province           String?  @db.VarChar(255)
+  postalCode         String?  @map("postal_code") @db.VarChar(255)
+
+  phoneNumber        String?  @map("phone_number") @db.VarChar(255)
+  email              String?  @db.VarChar(255)
+  website            String?  @db.VarChar(255)
+
+  logoUrl            String?  @map("logo_url")
+
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  deletedAt          DateTime? @map("deleted_at")
+
+  institutionLevel   InstitutionLevel @relation(fields: [institutionLevelId], references: [id])
+
+  @@map("institutions")
+}
