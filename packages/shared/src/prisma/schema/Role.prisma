@@ -6,5 +6,7 @@ model Roles {
   created_at DateTime @default(now()) @db.Timestamp
   updated_at DateTime @updatedAt @db.Timestamp
 
+  users Users[]
+
   @@index([name])
 }
