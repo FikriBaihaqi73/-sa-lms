@@ -6,6 +6,7 @@
   "scripts": {
     "prisma:generate": "prisma generate --schema src/prisma",
     "prisma:migrate": "prisma migrate dev --schema src/prisma",
+    "prisma:push": "prisma db push --schema src/prisma",
     "build": "swc src -d dist --strip-leading-paths",
     "format": "biome check --write",
     "lint": "biome check"
