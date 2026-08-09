@@ -3,6 +3,6 @@ model Religion {
   name       String   @unique  @db.VarChar
   created_at DateTime @default(now()) @db.Timestamp
   updated_at DateTime @updatedAt @db.Timestamp
-
+  profiles Profile[]
   @@map("religions")
 }

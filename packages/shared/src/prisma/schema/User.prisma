@@ -13,6 +13,7 @@ model Users {
   deleted_at DateTime? @db.Timestamp
 
   roles Roles @relation(fields: [role_id], references: [id])
+   profile Profile?
 
   @@index([role_id])
 }
