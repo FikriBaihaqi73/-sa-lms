@@ -1,0 +1,8 @@
+model Religion {
+  id         String   @id @default(uuid()) @db.Uuid
+  name       String   @unique  @db.VarChar
+  created_at DateTime @default(now()) @db.Timestamp
+  updated_at DateTime @updatedAt @db.Timestamp
+
+  @@map("religions")
+}
