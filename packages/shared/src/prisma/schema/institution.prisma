@@ -21,6 +21,6 @@ model Institution {
   deletedAt          DateTime? @map("deleted_at")
 
   institutionLevel   InstitutionLevel @relation(fields: [institutionLevelId], references: [id])
-
+  profiles Profile[]
   @@map("institutions")
 }
