@@ -1,0 +1,21 @@
+model Classes {
+  id                   String    @id @default(uuid()) @db.Uuid
+  institution_id       String    @db.Uuid
+  homeroom_teacher_id  String?   @db.Uuid
+  academic_year_id     String    @db.Uuid
+  name                 String    @db.VarChar
+  grade_level          Int
+  capacity             Int?
+  created_at           DateTime  @default(now()) @db.Timestamp
+  updated_at           DateTime  @updatedAt @db.Timestamp
+  deleted_at           DateTime? @db.Timestamp
+
+  institution          Institution    @relation(fields: [institution_id], references: [id])
+  homeroom_teacher     Teachers?        @relation(fields: [homeroom_teacher_id], references: [id])
+  academic_year        AcademicYears    @relation(fields: [academic_year_id], references: [id])
+
+  @@index([institution_id])
+  @@index([homeroom_teacher_id])
+  @@index([academic_year_id])
+  @@index([name])
+}
