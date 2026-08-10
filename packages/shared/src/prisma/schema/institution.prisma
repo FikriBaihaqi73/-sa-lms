@@ -22,5 +22,7 @@ model Institution {
 
   institutionLevel   InstitutionLevel @relation(fields: [institutionLevelId], references: [id])
   profiles Profile[]
+   classes           Classes[]
+
   @@map("institutions")
 }
