@@ -1,0 +1,14 @@
+model Student {
+  id               String    @id @default(uuid()) @db.Uuid
+  profileId        String    @unique @db.Uuid @map("profile_id")
+  departmentId     String?   @db.Uuid @map("department_id")
+  academicStatusId String    @db.Uuid @map("academic_status_id")
+  studentNumber    String    @unique @map("student_number")
+  enrollmentYear   Int?      @map("enrollment_year")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("students")
+}
