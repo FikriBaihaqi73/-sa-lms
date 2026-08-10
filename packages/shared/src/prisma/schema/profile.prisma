@@ -31,6 +31,6 @@ model Profile {
   institution Institution @relation(fields: [institutionId], references: [id])
   religion Religion? @relation(fields: [religionId], references: [id])
   nationality Nationality? @relation(fields: [nationalityId], references: [id])
-
+  teacher Teachers?
   @@map("profiles")
 }

@@ -13,6 +13,7 @@
     "prisma:status": "pnpm --filter @repo/shared prisma:status",
     "prisma:deploy": "pnpm --filter @repo/shared prisma:deploy",
     "prisma:push": "pnpm --filter @repo/shared prisma:push",
+    "prisma:reset": "pnpm --filter @repo/shared prisma:reset",
     "prepare": "husky"
   },
   "devDependencies": {
