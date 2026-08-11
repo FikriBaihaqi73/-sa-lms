@@ -14,5 +14,7 @@ model Guardian {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  studentGuardians StudentGuardian[]
+
   @@map("guardians")
 }
