@@ -5,6 +5,8 @@ model Nationality {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
   profiles Profile[]
+
   @@map("nationalities")
 }
