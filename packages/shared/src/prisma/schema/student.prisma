@@ -10,5 +10,7 @@ model Student {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
+  studentGuardians StudentGuardian[]
+
   @@map("students")
 }
