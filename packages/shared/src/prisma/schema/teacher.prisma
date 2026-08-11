@@ -18,6 +18,7 @@ model Teachers {
   department Departments? @relation(fields: [department_id], references: [id])
   specialization Specializations? @relation(fields: [specialization_id], references: [id])
   employment_status EmploymentStatus? @relation(fields: [employment_status_id], references: [id])
+ classes           Classes[]
 
   @@index([department_id])
   @@index([specialization_id])
