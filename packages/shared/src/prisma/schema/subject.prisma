@@ -1,20 +1,19 @@
 model Subject {
-  id String @id @default(uuid()) @db.Uuid
-
-  institutionId String @map("institution_id") @db.Uuid
-  departmentId  String? @map("department_id") @db.Uuid
-
-  code        String @unique
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
   name        String
   credits     Int?
   description String?
+
+  institutionId String  @map("institution_id") @db.Uuid
+  departmentId  String? @map("department_id") @db.Uuid
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  institution Institution @relation(fields: [institutionId], references: [id])
-  department Departments? @relation(fields: [departmentId], references: [id])
+  institution Institution  @relation(fields: [institutionId], references: [id])
+  department  Departments? @relation(fields: [departmentId], references: [id])
 
   @@map("subjects")
 }
