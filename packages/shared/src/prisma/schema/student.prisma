@@ -12,6 +12,7 @@ model Student {
 
   studentGuardians StudentGuardian[]
   classStudents    ClassStudent[]
+  attendances      Attendances[]
 
   @@map("students")
 }
