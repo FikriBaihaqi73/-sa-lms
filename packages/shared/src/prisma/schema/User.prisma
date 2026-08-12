@@ -1,19 +1,22 @@
 model Users {
-  id         String   @id @default(uuid()) @db.Uuid
-  role_id    String   @db.Uuid
+  id       String @id @default(uuid()) @db.Uuid
+  role_id  String @db.Uuid
 
-  username   String   @unique @db.VarChar
-  password   String   @db.VarChar
+  username String @unique @db.VarChar
+  password String @db.VarChar
 
-  is_active  Boolean  @default(true)
+  is_active  Boolean   @default(true)
   last_login DateTime? @db.Timestamp
 
   created_at DateTime  @default(now()) @db.Timestamp
   updated_at DateTime  @updatedAt @db.Timestamp
   deleted_at DateTime? @db.Timestamp
 
-  roles Roles @relation(fields: [role_id], references: [id])
-   profile Profile?
+  roles   Roles   @relation(fields: [role_id], references: [id])
+  profile Profile?
+
+  teachingJournalsCreated TeachingJournals[] @relation("TeachingJournalCreatedBy")
+  teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
 
   @@index([role_id])
 }

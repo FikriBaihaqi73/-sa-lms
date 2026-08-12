@@ -13,6 +13,6 @@ model Student {
   studentGuardians StudentGuardian[]
   classStudents    ClassStudent[]
   attendances      Attendances[]
-
+  studyPlans StudyPlans[]
   @@map("students")
 }
