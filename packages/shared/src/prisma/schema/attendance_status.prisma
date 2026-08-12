@@ -6,7 +6,7 @@ model AttendanceStatuses {
 
   name        String    @unique @db.VarChar
   description String?   @db.VarChar
-
+  attendances Attendances[]
   @@index([name])
   @@map("attendance_statuses")
 }
