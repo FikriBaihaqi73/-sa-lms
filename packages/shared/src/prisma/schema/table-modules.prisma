@@ -15,7 +15,9 @@ model Modules {
   class_subject ClassSubjects @relation(fields: [class_subject_id], references: [id])
   creator       Users?        @relation("ModuleCreator", fields: [created_by], references: [id])
   updater       Users?        @relation("ModuleUpdater", fields: [updated_by], references: [id])
-  
-  assignments Assignments[]
+
+  moduleContents ModuleContent[]
+  assignments    Assignments[]
+
   @@map("modules")
 }
