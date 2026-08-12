@@ -20,4 +20,5 @@ model Assignments {
 
   @@index([module_id])
   @@index([assignment_type_id])
+  assignmentSubmissions AssignmentSubmission[]
 }
