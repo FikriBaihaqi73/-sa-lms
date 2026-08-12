@@ -1,0 +1,13 @@
+model Schedule {
+  id             String    @id @default(uuid()) @db.Uuid
+  classSubjectId String    @db.Uuid @map("class_subject_id")
+  classroomId    String    @db.Uuid @map("classroom_id")
+  day            String
+  startTime      DateTime? @db.Time(0) @map("start_time")
+  endTime        DateTime? @db.Time(0) @map("end_time")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("schedules")
+}
