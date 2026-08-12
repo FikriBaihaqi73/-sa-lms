@@ -16,5 +16,7 @@ model Users {
    profile Profile?
 teachingJournalsCreated TeachingJournals[] @relation("TeachingJournalCreatedBy")
 teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
+  modulesCreated          Modules[]          @relation("ModuleCreator")
+  modulesUpdated          Modules[]          @relation("ModuleUpdater")
   @@index([role_id])
 }
