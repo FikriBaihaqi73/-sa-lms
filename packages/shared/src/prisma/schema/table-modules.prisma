@@ -17,6 +17,7 @@ model Modules {
   updater       Users?        @relation("ModuleUpdater", fields: [updated_by], references: [id])
 
   moduleContents ModuleContent[]
+  assignments    Assignments[]
 
   @@map("modules")
 }
