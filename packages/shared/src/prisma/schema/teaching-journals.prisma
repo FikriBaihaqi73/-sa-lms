@@ -1,0 +1,24 @@
+model TeachingJournals {
+  id             String    @id @default(uuid()) @db.Uuid
+  schedule_id    String    @db.Uuid
+  meeting_number Int?
+  journal_date   DateTime? @db.Date
+  topic          String?   @db.VarChar
+  material       String?   @db.Text
+  notes          String?   @db.Text
+  created_by     String?   @db.Uuid
+  updated_by     String?   @db.Uuid
+
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+
+  schedule Schedule @relation(fields: [schedule_id], references: [id])
+
+  createdBy Users? @relation("TeachingJournalCreatedBy", fields: [created_by], references: [id])
+
+  updatedBy Users? @relation("TeachingJournalUpdatedBy", fields: [updated_by], references: [id])
+
+  @@index([schedule_id])
+  @@index([created_by])
+  @@index([updated_by])
+}
