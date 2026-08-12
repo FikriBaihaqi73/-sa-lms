@@ -18,6 +18,8 @@ teachingJournalsCreated TeachingJournals[] @relation("TeachingJournalCreatedBy")
 teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
   modulesCreated          Modules[]          @relation("ModuleCreator")
   modulesUpdated          Modules[]          @relation("ModuleUpdater")
+  examinationsCreated Examinations[] @relation("ExaminationCreatedBy")
+ examinationsUpdated Examinations[] @relation("ExaminationUpdatedBy")
   assignmentSubmissions AssignmentSubmission[]
   @@index([role_id])
 }

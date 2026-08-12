@@ -12,6 +12,8 @@ model ClassSubjects {
   academic_year    AcademicYears @relation(fields: [academic_year_id], references: [id])
   studyPlans StudyPlans[]
   modules    Modules[]
+  examinations Examinations[]
+  
   @@index([class_id])
   @@index([subject_id])
   @@index([teacher_id])
