@@ -10,7 +10,7 @@ model ClassSubjects {
   subject          Subject       @relation(fields: [subject_id], references: [id])
   teacher          Teachers      @relation(fields: [teacher_id], references: [id])
   academic_year    AcademicYears @relation(fields: [academic_year_id], references: [id])
-
+  studyPlans StudyPlans[]
   @@index([class_id])
   @@index([subject_id])
   @@index([teacher_id])

@@ -6,6 +6,6 @@ academic_year  String    @unique @db.VarChar
   is_active      Boolean   @default(false)
   classes           Classes[]
   classSubjects     ClassSubjects[]
-
+  studyPlans StudyPlans[]
   @@map("academic_years")
 }
