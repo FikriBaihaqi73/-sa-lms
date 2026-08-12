@@ -16,5 +16,7 @@ model Modules {
   creator       Users?        @relation("ModuleCreator", fields: [created_by], references: [id])
   updater       Users?        @relation("ModuleUpdater", fields: [updated_by], references: [id])
 
+  moduleContents ModuleContent[]
+
   @@map("modules")
 }
