@@ -3,8 +3,9 @@ id             String    @id @default(uuid()) @db.Uuid
 created_at     DateTime  @default(now()) @db.Timestamp
 updated_at     DateTime  @updatedAt @db.Timestamp
 academic_year  String    @unique @db.VarChar
-is_active      Boolean   @default(false)
- classes           Classes[]
-
-@@map("academic_years")
+  is_active      Boolean   @default(false)
+  classes           Classes[]
+  classSubjects     ClassSubjects[]
+  studyPlans StudyPlans[]
+  @@map("academic_years")
 }

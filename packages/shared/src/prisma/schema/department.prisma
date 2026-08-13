@@ -8,4 +8,5 @@ model Departments {
   updated_at DateTime  @updatedAt @db.Timestamp
   deleted_at DateTime? @db.Timestamp
   teachers Teachers[]
+  subjects Subject[]
 }

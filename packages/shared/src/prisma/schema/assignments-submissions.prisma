@@ -1,0 +1,24 @@
+model AssignmentSubmission {
+  id                 String    @id @default(uuid()) @db.Uuid
+  assignmentId       String    @db.Uuid @map("assignment_id")
+  studentId          String    @db.Uuid @map("student_id")
+  submittedAt        DateTime? @map("submitted_at") @db.Timestamp
+  score              Decimal?  @db.Decimal(5, 2)
+  feedback           String?   @db.Text
+  status             String?   @db.VarChar
+  gradedBy           String?   @db.Uuid @map("graded_by")
+  gradedAt           DateTime? @map("graded_at") @db.Timestamp
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+
+  assignment     Assignments @relation(fields: [assignmentId], references: [id])
+  student        Student    @relation(fields: [studentId], references: [id])
+  grader         Users?     @relation(fields: [gradedBy], references: [id])
+
+  @@unique([assignmentId, studentId])
+  @@index([assignmentId])
+  @@index([studentId])
+  @@index([gradedBy])
+  @@map("assignment_submissions")
+}
