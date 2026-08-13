@@ -20,7 +20,6 @@ teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
   modulesUpdated          Modules[]          @relation("ModuleUpdater")
   examinationsCreated Examinations[] @relation("ExaminationCreatedBy")
   examinationsUpdated Examinations[] @relation("ExaminationUpdatedBy")
-  examinationScores ExaminationScores[]
   assignmentSubmissions AssignmentSubmission[]
   @@index([role_id])
 }
