@@ -16,6 +16,7 @@ model Student {
   attendances Attendances[]
   studyPlans StudyPlans[]
   assignmentSubmissions AssignmentSubmission[]
-studentGrades StudentGrades[]
+  studentGrades StudentGrades[]
+  studyResults  StudyResult[]
   @@map("students")
 }
