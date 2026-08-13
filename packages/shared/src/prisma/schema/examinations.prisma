@@ -20,6 +20,7 @@ model Examinations {
   assignment_type    AssignmentTypes @relation(fields: [assignment_type_id], references: [id])
   creator            Users?          @relation("ExaminationCreatedBy", fields: [created_by], references: [id])
   updater            Users?          @relation("ExaminationUpdatedBy", fields: [updated_by], references: [id])
+  scores             ExaminationScores[]
 
   @@index([class_subject_id])
   @@index([assignment_type_id])
