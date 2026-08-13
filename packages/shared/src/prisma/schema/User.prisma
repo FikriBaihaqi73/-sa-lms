@@ -23,5 +23,8 @@ model Users {
   examinationScores ExaminationScores[]
   assignmentSubmissions AssignmentSubmission[]
   filesUploaded Files[] @relation("FileUploadedBy")
+  announcement_created Announcements[] @relation("AnnouncementCreator")
+  announcement_updated Announcements[] @relation("AnnouncementUpdater")
+  announcement_deleted Announcements[] @relation("AnnouncementDeleter")
   @@index([role_id])
 }
