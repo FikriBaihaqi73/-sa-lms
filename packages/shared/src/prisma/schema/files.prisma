@@ -1,0 +1,18 @@
+model Files {
+  id            String   @id @default(uuid()) @db.Uuid
+
+  originalName  String   @map("original_name") @db.VarChar
+  fileName      String   @map("file_name") @db.VarChar
+  filePath      String   @map("file_path") @db.Text
+  fileExtension String?  @map("file_extension") @db.VarChar
+  mimeType      String?  @map("mime_type") @db.VarChar
+  fileSize      BigInt?  @map("file_size") @db.BigInt
+
+  uploadedBy    String?  @map("uploaded_by") @db.Uuid
+
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp
+
+  uploader Users? @relation("FileUploadedBy",fields: [uploadedBy], references: [id])
+
+  @@index([uploadedBy])
+}

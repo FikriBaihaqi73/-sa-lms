@@ -22,6 +22,6 @@ model Users {
   examinationsUpdated Examinations[] @relation("ExaminationUpdatedBy")
   examinationScores ExaminationScores[]
   assignmentSubmissions AssignmentSubmission[]
-
+  filesUploaded Files[] @relation("FileUploadedBy")
   @@index([role_id])
 }
