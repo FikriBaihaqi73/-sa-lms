@@ -26,5 +26,6 @@ model Users {
   announcement_created Announcements[] @relation("AnnouncementCreator")
   announcement_updated Announcements[] @relation("AnnouncementUpdater")
   announcement_deleted Announcements[] @relation("AnnouncementDeleter")
+  notifications Notifications[]
   @@index([role_id])
 }
