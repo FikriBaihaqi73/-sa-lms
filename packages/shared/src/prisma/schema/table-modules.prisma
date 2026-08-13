@@ -1,0 +1,23 @@
+model Modules {
+  id               String    @id @default(uuid()) @db.Uuid
+  class_subject_id String    @db.Uuid
+  title            String    @db.VarChar
+  description      String?   @db.Text
+  display_order    Int?
+  is_published     Boolean?  @default(false)
+  is_locked        Boolean?  @default(false)
+  created_by       String?   @db.Uuid
+  updated_by       String?   @db.Uuid
+  created_at       DateTime? @default(now()) @db.Timestamp
+  updated_at       DateTime? @updatedAt @db.Timestamp
+  deleted_at       DateTime? @db.Timestamp
+
+  class_subject ClassSubjects @relation(fields: [class_subject_id], references: [id])
+  creator       Users?        @relation("ModuleCreator", fields: [created_by], references: [id])
+  updater       Users?        @relation("ModuleUpdater", fields: [updated_by], references: [id])
+
+  moduleContents ModuleContent[]
+  assignments    Assignments[]
+
+  @@map("modules")
+}

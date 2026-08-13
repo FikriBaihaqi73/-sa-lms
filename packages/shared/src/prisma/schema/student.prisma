@@ -12,6 +12,10 @@ model Student {
 
   studentGuardians StudentGuardian[]
   examinationScores ExaminationScores[]
+  classStudents ClassStudent[]
+  attendances Attendances[]
+  studyPlans StudyPlans[]
+  assignmentSubmissions AssignmentSubmission[]
 
   @@map("students")
 }
