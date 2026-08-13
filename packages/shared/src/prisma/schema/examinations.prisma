@@ -1,0 +1,17 @@
+model Examinations {
+  id String @id @default(uuid()) @db.Uuid
+
+  title String? @db.VarChar(255)
+  description String? @db.Text
+  examinationDate DateTime? @map("examination_date") @db.Timestamp
+  duration Int?
+  maximumScore Decimal? @map("maximum_score") @db.Decimal(5, 2)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  scores ExaminationScores[]
+
+  @@map("examinations")
+}
