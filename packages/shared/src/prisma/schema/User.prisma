@@ -13,13 +13,15 @@ model Users {
   deleted_at DateTime? @db.Timestamp
 
   roles Roles @relation(fields: [role_id], references: [id])
-   profile Profile?
-teachingJournalsCreated TeachingJournals[] @relation("TeachingJournalCreatedBy")
-teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
-  modulesCreated          Modules[]          @relation("ModuleCreator")
-  modulesUpdated          Modules[]          @relation("ModuleUpdater")
+  profile Profile?
+  teachingJournalsCreated TeachingJournals[] @relation("TeachingJournalCreatedBy")
+  teachingJournalsUpdated TeachingJournals[] @relation("TeachingJournalUpdatedBy")
+  modulesCreated Modules[] @relation("ModuleCreator")
+  modulesUpdated Modules[] @relation("ModuleUpdater")
   examinationsCreated Examinations[] @relation("ExaminationCreatedBy")
   examinationsUpdated Examinations[] @relation("ExaminationUpdatedBy")
+  examinationScores ExaminationScores[]
   assignmentSubmissions AssignmentSubmission[]
+
   @@index([role_id])
 }
