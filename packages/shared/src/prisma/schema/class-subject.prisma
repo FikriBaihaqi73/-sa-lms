@@ -13,6 +13,7 @@ model ClassSubjects {
   studyPlans StudyPlans[]
   modules    Modules[]
   examinations Examinations[]
+  studentGrades StudentGrades[]
   
   @@index([class_id])
   @@index([subject_id])

@@ -8,6 +8,7 @@ model AcademicYears {
   classes       Classes[]
   classSubjects ClassSubjects[]
   studyPlans    StudyPlans[]
+  studentGrades StudentGrades[]
 
   @@map("academic_years")
 }
