@@ -1,0 +1,50 @@
+model Examinations {
+  id String @id @default(uuid()) @db.Uuid
+
+  classSubjectId String? @map("class_subject_id") @db.Uuid
+  assignmentTypeId String? @map("assignment_type_id") @db.Uuid
+
+  title String @db.VarChar(255)
+  description String? @db.Text
+  examinationDate DateTime? @map("examination_date") @db.Timestamp
+  duration Int?
+  maximumScore Decimal? @map("maximum_score") @db.Decimal(5, 2)
+
+  createdBy String? @map("created_by") @db.Uuid
+  updatedBy String? @map("updated_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  scores ExaminationScores[]
+
+  @@index([assignmentTypeId])
+  @@index([classSubjectId])
+  @@index([title])
+  @@map("examinations")
+}
+
+model ExaminationScores {
+  id String @id @default(uuid()) @db.Uuid
+
+  examinationId String @map("examination_id") @db.Uuid
+  studentId String @map("student_id") @db.Uuid
+
+  score Decimal? @db.Decimal(5, 2)
+  notes String? @db.Text
+
+  gradedBy String? @map("graded_by") @db.Uuid
+  gradedAt DateTime? @map("graded_at") @db.Timestamp
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp
+
+  examination Examinations @relation(fields: [examinationId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([examinationId, studentId])
+  @@index([examinationId])
+  @@index([studentId])
+  @@map("examination_scores")
+}
