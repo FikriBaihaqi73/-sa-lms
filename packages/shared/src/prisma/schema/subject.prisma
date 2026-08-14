@@ -16,7 +16,8 @@ model Subject {
   department  Departments? @relation(fields: [departmentId], references: [id])
 
   classSubjects ClassSubjects[]
-
+prerequisites         SubjectPrerequisites[] @relation("SubjectPrerequisites")
+prerequisiteFor       SubjectPrerequisites[] @relation("PrerequisiteSubjects")
   @@map("subjects")
 }
 
