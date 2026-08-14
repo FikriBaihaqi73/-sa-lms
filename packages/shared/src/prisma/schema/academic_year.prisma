@@ -10,6 +10,7 @@ model AcademicYears {
   studyPlans    StudyPlans[]
   studentGrades StudentGrades[]
   studyResults  StudyResult[]
+  semesters     Semesters[]
 
   @@map("academic_years")
 }
