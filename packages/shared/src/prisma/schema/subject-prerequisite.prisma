@@ -1,0 +1,13 @@
+model SubjectPrerequisites {
+  id                    String @id @default(uuid()) @db.Uuid
+  subjectId             String @map("subject_id") @db.Uuid
+  prerequisiteSubjectId String @map("prerequisite_subject_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp
+
+  subject             Subject @relation("SubjectPrerequisites", fields: [subjectId], references: [id])
+  prerequisiteSubject Subject @relation("PrerequisiteSubjects", fields: [prerequisiteSubjectId], references: [id])
+
+  @@unique([subjectId, prerequisiteSubjectId])
+  @@map("subject_prerequisites")
+}
