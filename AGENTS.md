@@ -81,14 +81,14 @@ When implementing a new feature or entity, follow this specific sequence in `@re
 - **Inter-module Communication**: If a service needs to call logic from another module, import that module in the current module's `imports` array and the main `AppModule`.
 - Always export services that are needed by other modules in the `exports` array.
 
-## 8. API Documentation (Swagger/RapiDoc)
-- All controllers MUST use Swagger decorators to provide clear API documentation.
-- **Key Decorators**:
+## 8. API Documentation (Scalar)
+- API documentation is served using **Scalar** for a cleaner, more modern interface.
+- We rely on **Single Source of Truth** from Zod schemas for most of the documentation.
+- Controllers still use minimal decorators from `@nestjs/swagger` to structure the document:
     - `@ApiTags('Category')`: Group endpoints by domain.
     - `@ApiOperation({ summary: '...' })`: Brief explanation of the endpoint.
-    - `@ApiProperty()`: Define properties in DTOs for Swagger schema.
-    - `@ApiResponse({ status: 200, description: '...' })`: Document possible responses.
-- Documentation is accessible at `/api` (RapiDoc UI) and `/api-json` (OpenAPI JSON).
+- **Do NOT** use `@ApiResponse` manually for examples unless absolutely necessary, as it clutters the controller. Let Scalar infer it from the Zod DTOs.
+- Documentation is accessible at `/api` (Scalar UI) and `/api-json` (OpenAPI JSON).
 
 ## 9. Advanced Documentation & Standards
 
@@ -97,14 +97,13 @@ When implementing a new feature or entity, follow this specific sequence in `@re
 - **Mandatory**: Use Zod's `.describe("...")` for every field in `packages/shared/src/schemas/`.
 - `nestjs-zod` will automatically convert these descriptions into Swagger schemas.
 
-### B. API Documentation Standards (Swagger/RapiDoc)
-- **Endpoint Explanations**: EVERY endpoint MUST have clear documentation using `@ApiOperation({ summary: '...', description: '...' })`. Explain what the endpoint does clearly.
-- **DTO Documentation**: Always use `.describe("...")` in Zod schemas. This automatically populates field descriptions in the API docs.
-- **Response Examples**: 
-    - **Externalization**: Store JSON response examples in `packages/shared/src/docs/responses/`.
-    - **Implementation**: In Controllers, use the `schema: { type: 'object', example: ... }` format within the `@ApiResponse` decorator. The `type: 'object'` is mandatory to prevent `{missing-type-info}` errors in RapiDoc.
-    - **Structure**: Examples must include the full response structure (`status`, `message`, `data`).
-- **Neatness**: Documentation must be neat, descriptive, and accurately reflect business logic. No empty schemas or missing type definitions allowed.
+### B. API Documentation Standards (Scalar)
+- **Endpoint Explanations**: EVERY endpoint MUST have clear documentation using `@ApiOperation({ summary: '...' })`. Explain what the endpoint does clearly.
+- **DTO Documentation (SSOT)**: Always use `.describe("...")` in Zod schemas. This is the **Single Source of Truth**. `nestjs-zod` will convert this to OpenAPI format, and Scalar will render it beautifully.
+- **Response Examples**:
+    - Because we use Zod as SSOT, avoid cluttering Controllers with `@ApiResponse` manual examples. 
+    - The API UI is powered by `@scalar/nestjs-api-reference` initialized in `main.ts`.
+- **Neatness**: Documentation must be neat, descriptive, and accurately reflect business logic natively from the schemas.
 
 ### C. Module Resolution & Export Standards
 - **Internal Aliases**: Use the `#` alias (Node.js subpath imports) for internal imports within the `shared` package (e.g., `#generated/client`).
