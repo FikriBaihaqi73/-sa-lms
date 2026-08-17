@@ -1,12 +1,35 @@
-model Roles {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique @db.VarChar
-  description String?  @db.Text
+model RolePermission {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
-  created_at DateTime @default(now()) @db.Timestamp
-  updated_at DateTime @updatedAt @db.Timestamp
+  // attributes
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
 
-  users Users[]
+  // relations
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
-  @@index([name])
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model Role {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  // field lainnya
+
+  // relations
+  rolePermissions RolePermission[]
+  users           Users[]
+
+  @@map("roles")
 }

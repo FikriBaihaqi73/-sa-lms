@@ -1,0 +1,29 @@
+model Announcements {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_by String?   @db.Uuid
+  updated_by String?   @db.Uuid
+  deleted_by String?   @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  institution_id String    @db.Uuid
+  title          String    @db.VarChar
+  content        String?   @db.Text
+  is_published   Boolean   @default(false)
+  published_at   DateTime?
+  expired_at     DateTime?
+
+  // relations
+  institution Institution @relation(fields: [institution_id], references: [id])
+  creator     Users?      @relation("AnnouncementCreator", fields: [created_by], references: [id])
+  updater     Users?      @relation("AnnouncementUpdater", fields: [updated_by], references: [id])
+  deleter     Users?      @relation("AnnouncementDeleter", fields: [deleted_by], references: [id])
+
+  @@index([institution_id])
+  @@index([created_by])
+  @@index([updated_by])
+  @@index([deleted_by])
+}

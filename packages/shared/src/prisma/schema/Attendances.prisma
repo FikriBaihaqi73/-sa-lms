@@ -1,0 +1,24 @@
+model Attendances {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  schedule_id          String    @db.Uuid
+  student_id           String    @db.Uuid
+  attendance_status_id String    @db.Uuid
+  attendance_date      DateTime? @db.Date
+  notes                String?   @db.Text
+
+  // relations
+  schedule          Schedule           @relation(fields: [schedule_id], references: [id])
+  student           Student            @relation(fields: [student_id], references: [id])
+  attendance_status AttendanceStatuses @relation(fields: [attendance_status_id], references: [id])
+
+  @@unique([schedule_id, student_id, attendance_date])
+  @@index([schedule_id])
+  @@index([student_id])
+  @@index([attendance_status_id])
+}

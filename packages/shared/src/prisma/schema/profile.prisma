@@ -1,36 +1,31 @@
 model Profile {
-  id String @id @default(uuid()) @db.Uuid
-
-  userId String @unique @map("user_id") @db.Uuid
-  institutionId String @map("institution_id") @db.Uuid
-
-  fullName String @map("full_name") @db.VarChar(255)
-
-  identityNumber String? @map("identity_number") @db.VarChar(255)
-
-  gender String? @db.VarChar(50)
-
-  birthPlace String? @map("birth_place") @db.VarChar(255)
-  birthDate DateTime? @map("birth_date") @db.Date
-
-  religionId String? @map("religion_id") @db.Uuid
-  nationalityId String? @map("nationality_id") @db.Uuid
-
-  address String?
-
-  phoneNumber String? @map("phone_number") @db.VarChar(255)
-  email String? @db.VarChar(255)
-
-  photoUrl String? @map("photo_url")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  users Users @relation(fields: [userId], references: [id])
-  institution Institution @relation(fields: [institutionId], references: [id])
-  religion Religion? @relation(fields: [religionId], references: [id])
+  // attributes
+  userId         String    @unique @map("user_id") @db.Uuid
+  institutionId  String    @map("institution_id") @db.Uuid
+  fullName       String    @map("full_name") @db.VarChar(255)
+  identityNumber String?   @map("identity_number") @db.VarChar(255)
+  gender         String?   @db.VarChar(50)
+  birthPlace     String?   @map("birth_place") @db.VarChar(255)
+  birthDate      DateTime? @map("birth_date") @db.Date
+  religionId     String?   @map("religion_id") @db.Uuid
+  nationalityId  String?   @map("nationality_id") @db.Uuid
+  address        String?
+  phoneNumber    String?   @map("phone_number") @db.VarChar(255)
+  email          String?   @db.VarChar(255)
+  photoUrl       String?   @map("photo_url")
+
+  // relations
+  users       Users        @relation(fields: [userId], references: [id])
+  institution Institution  @relation(fields: [institutionId], references: [id])
+  religion    Religion?    @relation(fields: [religionId], references: [id])
   nationality Nationality? @relation(fields: [nationalityId], references: [id])
-  teacher Teachers?
+  teacher     Teachers?
+
   @@map("profiles")
 }

@@ -1,4 +1,4 @@
-model Religion {
+model AttendanceStatuses {
   // base
   id         String    @id @default(uuid()) @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamp
@@ -6,10 +6,12 @@ model Religion {
   deleted_at DateTime? @db.Timestamp
 
   // attributes
-  name String @unique @db.VarChar
+  name        String  @unique @db.VarChar
+  description String? @db.VarChar
 
   // relations
-  profiles Profile[]
+  attendances Attendances[]
 
-  @@map("religions")
+  @@index([name])
+  @@map("attendance_statuses")
 }

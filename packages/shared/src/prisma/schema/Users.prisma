@@ -1,0 +1,35 @@
+model Users {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  role_id    String    @db.Uuid
+  username   String    @unique @db.VarChar
+  password   String    @db.VarChar
+  is_active  Boolean   @default(true)
+  last_login DateTime? @db.Timestamp
+
+  // relations
+  roles                   Role                   @relation(fields: [role_id], references: [id])
+  profile                 Profile?
+  teachingJournalsCreated TeachingJournals[]     @relation("TeachingJournalCreatedBy")
+  teachingJournalsUpdated TeachingJournals[]     @relation("TeachingJournalUpdatedBy")
+  modulesCreated          Modules[]              @relation("ModuleCreator")
+  modulesUpdated          Modules[]              @relation("ModuleUpdater")
+  examinationsCreated     Examinations[]         @relation("ExaminationCreatedBy")
+  examinationsUpdated     Examinations[]         @relation("ExaminationUpdatedBy")
+  examinationScores       ExaminationScores[]
+  assignmentSubmissions   AssignmentSubmission[]
+  filesUploaded           Files[]                @relation("FileUploadedBy")
+  announcement_created    Announcements[]        @relation("AnnouncementCreator")
+  announcement_updated    Announcements[]        @relation("AnnouncementUpdater")
+  announcement_deleted    Announcements[]        @relation("AnnouncementDeleter")
+  settingsUpdated         Settings[]             @relation("SettingUpdatedBy")
+  notifications           Notifications[]
+  activityLogs            ActivityLogs[]
+
+  @@index([role_id])
+}

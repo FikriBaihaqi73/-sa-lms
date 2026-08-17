@@ -1,0 +1,21 @@
+model ModuleContent {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  moduleId    String  @map("module_id") @db.Uuid
+  title       String
+  contentType String  @map("content_type")
+  content     String?
+  fileId      String? @map("file_id") @db.Uuid
+  sortOrder   Int?    @map("sort_order")
+
+  // relations
+  module Modules @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@index([moduleId, sortOrder])
+  @@map("module_contents")
+}

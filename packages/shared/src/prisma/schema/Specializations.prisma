@@ -1,4 +1,4 @@
-model Religion {
+model Specializations {
   // base
   id         String    @id @default(uuid()) @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamp
@@ -6,10 +6,11 @@ model Religion {
   deleted_at DateTime? @db.Timestamp
 
   // attributes
-  name String @unique @db.VarChar
+  name        String  @unique @db.VarChar(255)
+  description String? @db.Text
 
   // relations
-  profiles Profile[]
+  teachers Teachers[]
 
-  @@map("religions")
+  @@map("specializations")
 }

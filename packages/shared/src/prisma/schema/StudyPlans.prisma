@@ -1,0 +1,23 @@
+model StudyPlans {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  student_id       String @db.Uuid
+  class_subject_id String @db.Uuid
+  academic_year_id String @db.Uuid
+
+  // relations
+  student      Student       @relation(fields: [student_id], references: [id])
+  classSubject ClassSubjects @relation(fields: [class_subject_id], references: [id])
+  academicYear AcademicYears @relation(fields: [academic_year_id], references: [id])
+
+  @@unique([student_id, class_subject_id, academic_year_id])
+  @@index([student_id])
+  @@index([class_subject_id])
+  @@index([academic_year_id])
+  @@map("study_plans")
+}

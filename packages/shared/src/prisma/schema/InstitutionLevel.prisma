@@ -1,0 +1,17 @@
+model InstitutionLevel {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  updated_at DateTime? @updatedAt @db.Timestamp
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamp
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  name        String    @unique @db.VarChar
+  description String?
+  create_at   DateTime? @default(now()) @db.Timestamp
+
+  // relations
+  institutions Institution[]
+
+  @@index([name])
+}

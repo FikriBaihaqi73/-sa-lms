@@ -1,0 +1,29 @@
+model ClassSubjects {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  class_id         String @db.Uuid
+  subject_id       String @db.Uuid
+  teacher_id       String @db.Uuid
+  academic_year_id String @db.Uuid
+
+  // relations
+  class         Classes         @relation(fields: [class_id], references: [id])
+  subject       Subject         @relation(fields: [subject_id], references: [id])
+  teacher       Teachers        @relation(fields: [teacher_id], references: [id])
+  academic_year AcademicYears   @relation(fields: [academic_year_id], references: [id])
+  studyPlans    StudyPlans[]
+  modules       Modules[]
+  examinations  Examinations[]
+  studentGrades StudentGrades[]
+
+  @@index([class_id])
+  @@index([subject_id])
+  @@index([teacher_id])
+  @@index([academic_year_id])
+  @@map("class_subjects")
+}

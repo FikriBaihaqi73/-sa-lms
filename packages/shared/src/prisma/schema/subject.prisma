@@ -1,23 +1,24 @@
 model Subject {
-  id          String  @id @default(uuid()) @db.Uuid
-  code        String  @unique
-  name        String
-  credits     Int?
-  description String?
-
-  institutionId String  @map("institution_id") @db.Uuid
-  departmentId  String? @map("department_id") @db.Uuid
-
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  institution Institution  @relation(fields: [institutionId], references: [id])
-  department  Departments? @relation(fields: [departmentId], references: [id])
+  // attributes
+  code          String  @unique
+  name          String
+  credits       Int?
+  description   String?
+  institutionId String  @map("institution_id") @db.Uuid
+  departmentId  String? @map("department_id") @db.Uuid
 
-  classSubjects ClassSubjects[]
-prerequisites         SubjectPrerequisites[] @relation("SubjectPrerequisites")
-prerequisiteFor       SubjectPrerequisites[] @relation("PrerequisiteSubjects")
+  // relations
+  institution     Institution            @relation(fields: [institutionId], references: [id])
+  department      Departments?           @relation(fields: [departmentId], references: [id])
+  classSubjects   ClassSubjects[]
+  prerequisites   SubjectPrerequisites[] @relation("SubjectPrerequisites")
+  prerequisiteFor SubjectPrerequisites[] @relation("PrerequisiteSubjects")
+
   @@map("subjects")
 }
-

@@ -1,4 +1,4 @@
-model Permission {
+model ClassAnnouncement {
   // base
   id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now()) @map("created_at")
@@ -6,12 +6,10 @@ model Permission {
   deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
   // attributes
-  name        String  @unique @db.VarChar(255)
-  module      String  @db.VarChar(255)
-  description String?
+  classId String  @map("class_id") @db.Uuid
+  title   String
+  content String? @db.Text
 
-  // relations
-  rolePermissions RolePermission[]
-
-  @@map("permissions")
+  @@index([classId])
+  @@map("class_announcements")
 }

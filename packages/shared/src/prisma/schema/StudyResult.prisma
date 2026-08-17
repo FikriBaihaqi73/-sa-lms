@@ -1,0 +1,24 @@
+model StudyResult {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  studentId        String   @map("student_id") @db.Uuid
+  academicYearId   String   @map("academic_year_id") @db.Uuid
+  semesterId       String   @map("semester_id") @db.Uuid
+  totalCredits     Int?     @map("total_credits")
+  semesterGpa      Decimal? @map("semester_gpa") @db.Decimal(4, 2)
+  cumulativeGpa    Decimal? @map("cumulative_gpa") @db.Decimal(4, 2)
+  academicStatusId String?  @map("academic_status_id") @db.Uuid
+
+  // relations
+  student        Student           @relation(fields: [studentId], references: [id])
+  academicYear   AcademicYears     @relation(fields: [academicYearId], references: [id])
+  academicStatus AcademicStatuses? @relation(fields: [academicStatusId], references: [id])
+
+  @@unique([studentId, academicYearId, semesterId])
+  @@map("study_results")
+}

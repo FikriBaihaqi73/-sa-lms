@@ -1,0 +1,27 @@
+model Teachers {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  profile_id           String    @unique @db.Uuid
+  department_id        String?   @db.Uuid
+  specialization_id    String?   @db.Uuid
+  employment_status_id String?   @db.Uuid
+  teacher_number       String    @unique @db.VarChar
+  join_date            DateTime? @db.Date
+
+  // relations
+  profile           Profile           @relation(fields: [profile_id], references: [id])
+  department        Departments?      @relation(fields: [department_id], references: [id])
+  specialization    Specializations?  @relation(fields: [specialization_id], references: [id])
+  employment_status EmploymentStatus? @relation(fields: [employment_status_id], references: [id])
+  classes           Classes[]
+  classSubjects     ClassSubjects[]
+
+  @@index([department_id])
+  @@index([specialization_id])
+  @@index([employment_status_id])
+}

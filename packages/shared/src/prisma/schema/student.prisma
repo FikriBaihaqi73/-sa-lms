@@ -1,22 +1,26 @@
 model Student {
-  id               String    @id @default(uuid()) @db.Uuid
-  profileId        String    @unique @db.Uuid @map("profile_id")
-  departmentId     String?   @db.Uuid @map("department_id")
-  academicStatusId String    @db.Uuid @map("academic_status_id")
-  studentNumber    String    @unique @map("student_number")
-  enrollmentYear   Int?      @map("enrollment_year")
-
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
-  studentGuardians StudentGuardian[]
-  examinationScores ExaminationScores[]
-  classStudents ClassStudent[]
-  attendances Attendances[]
-  studyPlans StudyPlans[]
+  // attributes
+  profileId        String  @unique @map("profile_id") @db.Uuid
+  departmentId     String? @map("department_id") @db.Uuid
+  academicStatusId String  @map("academic_status_id") @db.Uuid
+  studentNumber    String  @unique @map("student_number")
+  enrollmentYear   Int?    @map("enrollment_year")
+
+  // relations
+  studentGuardians      StudentGuardian[]
+  examinationScores     ExaminationScores[]
+  classStudents         ClassStudent[]
+  attendances           Attendances[]
+  studyPlans            StudyPlans[]
   assignmentSubmissions AssignmentSubmission[]
-  studentGrades StudentGrades[]
-  studyResults  StudyResult[]
+  studentGrades         StudentGrades[]
+  studyResults          StudyResult[]
+
   @@map("students")
 }

@@ -1,0 +1,19 @@
+model StudentGuardian {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  studentId  String  @map("student_id") @db.Uuid
+  guardianId String  @map("guardian_id") @db.Uuid
+  isPrimary  Boolean @default(false) @map("is_primary")
+
+  // relations
+  student  Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  guardian Guardian @relation(fields: [guardianId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, guardianId])
+  @@map("student_guardians")
+}

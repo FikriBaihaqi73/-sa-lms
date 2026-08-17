@@ -1,0 +1,16 @@
+model Nationality {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  name        String  @unique
+  description String?
+
+  // relations
+  profiles Profile[]
+
+  @@map("nationalities")
+}

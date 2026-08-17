@@ -1,0 +1,28 @@
+model StudentGrades {
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
+
+  // attributes
+  studentId       String   @map("student_id") @db.Uuid
+  classSubjectId  String   @map("class_subject_id") @db.Uuid
+  academicYearId  String   @map("academic_year_id") @db.Uuid
+  assignmentScore Decimal? @map("assignment_score") @db.Decimal(5, 2)
+  quizScore       Decimal? @map("quiz_score") @db.Decimal(5, 2)
+  midExamScore    Decimal? @map("mid_exam_score") @db.Decimal(5, 2)
+  finalExamScore  Decimal? @map("final_exam_score") @db.Decimal(5, 2)
+  finalScore      Decimal? @map("final_score") @db.Decimal(5, 2)
+  gradeId         String?  @map("grade_id") @db.Uuid
+  remarks         String?  @db.Text
+
+  // relations
+  student      Student       @relation(fields: [studentId], references: [id])
+  classSubject ClassSubjects @relation(fields: [classSubjectId], references: [id])
+  academicYear AcademicYears @relation(fields: [academicYearId], references: [id])
+  grade        Grades?       @relation(fields: [gradeId], references: [id])
+
+  @@unique([studentId, classSubjectId, academicYearId])
+  @@map("student_grades")
+}

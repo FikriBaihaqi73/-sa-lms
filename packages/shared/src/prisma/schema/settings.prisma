@@ -1,12 +1,18 @@
 model Settings {
-  id           String   @id @default(uuid()) @db.Uuid
-  settingKey   String   @unique @map("setting_key") @db.VarChar
-  settingValue String?  @map("setting_value") @db.Text
-  description  String?  @db.Text
-  updatedBy    String?  @map("updated_by") @db.Uuid
-  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamp
+  // base
+  id        String    @id @default(uuid()) @db.Uuid
+  updatedBy String?   @map("updated_by") @db.Uuid
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamp
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp
 
-  updater      Users?   @relation("SettingUpdatedBy", fields: [updatedBy], references: [id])
+  // attributes
+  settingKey   String  @unique @map("setting_key") @db.VarChar
+  settingValue String? @map("setting_value") @db.Text
+  description  String? @db.Text
+
+  // relations
+  updater Users? @relation("SettingUpdatedBy", fields: [updatedBy], references: [id])
 
   @@index([updatedBy])
   @@map("settings")

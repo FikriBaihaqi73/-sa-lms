@@ -1,0 +1,24 @@
+model ActivityLogs {
+  // base
+  id         String    @id @default(uuid()) @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamp
+  updated_at DateTime  @updatedAt @db.Timestamp
+  deleted_at DateTime? @db.Timestamp
+
+  // attributes
+  user_id    String  @db.Uuid
+  module     String  @db.VarChar
+  action     String  @db.VarChar
+  table_name String? @db.VarChar
+  record_id  String? @db.Uuid
+  ip_address String? @db.VarChar
+  user_agent String? @db.Text
+
+  // relations
+  users Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id])
+  @@index([module])
+  @@index([action])
+  @@index([created_at])
+}
