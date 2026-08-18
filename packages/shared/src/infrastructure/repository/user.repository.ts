@@ -1,15 +1,15 @@
 import type { PrismaClient, Users } from "#generated/client";
 
 export interface CreateUserInput {
-  email: string;
-  full_name: string;
+  username: string;
   password_hash: string;
+  role_id: string;
 }
 
 export interface UpdateUserInput {
-  email?: string;
-  full_name?: string;
+  username?: string;
   password_hash?: string;
+  role_id?: string;
   is_active?: boolean;
 }
 
@@ -18,7 +18,11 @@ export class UserRepository {
 
   async create(data: CreateUserInput): Promise<Users> {
     return this.prisma.users.create({
-      data,
+      data: {
+        username: data.username,
+        password: data.password_hash,
+        role_id: data.role_id,
+      },
     });
   }
 
@@ -28,9 +32,9 @@ export class UserRepository {
     });
   }
 
-  async findByEmail(email: string): Promise<Users | null> {
+  async findByUsername(username: string): Promise<Users | null> {
     return this.prisma.users.findUnique({
-      where: { email },
+      where: { username },
     });
   }
 
@@ -41,9 +45,15 @@ export class UserRepository {
   }
 
   async update(id: string, data: UpdateUserInput): Promise<Users> {
+    const updateData: any = {};
+    if (data.username !== undefined) updateData.username = data.username;
+    if (data.password_hash !== undefined) updateData.password = data.password_hash;
+    if (data.role_id !== undefined) updateData.role_id = data.role_id;
+    if (data.is_active !== undefined) updateData.is_active = data.is_active;
+
     return this.prisma.users.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 
