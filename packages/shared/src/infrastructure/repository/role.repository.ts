@@ -1,5 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import { roleSelect, type RoleEntity } from "#selects/role.select";
+import { type RoleEntity, roleSelect } from "#selects/role.select";
 
 export interface CreateRoleInput {
   name: string;
@@ -53,10 +53,7 @@ export class RoleRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateRoleInput,
-  ): Promise<RoleEntity> {
+  async update(id: string, data: UpdateRoleInput): Promise<RoleEntity> {
     return this.prisma.role.update({
       where: {
         id,
