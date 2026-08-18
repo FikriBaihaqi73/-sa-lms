@@ -1,4 +1,5 @@
-import type { PrismaClient, Users } from "#generated/client";
+import type { PrismaClient} from "#generated/client";
+import { userSelect, type UserEntity } from "#selects/user.select";
 
 export interface CreateUserInput {
   username: string;
@@ -16,35 +17,39 @@ export interface UpdateUserInput {
 export class UserRepository {
   constructor(private prisma: PrismaClient) {}
 
-  async create(data: CreateUserInput): Promise<Users> {
+  async create(data: CreateUserInput): Promise<UserEntity> {
     return this.prisma.users.create({
       data: {
         username: data.username,
         password: data.password_hash,
         role_id: data.role_id,
       },
+      select: userSelect,
     });
   }
 
-  async findById(id: string): Promise<Users | null> {
+  async findById(id: string): Promise<UserEntity | null> {
     return this.prisma.users.findUnique({
       where: { id },
+      select: userSelect,
     });
   }
 
-  async findByUsername(username: string): Promise<Users | null> {
+  async findByUsername(username: string): Promise<UserEntity | null> {
     return this.prisma.users.findUnique({
       where: { username },
+      select: userSelect,
     });
   }
 
-  async findAll(): Promise<Users[]> {
+  async findAll(): Promise<UserEntity[]> {
     return this.prisma.users.findMany({
       where: { deleted_at: null },
+      select: userSelect,
     });
   }
 
-  async update(id: string, data: UpdateUserInput): Promise<Users> {
+  async update(id: string, data: UpdateUserInput): Promise<UserEntity> {
     const updateData: any = {};
     if (data.username !== undefined) updateData.username = data.username;
     if (data.password_hash !== undefined) updateData.password = data.password_hash;
@@ -54,13 +59,15 @@ export class UserRepository {
     return this.prisma.users.update({
       where: { id },
       data: updateData,
+      select: userSelect,
     });
   }
 
-  async delete(id: string): Promise<Users> {
+  async delete(id: string): Promise<UserEntity> {
     return this.prisma.users.update({
       where: { id },
       data: { deleted_at: new Date() },
+      select: userSelect,
     });
   }
 }
