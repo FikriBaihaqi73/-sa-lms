@@ -1,5 +1,5 @@
-import type { PrismaClient} from "#generated/client";
-import { userSelect, type UserEntity } from "#selects/user.select";
+import type { PrismaClient } from "#generated/client";
+import { type UserEntity, userSelect } from "#selects/user.select";
 
 export interface CreateUserInput {
   username: string;
@@ -52,7 +52,8 @@ export class UserRepository {
   async update(id: string, data: UpdateUserInput): Promise<UserEntity> {
     const updateData: any = {};
     if (data.username !== undefined) updateData.username = data.username;
-    if (data.password_hash !== undefined) updateData.password = data.password_hash;
+    if (data.password_hash !== undefined)
+      updateData.password = data.password_hash;
     if (data.role_id !== undefined) updateData.role_id = data.role_id;
     if (data.is_active !== undefined) updateData.is_active = data.is_active;
 
