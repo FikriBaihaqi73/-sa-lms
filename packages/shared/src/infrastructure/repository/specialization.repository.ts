@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  specializationSelect,
   type SpecializationEntity,
+  specializationSelect,
 } from "#selects/specialization.select";
 
 export interface CreateSpecializationInput {
@@ -17,9 +17,7 @@ export interface UpdateSpecializationInput {
 export class SpecializationRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(
-    data: CreateSpecializationInput,
-  ): Promise<SpecializationEntity> {
+  async create(data: CreateSpecializationInput): Promise<SpecializationEntity> {
     return this.prisma.specializations.create({
       data: {
         name: data.name,
@@ -39,9 +37,7 @@ export class SpecializationRepository {
     });
   }
 
-  async findByName(
-    name: string,
-  ): Promise<SpecializationEntity | null> {
+  async findByName(name: string): Promise<SpecializationEntity | null> {
     return this.prisma.specializations.findFirst({
       where: {
         name,

@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  attendanceStatusSelect,
   type AttendanceStatusEntity,
+  attendanceStatusSelect,
 } from "#selects/attendance-status.select";
 
 export interface CreateAttendanceStatusInput {
@@ -17,17 +17,17 @@ export interface UpdateAttendanceStatusInput {
 export class AttendanceStatusRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-async create(
-  data: CreateAttendanceStatusInput,
-): Promise<AttendanceStatusEntity> {
-  return this.prisma.attendanceStatuses.create({
-    data: {
-      name: data.name,
-      description: data.description ?? null,
-    },
-    select: attendanceStatusSelect,
-  });
-}
+  async create(
+    data: CreateAttendanceStatusInput,
+  ): Promise<AttendanceStatusEntity> {
+    return this.prisma.attendanceStatuses.create({
+      data: {
+        name: data.name,
+        description: data.description ?? null,
+      },
+      select: attendanceStatusSelect,
+    });
+  }
   async findById(id: string): Promise<AttendanceStatusEntity | null> {
     return this.prisma.attendanceStatuses.findFirst({
       where: {

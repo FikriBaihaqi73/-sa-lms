@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  academicStatusSelect,
   type AcademicStatusEntity,
+  academicStatusSelect,
 } from "#selects/academic-status.select";
 
 export interface CreateAcademicStatusInput {
@@ -17,9 +17,7 @@ export interface UpdateAcademicStatusInput {
 export class AcademicStatusRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(
-    data: CreateAcademicStatusInput,
-  ): Promise<AcademicStatusEntity> {
+  async create(data: CreateAcademicStatusInput): Promise<AcademicStatusEntity> {
     return this.prisma.academicStatuses.create({
       data: {
         name: data.name,

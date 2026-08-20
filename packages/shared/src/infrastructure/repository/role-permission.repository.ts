@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  rolePermissionSelect,
   type RolePermissionEntity,
+  rolePermissionSelect,
 } from "#selects/role-permission.select";
 
 export interface CreateRolePermissionInput {
@@ -48,7 +48,9 @@ export class RolePermissionRepository {
     });
   }
 
-  async findByPermissionId(permissionId: string): Promise<RolePermissionEntity[]> {
+  async findByPermissionId(
+    permissionId: string,
+  ): Promise<RolePermissionEntity[]> {
     return this.prisma.rolePermission.findMany({
       where: { permissionId, deletedAt: null },
       select: rolePermissionSelect,
