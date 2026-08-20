@@ -6,7 +6,6 @@ export const institutionLevelSelect = {
   description: true,
   createdAt: true,
   updated_at: true,
-
 } satisfies Prisma.InstitutionLevelSelect;
 
 export type InstitutionLevelSelectType = typeof institutionLevelSelect;

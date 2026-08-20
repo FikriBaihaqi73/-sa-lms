@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  academicYearSelect,
   type AcademicYearEntity,
+  academicYearSelect,
 } from "#selects/academic-year.select";
 
 export interface CreateAcademicYearInput {
