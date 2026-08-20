@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  profileSelect,
-  type ProfileEntity,
-} from "#selects/profile.select";
+import { type ProfileEntity, profileSelect } from "#selects/profile.select";
 
 export interface CreateProfileInput {
   userId: string;
@@ -38,46 +35,46 @@ export interface UpdateProfileInput {
 export class ProfileRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
- async create(data: CreateProfileInput): Promise<ProfileEntity> {
-  return this.prisma.profile.create({
-    data: {
-      userId: data.userId,
-      institutionId: data.institutionId,
-      fullName: data.fullName,
-      ...(data.identityNumber !== undefined && {
-        identityNumber: data.identityNumber,
-      }),
-      ...(data.gender !== undefined && {
-        gender: data.gender,
-      }),
-      ...(data.birthPlace !== undefined && {
-        birthPlace: data.birthPlace,
-      }),
-      ...(data.birthDate !== undefined && {
-        birthDate: data.birthDate,
-      }),
-      ...(data.religionId !== undefined && {
-        religionId: data.religionId,
-      }),
-      ...(data.nationalityId !== undefined && {
-        nationalityId: data.nationalityId,
-      }),
-      ...(data.address !== undefined && {
-        address: data.address,
-      }),
-      ...(data.phoneNumber !== undefined && {
-        phoneNumber: data.phoneNumber,
-      }),
-      ...(data.email !== undefined && {
-        email: data.email,
-      }),
-      ...(data.photoUrl !== undefined && {
-        photoUrl: data.photoUrl,
-      }),
-    },
-    select: profileSelect,
-  });
-}
+  async create(data: CreateProfileInput): Promise<ProfileEntity> {
+    return this.prisma.profile.create({
+      data: {
+        userId: data.userId,
+        institutionId: data.institutionId,
+        fullName: data.fullName,
+        ...(data.identityNumber !== undefined && {
+          identityNumber: data.identityNumber,
+        }),
+        ...(data.gender !== undefined && {
+          gender: data.gender,
+        }),
+        ...(data.birthPlace !== undefined && {
+          birthPlace: data.birthPlace,
+        }),
+        ...(data.birthDate !== undefined && {
+          birthDate: data.birthDate,
+        }),
+        ...(data.religionId !== undefined && {
+          religionId: data.religionId,
+        }),
+        ...(data.nationalityId !== undefined && {
+          nationalityId: data.nationalityId,
+        }),
+        ...(data.address !== undefined && {
+          address: data.address,
+        }),
+        ...(data.phoneNumber !== undefined && {
+          phoneNumber: data.phoneNumber,
+        }),
+        ...(data.email !== undefined && {
+          email: data.email,
+        }),
+        ...(data.photoUrl !== undefined && {
+          photoUrl: data.photoUrl,
+        }),
+      },
+      select: profileSelect,
+    });
+  }
 
   async findById(id: string): Promise<ProfileEntity | null> {
     return this.prisma.profile.findFirst({
@@ -108,10 +105,7 @@ export class ProfileRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateProfileInput,
-  ): Promise<ProfileEntity> {
+  async update(id: string, data: UpdateProfileInput): Promise<ProfileEntity> {
     return this.prisma.profile.update({
       where: {
         id,

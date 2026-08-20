@@ -1,5 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { CreateUserDto } from "@repo/shared/schemas/user.schema";
+import { NotFoundException } from "@nestjs/common";
+import { Test, type TestingModule } from "@nestjs/testing";
+import type { CreateUserDto } from "@repo/shared/schemas/user.schema";
 import { PrismaService } from "../prisma/prisma.service";
 import { UserService } from "./user.service";
 
@@ -9,30 +10,28 @@ jest.mock("@repo/shared/infrastructure/database/client", () => ({
 
 describe("UserService", () => {
   let service: UserService;
-  let prisma: PrismaService;
 
-  // Mock data
   const mockUser = {
-    id: "1",
-    full_name: "Test User",
-    email: "test@example.com",
-    password_hash: "hashedpassword",
+    id: "123e4567-e89b-12d3-a456-426614174000",
+    role_id: "223e4567-e89b-12d3-a456-426614174001",
+    username: "john_doe",
     is_active: true,
+    last_login: null,
     created_at: new Date(),
     updated_at: new Date(),
     deleted_at: null,
   };
 
-  // Mock implementation untuk Prisma Client
   const mockPrismaClient = {
     client: {
       users: {
         findMany: jest.fn().mockResolvedValue([mockUser]),
+        findFirst: jest.fn().mockResolvedValue(mockUser),
         findUnique: jest.fn().mockResolvedValue(mockUser),
         create: jest.fn().mockResolvedValue(mockUser),
         update: jest
           .fn()
-          .mockResolvedValue({ ...mockUser, full_name: "Updated User" }),
+          .mockResolvedValue({ ...mockUser, username: "updated_john" }),
       },
     },
   };
@@ -43,13 +42,12 @@ describe("UserService", () => {
         UserService,
         {
           provide: PrismaService,
-          useValue: mockPrismaClient, // Inject mock ini sebagai ganti database asli
+          useValue: mockPrismaClient,
         },
       ],
     }).compile();
 
     service = module.get<UserService>(UserService);
-    prisma = module.get<PrismaService>(PrismaService);
   });
 
   it("should be defined", () => {
@@ -60,39 +58,69 @@ describe("UserService", () => {
     it("should return an array of users", async () => {
       const result = await service.findAll();
       expect(result).toEqual([mockUser]);
-      expect(prisma.client.users.findMany).toHaveBeenCalled();
+      expect(mockPrismaClient.client.users.findMany).toHaveBeenCalled();
     });
   });
 
   describe("findOne", () => {
     it("should return a single user by ID", async () => {
-      const result = await service.findOne("1");
+      const result = await service.findOne(mockUser.id);
       expect(result).toEqual(mockUser);
-      expect(prisma.client.users.findUnique).toHaveBeenCalledWith({
-        where: { id: "1", deleted_at: null },
+      expect(mockPrismaClient.client.users.findFirst).toHaveBeenCalledWith({
+        where: { id: mockUser.id, deleted_at: null },
         select: expect.any(Object),
       });
     });
 
-    it("should throw an error if user not found", async () => {
-      // Ubah mock secara spesifik untuk tes ini agar mengembalikan null
-      jest.spyOn(prisma.client.users, "findUnique").mockResolvedValueOnce(null);
+    it("should throw NotFoundException if user not found", async () => {
+      jest
+        .spyOn(mockPrismaClient.client.users, "findFirst")
+        .mockResolvedValueOnce(null);
 
-      await expect(service.findOne("999")).rejects.toThrow("User not found");
+      await expect(service.findOne("non-existent-id")).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe("create", () => {
     it("should create a new user", async () => {
       const dto: CreateUserDto = {
-        email: "test@example.com",
-        full_name: "Test User",
+        role_id: "223e4567-e89b-12d3-a456-426614174001",
+        username: "john_doe",
         password: "password123",
+        is_active: true,
       };
 
       const result = await service.create(dto);
       expect(result).toEqual(mockUser);
-      expect(prisma.client.users.create).toHaveBeenCalled();
+      expect(mockPrismaClient.client.users.create).toHaveBeenCalled();
+    });
+  });
+
+  describe("update", () => {
+    it("should update a user", async () => {
+      jest
+        .spyOn(mockPrismaClient.client.users, "findFirst")
+        .mockResolvedValueOnce(mockUser);
+
+      const result = await service.update(mockUser.id, {
+        username: "updated_john",
+      });
+
+      expect(result).toEqual({ ...mockUser, username: "updated_john" });
+    });
+  });
+
+  describe("remove", () => {
+    it("should delete a user", async () => {
+      jest
+        .spyOn(mockPrismaClient.client.users, "findFirst")
+        .mockResolvedValueOnce(mockUser);
+
+      const result = await service.remove(mockUser.id);
+
+      expect(result).toEqual({ success: true, id: mockUser.id });
     });
   });
 });

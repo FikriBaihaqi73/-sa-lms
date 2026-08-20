@@ -1,87 +1,48 @@
-import { Injectable } from "@nestjs/common";
-import { CreateUserDto, UpdateUserDto } from "@repo/shared/schemas/user.schema";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { UserRepository } from "@repo/shared/infrastructure/repository/user.repository";
+import type {
+  CreateUserDto,
+  UpdateUserDto,
+} from "@repo/shared/schemas/user.schema";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  private userRepository: UserRepository;
+
+  constructor(private readonly prisma: PrismaService) {
+    this.userRepository = new UserRepository(this.prisma.client);
+  }
 
   async findAll() {
-    return this.prisma.client.users.findMany({
-      where: { deleted_at: null },
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        is_active: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
+    return this.userRepository.findAll();
   }
 
   async findOne(id: string) {
-    const user = await this.prisma.client.users.findUnique({
-      where: { id, deleted_at: null },
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        is_active: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
-
-    if (!user) throw new Error("User not found");
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
     return user;
   }
 
   async create(dto: CreateUserDto) {
-    return this.prisma.client.users.create({
-      data: {
-        full_name: dto.full_name,
-        email: dto.email,
-        password_hash: dto.password, // TODO: Harus di-hash menggunakan bcrypt/argon2
-        is_active: true,
-      },
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        is_active: true,
-        created_at: true,
-        updated_at: true,
-      },
+    return this.userRepository.create({
+      role_id: dto.role_id,
+      username: dto.username,
+      password: dto.password,
+      is_active: dto.is_active,
     });
   }
 
   async update(id: string, dto: UpdateUserDto) {
-    const dataToUpdate: any = { ...dto };
-    if (dto.password) {
-      dataToUpdate.password_hash = dto.password; // TODO: Harus di-hash
-      delete dataToUpdate.password;
-    }
-
-    return this.prisma.client.users.update({
-      where: { id },
-      data: dataToUpdate,
-      select: {
-        id: true,
-        full_name: true,
-        email: true,
-        is_active: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
+    await this.findOne(id);
+    return this.userRepository.update(id, dto);
   }
 
   async remove(id: string) {
-    await this.prisma.client.users.update({
-      where: { id },
-      data: { deleted_at: new Date() },
-    });
+    await this.findOne(id);
+    await this.userRepository.delete(id);
     return { success: true, id };
   }
 }
