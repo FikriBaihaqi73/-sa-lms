@@ -45,7 +45,21 @@
     "roots": ["<rootDir>/src", "<rootDir>/../../packages/shared/src"],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": {
+            "module": "commonjs",
+            "moduleResolution": "node",
+            "resolvePackageJsonExports": false,
+            "target": "ES2022",
+            "paths": {
+              "#*": ["../../packages/shared/src/*"]
+            }
+          }
+        }
+      ]
     },
     "moduleNameMapper": {
       "^@repo/shared/(.*)$": "<rootDir>/../../packages/shared/src/$1",

@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  departmentSelect,
   type DepartmentEntity,
+  departmentSelect,
 } from "#selects/departments.select";
 
 export interface CreateDepartmentInput {
