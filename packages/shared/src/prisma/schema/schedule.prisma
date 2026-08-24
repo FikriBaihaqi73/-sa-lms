@@ -13,7 +13,7 @@ model Schedule {
   endTime        DateTime? @map("end_time") @db.Time(0)
 
   // relations
-  attendances       Attendances[]
+  attendances       Attendances[] 
   teaching_journals TeachingJournals[]
 
   @@map("schedules")
