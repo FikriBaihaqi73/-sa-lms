@@ -62,15 +62,15 @@ export class PermissionRepository {
     id: string,
     data: UpdatePermissionInput,
   ): Promise<PermissionEntity> {
-    const updateData: any = {};
-    if (data.name !== undefined) updateData.name = data.name;
-    if (data.module !== undefined) updateData.module = data.module;
-    if (data.description !== undefined)
-      updateData.description = data.description ?? null;
-
     return this.prisma.permission.update({
       where: { id },
-      data: updateData,
+      data: {
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.module !== undefined && { module: data.module }),
+        ...(data.description !== undefined && {
+          description: data.description ?? null,
+        }),
+      },
       select: permissionSelect,
     });
   }

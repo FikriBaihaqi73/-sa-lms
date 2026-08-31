@@ -28,8 +28,8 @@ export interface PaginatedResult<T> {
   items: T[];
   pagination: PaginationMeta;
   summary?: {
-    subtotal?: any;
-    total?: any;
+    subtotal?: unknown;
+    total?: unknown;
   } | null;
 }
 
@@ -40,8 +40,8 @@ export interface PaginatedShape<T = unknown> {
   items: T[];
   pagination: PaginationMeta;
   summary?: {
-    subtotal?: any;
-    total?: any;
+    subtotal?: unknown;
+    total?: unknown;
   } | null;
 }
 
@@ -55,8 +55,8 @@ export interface ApiResponse<T = unknown> {
   data: T | null;
   pagination?: PaginationMeta | null;
   summary?: {
-    subtotal?: any;
-    total?: any;
+    subtotal?: unknown;
+    total?: unknown;
   } | null;
   errors: ValidationError[];
 }
