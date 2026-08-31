@@ -26,6 +26,7 @@ The repository available at `packages/shared/src/infrastructure/repository/subje
 - `findById(id)`
 - `findBySubjectId(subjectId)`
 - `findByPrerequisiteSubjectId(prerequisiteSubjectId)`
+- `findBySubjectAndPrerequisite(subjectId, prerequisiteSubjectId)`
 - `findAll()`
 - `update(id, data)`
 - `delete(id)`

@@ -63,6 +63,20 @@ export class SubjectPrerequisitesRepository {
     });
   }
 
+  async findBySubjectAndPrerequisite(
+    subjectId: string,
+    prerequisiteSubjectId: string,
+  ): Promise<SubjectPrerequisitesEntity | null> {
+    return this.prisma.subjectPrerequisites.findFirst({
+      where: {
+        subjectId,
+        prerequisiteSubjectId,
+        deletedAt: null,
+      },
+      select: subjectPrerequisitesSelect,
+    });
+  }
+
   async findAll(): Promise<SubjectPrerequisitesEntity[]> {
     return this.prisma.subjectPrerequisites.findMany({
       where: {
