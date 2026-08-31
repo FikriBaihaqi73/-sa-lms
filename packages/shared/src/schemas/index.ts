@@ -5,3 +5,5 @@ export * from "#schemas/role-permission.schema";
 export * from "#schemas/user.schema";
 export * from "#schemas/academic-year.schema";
 export * from "#schemas/academic-status.schema";
+export * from "#schemas/employment-status.schema";
+export * from "#schemas/specialization.schema";
