@@ -1,16 +1,43 @@
-import { createZodDto } from "nestjs-zod";
+import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
-export const createRolePermissionSchema = z.object({
-  roleId: z.string().uuid().describe("ID dari role (UUID)"),
-  permissionId: z.string().uuid().describe("ID dari permission (UUID)"),
+export const CreateRolePermissionSchema = z.object({
+  roleId: z
+    .string()
+    .uuid("Invalid UUID format for roleId")
+    .describe("Role ID (UUID)"),
+  permissionId: z
+    .string()
+    .uuid("Invalid UUID format for permissionId")
+    .describe("Permission ID (UUID)"),
 });
 
-export const updateRolePermissionSchema = createRolePermissionSchema.partial();
+export const UpdateRolePermissionSchema = z.object({
+  roleId: z
+    .string()
+    .uuid("Invalid UUID format for roleId")
+    .optional()
+    .describe("Updated Role ID (UUID)"),
+  permissionId: z
+    .string()
+    .uuid("Invalid UUID format for permissionId")
+    .optional()
+    .describe("Updated Permission ID (UUID)"),
+});
+
+export const AssignRolePermissionsSchema = z.object({
+  permissionIds: z
+    .array(z.string().uuid("Invalid UUID format for permissionId"))
+    .min(1, "At least one permission ID is required")
+    .describe("Array of Permission IDs (UUIDs) to assign to a role"),
+});
 
 export class CreateRolePermissionDto extends createZodDto(
-  createRolePermissionSchema,
+  CreateRolePermissionSchema,
 ) {}
 export class UpdateRolePermissionDto extends createZodDto(
-  updateRolePermissionSchema,
+  UpdateRolePermissionSchema,
+) {}
+export class AssignRolePermissionsDto extends createZodDto(
+  AssignRolePermissionsSchema,
 ) {}
