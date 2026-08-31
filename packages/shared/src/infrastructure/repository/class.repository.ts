@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  classSelect,
-  type ClassEntity,
-} from "#selects/class.select";
+import { type ClassEntity, classSelect } from "#selects/class.select";
 
 export interface CreateClassInput {
   institution_id: string;
@@ -58,10 +55,7 @@ export class ClassRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateClassInput,
-  ): Promise<ClassEntity> {
+  async update(id: string, data: UpdateClassInput): Promise<ClassEntity> {
     return this.prisma.classes.update({
       where: { id },
       data: {

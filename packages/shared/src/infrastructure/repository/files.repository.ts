@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  type FilesEntity,
-  filesSelect,
-} from "#selects/files.select";
+import { type FilesEntity, filesSelect } from "#selects/files.select";
 
 export interface CreateFileInput {
   originalName: string;

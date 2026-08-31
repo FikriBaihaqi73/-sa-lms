@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  classAnnouncementSelect,
   type ClassAnnouncementEntity,
+  classAnnouncementSelect,
 } from "#selects/class-announcement.select";
 
 export interface CreateClassAnnouncementInput {
@@ -34,9 +34,7 @@ export class ClassAnnouncementRepository {
     });
   }
 
-  async findById(
-    id: string,
-  ): Promise<ClassAnnouncementEntity | null> {
+  async findById(id: string): Promise<ClassAnnouncementEntity | null> {
     return this.prisma.classAnnouncement.findFirst({
       where: {
         id,
@@ -58,9 +56,7 @@ export class ClassAnnouncementRepository {
     });
   }
 
-  async findByClassId(
-    classId: string,
-  ): Promise<ClassAnnouncementEntity[]> {
+  async findByClassId(classId: string): Promise<ClassAnnouncementEntity[]> {
     return this.prisma.classAnnouncement.findMany({
       where: {
         classId,

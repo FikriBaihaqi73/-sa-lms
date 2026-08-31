@@ -64,9 +64,7 @@ export class AnnouncementsRepository {
     });
   }
 
-  async findPublished(
-    institution_id?: string,
-  ): Promise<AnnouncementEntity[]> {
+  async findPublished(institution_id?: string): Promise<AnnouncementEntity[]> {
     return this.prisma.announcements.findMany({
       where: {
         is_published: true,
@@ -121,10 +119,7 @@ export class AnnouncementsRepository {
     });
   }
 
-  async delete(
-    id: string,
-    deleted_by?: string,
-  ): Promise<AnnouncementEntity> {
+  async delete(id: string, deleted_by?: string): Promise<AnnouncementEntity> {
     return this.prisma.announcements.update({
       where: {
         id,

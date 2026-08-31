@@ -14,10 +14,8 @@ export const examinationScoreSelect = {
   gradedAt: true,
 } satisfies Prisma.ExaminationScoresSelect;
 
-export type ExaminationScoreSelectType =
-  typeof examinationScoreSelect;
+export type ExaminationScoreSelectType = typeof examinationScoreSelect;
 
-export type ExaminationScoreEntity =
-  Prisma.ExaminationScoresGetPayload<{
-    select: ExaminationScoreSelectType;
-  }>;
+export type ExaminationScoreEntity = Prisma.ExaminationScoresGetPayload<{
+  select: ExaminationScoreSelectType;
+}>;

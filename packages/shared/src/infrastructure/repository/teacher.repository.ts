@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  teacherSelect,
-  type TeacherEntity,
-} from "#selects/teacher.select";
+import { type TeacherEntity, teacherSelect } from "#selects/teacher.select";
 
 export interface CreateTeacherInput {
   profile_id: string;
@@ -25,19 +22,19 @@ export interface UpdateTeacherInput {
 export class TeacherRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
- async create(data: CreateTeacherInput): Promise<TeacherEntity> {
-  return this.prisma.teachers.create({
-    data: {
-      profile_id: data.profile_id,
-      department_id: data.department_id ?? null,
-      specialization_id: data.specialization_id ?? null,
-      employment_status_id: data.employment_status_id ?? null,
-      teacher_number: data.teacher_number,
-      join_date: data.join_date ?? null,
-    },
-    select: teacherSelect,
-  });
-}
+  async create(data: CreateTeacherInput): Promise<TeacherEntity> {
+    return this.prisma.teachers.create({
+      data: {
+        profile_id: data.profile_id,
+        department_id: data.department_id ?? null,
+        specialization_id: data.specialization_id ?? null,
+        employment_status_id: data.employment_status_id ?? null,
+        teacher_number: data.teacher_number,
+        join_date: data.join_date ?? null,
+      },
+      select: teacherSelect,
+    });
+  }
   async findById(id: string): Promise<TeacherEntity | null> {
     return this.prisma.teachers.findFirst({
       where: {
@@ -69,10 +66,7 @@ export class TeacherRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateTeacherInput,
-  ): Promise<TeacherEntity> {
+  async update(id: string, data: UpdateTeacherInput): Promise<TeacherEntity> {
     return this.prisma.teachers.update({
       where: { id },
       data: {

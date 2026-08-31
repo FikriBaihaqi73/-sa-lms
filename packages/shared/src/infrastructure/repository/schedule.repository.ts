@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  type ScheduleEntity,
-  scheduleSelect,
-} from "#selects/schedule.select";
+import { type ScheduleEntity, scheduleSelect } from "#selects/schedule.select";
 
 export interface CreateScheduleInput {
   classSubjectId: string;
@@ -75,17 +72,18 @@ export class ScheduleRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateScheduleInput,
-  ): Promise<ScheduleEntity> {
+  async update(id: string, data: UpdateScheduleInput): Promise<ScheduleEntity> {
     return this.prisma.schedule.update({
       where: {
         id,
       },
       data: {
-        ...(data.classSubjectId !== undefined && { classSubjectId: data.classSubjectId }),
-        ...(data.classroomId !== undefined && { classroomId: data.classroomId }),
+        ...(data.classSubjectId !== undefined && {
+          classSubjectId: data.classSubjectId,
+        }),
+        ...(data.classroomId !== undefined && {
+          classroomId: data.classroomId,
+        }),
         ...(data.day !== undefined && { day: data.day }),
         ...(data.startTime !== undefined && { startTime: data.startTime }),
         ...(data.endTime !== undefined && { endTime: data.endTime }),

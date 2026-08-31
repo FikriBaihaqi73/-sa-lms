@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  type SemesterEntity,
-  semesterSelect,
-} from "#selects/semester.select";
+import { type SemesterEntity, semesterSelect } from "#selects/semester.select";
 
 export interface CreateSemesterInput {
   academic_year_id: string;
@@ -67,10 +64,7 @@ export class SemesterRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateSemesterInput,
-  ): Promise<SemesterEntity> {
+  async update(id: string, data: UpdateSemesterInput): Promise<SemesterEntity> {
     return this.prisma.semesters.update({
       where: {
         id,

@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  teachingJournalSelect,
   type TeachingJournalEntity,
+  teachingJournalSelect,
 } from "#selects/journals.select";
 
 export interface CreateTeachingJournalInput {

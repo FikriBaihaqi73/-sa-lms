@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  studentGradeSelect,
   type StudentGradeEntity,
+  studentGradeSelect,
 } from "#selects/student-grade.select";
 
 export interface CreateStudentGradeInput {
@@ -18,15 +18,16 @@ export interface CreateStudentGradeInput {
 }
 
 export type UpdateStudentGradeInput = Partial<
-  Omit<CreateStudentGradeInput, "studentId" | "classSubjectId" | "academicYearId">
+  Omit<
+    CreateStudentGradeInput,
+    "studentId" | "classSubjectId" | "academicYearId"
+  >
 >;
 
 export class StudentGradeRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(
-    data: CreateStudentGradeInput,
-  ): Promise<StudentGradeEntity> {
+  async create(data: CreateStudentGradeInput): Promise<StudentGradeEntity> {
     return this.prisma.studentGrades.create({
       data,
       select: studentGradeSelect,

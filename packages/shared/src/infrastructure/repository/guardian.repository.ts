@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  guardianSelect,
-  type GuardianEntity,
-} from "#selects/guardian.select";
+import { type GuardianEntity, guardianSelect } from "#selects/guardian.select";
 
 export interface CreateGuardianInput {
   fullName: string;
@@ -68,10 +65,7 @@ export class GuardianRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateGuardianInput,
-  ): Promise<GuardianEntity> {
+  async update(id: string, data: UpdateGuardianInput): Promise<GuardianEntity> {
     return this.prisma.guardian.update({
       where: {
         id,

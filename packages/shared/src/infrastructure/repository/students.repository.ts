@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  studentSelect,
-  type StudentEntity,
-} from "#selects/students.select";
+import { type StudentEntity, studentSelect } from "#selects/students.select";
 
 export interface CreateStudentInput {
   profileId: string;
@@ -76,10 +73,7 @@ export class StudentRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateStudentInput,
-  ): Promise<StudentEntity> {
+  async update(id: string, data: UpdateStudentInput): Promise<StudentEntity> {
     return this.prisma.student.update({
       where: {
         id,

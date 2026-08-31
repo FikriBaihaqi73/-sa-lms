@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  examinationSelect,
   type ExaminationEntity,
+  examinationSelect,
 } from "#selects/examination.select";
 
 export interface CreateExaminationInput {
@@ -29,9 +29,7 @@ export interface UpdateExaminationInput {
 export class ExaminationRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(
-    data: CreateExaminationInput,
-  ): Promise<ExaminationEntity> {
+  async create(data: CreateExaminationInput): Promise<ExaminationEntity> {
     return this.prisma.examinations.create({
       data: {
         title: data.title,

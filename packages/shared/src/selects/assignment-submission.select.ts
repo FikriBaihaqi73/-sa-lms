@@ -16,7 +16,6 @@ export const assignmentSubmissionSelect = {
   gradedAt: true,
 } satisfies Prisma.AssignmentSubmissionSelect;
 
-export type AssignmentSubmissionSelect =
-  Prisma.AssignmentSubmissionGetPayload<{
-    select: typeof assignmentSubmissionSelect;
-  }>;
+export type AssignmentSubmissionSelect = Prisma.AssignmentSubmissionGetPayload<{
+  select: typeof assignmentSubmissionSelect;
+}>;

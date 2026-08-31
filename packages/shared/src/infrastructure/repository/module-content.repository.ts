@@ -82,7 +82,9 @@ export class ModuleContentRepository {
       data: {
         ...(data.moduleId !== undefined && { moduleId: data.moduleId }),
         ...(data.title !== undefined && { title: data.title }),
-        ...(data.contentType !== undefined && { contentType: data.contentType }),
+        ...(data.contentType !== undefined && {
+          contentType: data.contentType,
+        }),
         ...(data.content !== undefined && { content: data.content }),
         ...(data.fileId !== undefined && { fileId: data.fileId }),
         ...(data.sortOrder !== undefined && { sortOrder: data.sortOrder }),

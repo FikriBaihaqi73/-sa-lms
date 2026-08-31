@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  studyResultSelect,
   type StudyResultEntity,
+  studyResultSelect,
 } from "#selects/study-result.select";
 
 export interface CreateStudyResultInput {

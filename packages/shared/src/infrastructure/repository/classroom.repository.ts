@@ -1,8 +1,8 @@
-import type { PrismaClient } from '#generated/client';
+import type { PrismaClient } from "#generated/client";
 import {
-  classroomSelect,
   type ClassroomEntity,
-} from '#selects/classroom.select';
+  classroomSelect,
+} from "#selects/classroom.select";
 
 export class ClassroomRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -14,7 +14,7 @@ export class ClassroomRepository {
       },
       select: classroomSelect,
       orderBy: {
-        roomName: 'asc',
+        roomName: "asc",
       },
     });
   }

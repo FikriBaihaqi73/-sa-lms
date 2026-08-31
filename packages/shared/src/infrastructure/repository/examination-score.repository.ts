@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  examinationScoreSelect,
   type ExaminationScoreEntity,
+  examinationScoreSelect,
 } from "#selects/examination-score.select";
 
 export interface CreateExaminationScoreInput {
@@ -51,9 +51,7 @@ export class ExaminationScoreRepository {
     });
   }
 
-  async findById(
-    id: string,
-  ): Promise<ExaminationScoreEntity | null> {
+  async findById(id: string): Promise<ExaminationScoreEntity | null> {
     return this.prisma.examinationScores.findFirst({
       where: {
         id,
@@ -89,9 +87,7 @@ export class ExaminationScoreRepository {
     });
   }
 
-  async findByStudent(
-    studentId: string,
-  ): Promise<ExaminationScoreEntity[]> {
+  async findByStudent(studentId: string): Promise<ExaminationScoreEntity[]> {
     return this.prisma.examinationScores.findMany({
       where: {
         studentId,

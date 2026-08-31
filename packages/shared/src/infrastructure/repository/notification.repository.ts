@@ -1,7 +1,7 @@
 import { PrismaClient } from "#generated/client";
 import {
-  notificationSelect,
   type NotificationEntity,
+  notificationSelect,
 } from "#selects/notification.select";
 
 export class NotificationRepository {

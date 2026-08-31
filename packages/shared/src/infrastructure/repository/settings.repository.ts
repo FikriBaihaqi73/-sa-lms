@@ -1,8 +1,5 @@
 import { PrismaClient } from "#generated/client";
-import {
-  settingsSelect,
-  type SettingsEntity,
-} from "#selects/settings.select";
+import { type SettingsEntity, settingsSelect } from "#selects/settings.select";
 
 export class SettingsRepository {
   constructor(private readonly prisma: PrismaClient) {}

@@ -1,7 +1,5 @@
 import { PrismaClient } from "#generated/client";
-import {
-  assignmentSubmissionSelect,
-} from "#selects/assignment-submission.select";
+import { assignmentSubmissionSelect } from "#selects/assignment-submission.select";
 
 export class AssignmentSubmissionRepository {
   constructor(private readonly prisma: PrismaClient) {}

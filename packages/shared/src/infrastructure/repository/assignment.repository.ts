@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  assignmentSelect,
   type AssignmentEntity,
+  assignmentSelect,
 } from "#selects/assignment.select";
 
 export interface CreateAssignmentInput {

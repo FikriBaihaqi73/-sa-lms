@@ -1,8 +1,5 @@
 import type { PrismaClient } from "#generated/client";
-import {
-  subjectSelect,
-  type SubjectEntity,
-} from "#selects/subject.select";
+import { type SubjectEntity, subjectSelect } from "#selects/subject.select";
 
 export interface CreateSubjectInput {
   code: string;
@@ -68,10 +65,7 @@ export class SubjectRepository {
     });
   }
 
-  async update(
-    id: string,
-    data: UpdateSubjectInput,
-  ): Promise<SubjectEntity> {
+  async update(id: string, data: UpdateSubjectInput): Promise<SubjectEntity> {
     return this.prisma.subject.update({
       where: { id },
       data: {

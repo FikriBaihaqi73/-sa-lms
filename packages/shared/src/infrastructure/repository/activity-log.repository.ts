@@ -1,7 +1,7 @@
 import type { PrismaClient } from "#generated/client";
 import {
-  activityLogSelect,
   type ActivityLogEntity,
+  activityLogSelect,
 } from "#selects/activity-log.select";
 
 export interface CreateActivityLogInput {
@@ -26,9 +26,7 @@ export interface UpdateActivityLogInput {
 export class ActivityLogRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(
-    data: CreateActivityLogInput,
-  ): Promise<ActivityLogEntity> {
+  async create(data: CreateActivityLogInput): Promise<ActivityLogEntity> {
     return this.prisma.activityLogs.create({
       data: {
         user_id: data.user_id,
@@ -55,9 +53,7 @@ export class ActivityLogRepository {
     });
   }
 
-  async findById(
-    id: string,
-  ): Promise<ActivityLogEntity | null> {
+  async findById(id: string): Promise<ActivityLogEntity | null> {
     return this.prisma.activityLogs.findFirst({
       where: {
         id,
@@ -79,9 +75,7 @@ export class ActivityLogRepository {
     });
   }
 
-  async findByUserId(
-    user_id: string,
-  ): Promise<ActivityLogEntity[]> {
+  async findByUserId(user_id: string): Promise<ActivityLogEntity[]> {
     return this.prisma.activityLogs.findMany({
       where: {
         user_id,
