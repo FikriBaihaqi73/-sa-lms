@@ -15,10 +15,7 @@ export * from "#schemas/religion.schema";
 export * from "#schemas/role.schema";
 export * from "#schemas/role-permission.schema";
 export * from "#schemas/specialization.schema";
-<<<<<<< HEAD
 export * from "#schemas/teacher.schema";
-=======
 export * from "#schemas/student.schema";
 export * from "#schemas/student-guardian.schema";
->>>>>>> 14be3c83d0d0437d76b9a9830ed311689e72a403
 export * from "#schemas/user.schema";
