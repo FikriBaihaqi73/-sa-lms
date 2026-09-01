@@ -1,6 +1,9 @@
 # Dependencies
 node_modules
 .pnpm-debug.log
+.pnpm-store/
+dev-error.log
+*.tsbuildinfo
 
 # Build outputs
 dist
