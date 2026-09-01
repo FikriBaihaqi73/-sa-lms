@@ -10,23 +10,14 @@ export const CreateGuardianSchema = z.object({
     .string()
     .optional()
     .describe("Relationship to the student (e.g., Father, Mother)"),
-  phoneNumber: z
-    .string()
-    .optional()
-    .describe("Phone number of the guardian"),
+  phoneNumber: z.string().optional().describe("Phone number of the guardian"),
   email: z
     .string()
     .email("Invalid email format")
     .optional()
     .describe("Email address of the guardian"),
-  address: z
-    .string()
-    .optional()
-    .describe("Home address of the guardian"),
-  occupation: z
-    .string()
-    .optional()
-    .describe("Occupation of the guardian"),
+  address: z.string().optional().describe("Home address of the guardian"),
+  occupation: z.string().optional().describe("Occupation of the guardian"),
 });
 
 export const UpdateGuardianSchema = CreateGuardianSchema.partial();

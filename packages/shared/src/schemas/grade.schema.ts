@@ -4,15 +4,9 @@ import { z } from "zod";
 export const CreateGradeSchema = z.object({
   grade: z.string().min(1).describe("Grade name"),
 
-  minimumScore: z.coerce
-    .number()
-    .optional()
-    .describe("Minimum score"),
+  minimumScore: z.coerce.number().optional().describe("Minimum score"),
 
-  maximumScore: z.coerce
-    .number()
-    .optional()
-    .describe("Maximum score"),
+  maximumScore: z.coerce.number().optional().describe("Maximum score"),
 
   description: z.string().optional().describe("Grade description"),
 });

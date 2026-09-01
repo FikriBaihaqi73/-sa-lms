@@ -19,11 +19,7 @@ export const CreateStudentSchema = z.object({
     .string()
     .min(1, "Student number is required")
     .describe("Student Number/NIM"),
-  enrollmentYear: z
-    .number()
-    .int()
-    .optional()
-    .describe("Enrollment Year"),
+  enrollmentYear: z.number().int().optional().describe("Enrollment Year"),
 });
 
 export const UpdateStudentSchema = CreateStudentSchema.partial();
