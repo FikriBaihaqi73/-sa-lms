@@ -2,18 +2,16 @@ import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
 export const CreateAttendanceStatusSchema = z.object({
-  name: z
-    .string()
-    .min(1)
-    .describe("Attendance status name"),
-  description: z
-    .string()
-    .optional()
-    .describe("Attendance status description"),
+  name: z.string().min(1).describe("Attendance status name"),
+  description: z.string().optional().describe("Attendance status description"),
 });
 
-export const UpdateAttendanceStatusSchema = 
+export const UpdateAttendanceStatusSchema =
   CreateAttendanceStatusSchema.partial();
 
-export class CreateAttendanceStatusDto extends createZodDto(CreateAttendanceStatusSchema) {}
-export class UpdateAttendanceStatusDto extends createZodDto(UpdateAttendanceStatusSchema) {}
+export class CreateAttendanceStatusDto extends createZodDto(
+  CreateAttendanceStatusSchema,
+) {}
+export class UpdateAttendanceStatusDto extends createZodDto(
+  UpdateAttendanceStatusSchema,
+) {}
