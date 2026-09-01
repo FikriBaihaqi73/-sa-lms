@@ -23,3 +23,7 @@ export * from "#schemas/role-permission.schema";
 export * from "#schemas/specialization.schema";
 
 export * from "#schemas/user.schema";
+
+export * from "#schemas/grade.schema";
+
+export * from "#schemas/religion.schema";
