@@ -7,10 +7,6 @@ export const CreateReligionSchema = z.object({
 
 export const UpdateReligionSchema = CreateReligionSchema.partial();
 
-export class CreateReligionDto extends createZodDto(
-  CreateReligionSchema,
-) {}
+export class CreateReligionDto extends createZodDto(CreateReligionSchema) {}
 
-export class UpdateReligionDto extends createZodDto(
-  UpdateReligionSchema,
-) {}
+export class UpdateReligionDto extends createZodDto(UpdateReligionSchema) {}
