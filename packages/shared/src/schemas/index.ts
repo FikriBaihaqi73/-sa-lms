@@ -24,3 +24,6 @@ export * from "#schemas/specialization.schema";
 export * from "#schemas/user.schema";
 export * from "#schemas/grade.schema";
 export * from "#schemas/religion.schema";
+export * from "#schemas/student.schema";
+export * from "#schemas/guardian.schema";
+export * from "#schemas/student-guardian.schema";
