@@ -11,5 +11,9 @@ export const UpdateClassStudentSchema = CreateClassStudentSchema.partial();
 export const createClassStudentSchema = CreateClassStudentSchema;
 export const updateClassStudentSchema = UpdateClassStudentSchema;
 
-export class CreateClassStudentDto extends createZodDto(CreateClassStudentSchema) {}
-export class UpdateClassStudentDto extends createZodDto(UpdateClassStudentSchema) {}
+export class CreateClassStudentDto extends createZodDto(
+  CreateClassStudentSchema,
+) {}
+export class UpdateClassStudentDto extends createZodDto(
+  UpdateClassStudentSchema,
+) {}

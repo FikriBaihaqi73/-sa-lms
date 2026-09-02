@@ -18,7 +18,8 @@ export const CreateClassSchema = z.object({
 export const UpdateClassSchema = z.object({
   institution_id: z.uuid().optional().describe("Institution ID"),
 
-  homeroom_teacher_id: z.uuid()
+  homeroom_teacher_id: z
+    .uuid()
     .nullable()
     .optional()
     .describe("Homeroom teacher ID"),

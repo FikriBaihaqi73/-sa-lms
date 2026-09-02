@@ -17,10 +17,6 @@ export const UpdateScheduleSchema = z.object({
   endTime: z.coerce.date().optional().describe("End time"),
 });
 
-export class CreateScheduleDto extends createZodDto(
-  CreateScheduleSchema,
-) {}
+export class CreateScheduleDto extends createZodDto(CreateScheduleSchema) {}
 
-export class UpdateScheduleDto extends createZodDto(
-  UpdateScheduleSchema,
-) {}
+export class UpdateScheduleDto extends createZodDto(UpdateScheduleSchema) {}
