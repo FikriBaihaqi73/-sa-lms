@@ -21,3 +21,5 @@ export * from "#schemas/student-guardian.schema";
 export * from "#schemas/user.schema";
 export * from "#schemas/class-student.schema";
 export * from "#schemas/subject.schema";
+export * from "#schemas/class-subject.schema";
+export * from "#schemas/schedule.schema";
