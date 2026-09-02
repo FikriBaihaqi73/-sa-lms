@@ -23,3 +23,7 @@ export * from "#schemas/role-permission.schema";
 export * from "#schemas/specialization.schema";
 
 export * from "#schemas/user.schema";
+
+export * from "#schemas/module.schema";
+
+export * from "#schemas/study-plan.schema";
