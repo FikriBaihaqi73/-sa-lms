@@ -1,6 +1,7 @@
 export * from "#schemas/academic-status.schema";
 export * from "#schemas/academic-year.schema";
 export * from "#schemas/assignment.schema";
+export * from "#schemas/assignment-submission.schema";
 export * from "#schemas/assignment-type.schema";
 export * from "#schemas/attendance.schema";
 export * from "#schemas/attendance-status.schema";
@@ -8,6 +9,7 @@ export * from "#schemas/class-student.schema";
 export * from "#schemas/class-subject.schema";
 export * from "#schemas/department.schema";
 export * from "#schemas/employment-status.schema";
+export * from "#schemas/examination.schema";
 export * from "#schemas/grade.schema";
 export * from "#schemas/guardian.schema";
 export * from "#schemas/institution.schema";
