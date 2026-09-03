@@ -1,5 +1,6 @@
 export * from "#schemas/academic-status.schema";
 export * from "#schemas/academic-year.schema";
+export * from "#schemas/activity-logs.schema";
 export * from "#schemas/assignment.schema";
 export * from "#schemas/assignment-submission.schema";
 export * from "#schemas/assignment-type.schema";
@@ -23,6 +24,7 @@ export * from "#schemas/religion.schema";
 export * from "#schemas/role.schema";
 export * from "#schemas/role-permission.schema";
 export * from "#schemas/schedule.schema";
+export * from "#schemas/setting.schema";
 export * from "#schemas/specialization.schema";
 export * from "#schemas/student.schema";
 export * from "#schemas/student-guardian.schema";
