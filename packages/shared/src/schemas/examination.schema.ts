@@ -74,9 +74,6 @@ export const UpdateExaminationSchema = z.object({
 		.describe("Maximum score for the examination"),
 });
 
-export const createExaminationSchema = CreateExaminationSchema;
-export const updateExaminationSchema = UpdateExaminationSchema;
-
 export class CreateExaminationDto extends createZodDto(
 	CreateExaminationSchema,
 ) {}

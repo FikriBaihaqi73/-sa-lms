@@ -16,8 +16,5 @@ export const CreateDepartmentSchema = z.object({
 
 export const UpdateDepartmentSchema = CreateDepartmentSchema.partial();
 
-export const createDepartmentSchema = CreateDepartmentSchema;
-export const updateDepartmentSchema = UpdateDepartmentSchema;
-
 export class CreateDepartmentDto extends createZodDto(CreateDepartmentSchema) {}
 export class UpdateDepartmentDto extends createZodDto(UpdateDepartmentSchema) {}

@@ -35,9 +35,6 @@ export const CreateTeachingJournalSchema = z.object({
 export const UpdateTeachingJournalSchema =
   CreateTeachingJournalSchema.partial();
 
-export const createTeachingJournalSchema = CreateTeachingJournalSchema;
-export const updateTeachingJournalSchema = UpdateTeachingJournalSchema;
-
 export class CreateTeachingJournalDto extends createZodDto(
   CreateTeachingJournalSchema,
 ) {}

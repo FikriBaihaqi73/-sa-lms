@@ -39,8 +39,5 @@ export const CreateTeacherSchema = z.object({
 
 export const UpdateTeacherSchema = CreateTeacherSchema.partial();
 
-export const createTeacherSchema = CreateTeacherSchema;
-export const updateTeacherSchema = UpdateTeacherSchema;
-
 export class CreateTeacherDto extends createZodDto(CreateTeacherSchema) {}
 export class UpdateTeacherDto extends createZodDto(UpdateTeacherSchema) {}

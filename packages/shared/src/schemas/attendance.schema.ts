@@ -24,8 +24,5 @@ export const CreateAttendanceSchema = z.object({
 
 export const UpdateAttendanceSchema = CreateAttendanceSchema.partial();
 
-export const createAttendanceSchema = CreateAttendanceSchema;
-export const updateAttendanceSchema = UpdateAttendanceSchema;
-
 export class CreateAttendanceDto extends createZodDto(CreateAttendanceSchema) {}
 export class UpdateAttendanceDto extends createZodDto(UpdateAttendanceSchema) {}

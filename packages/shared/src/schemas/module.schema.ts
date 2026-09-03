@@ -1,18 +1,16 @@
+import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
-export const moduleSchema = z.object({
-  id: z.string().uuid(),
-  created_by: z.string().uuid().nullable(),
-  updated_by: z.string().uuid().nullable(),
-  created_at: z.date().nullable(),
-  updated_at: z.date().nullable(),
-  deleted_at: z.date().nullable(),
-  class_subject_id: z.string().uuid(),
-  title: z.string(),
-  description: z.string().nullable(),
-  display_order: z.number().int().nullable(),
-  is_published: z.boolean().nullable(),
-  is_locked: z.boolean().nullable(),
+export const CreateModuleSchema = z.object({
+  class_subject_id: z.string().uuid().describe("Class subject ID"),
+  title: z.string().min(1).describe("Module title"),
+  description: z.string().optional().nullable().describe("Module description"),
+  display_order: z.number().int().optional().nullable().describe("Display order"),
+  is_published: z.boolean().optional().nullable().describe("Is module published"),
+  is_locked: z.boolean().optional().nullable().describe("Is module locked"),
 });
 
-export type Module = z.infer<typeof moduleSchema>;
+export const UpdateModuleSchema = CreateModuleSchema.partial();
+
+export class CreateModuleDto extends createZodDto(CreateModuleSchema) {}
+export class UpdateModuleDto extends createZodDto(UpdateModuleSchema) {}

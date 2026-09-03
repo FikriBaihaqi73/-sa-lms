@@ -18,5 +18,4 @@ export const UpdateScheduleSchema = z.object({
 });
 
 export class CreateScheduleDto extends createZodDto(CreateScheduleSchema) {}
-
 export class UpdateScheduleDto extends createZodDto(UpdateScheduleSchema) {}

@@ -1,5 +1,4 @@
 import { createZodDto } from "nestjs-zod";
-
 import { z } from "zod";
 
 export const createNationalitySchema = z.object({
@@ -12,7 +11,6 @@ export const updateNationalitySchema = createNationalitySchema.partial();
 export class CreateNationalityDto extends createZodDto(
   createNationalitySchema,
 ) {}
-
 export class UpdateNationalityDto extends createZodDto(
   updateNationalitySchema,
 ) {}
