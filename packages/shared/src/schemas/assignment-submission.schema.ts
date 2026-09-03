@@ -45,9 +45,6 @@ export const UpdateAssignmentSubmissionSchema = z.object({
 		.describe("Date and time when the submission was graded"),
 });
 
-export const createAssignmentSubmissionSchema = CreateAssignmentSubmissionSchema;
-export const updateAssignmentSubmissionSchema = UpdateAssignmentSubmissionSchema;
-
 export class CreateAssignmentSubmissionDto extends createZodDto(
 	CreateAssignmentSubmissionSchema,
 ) {}

@@ -31,4 +31,5 @@ export * from "#schemas/subject.schema";
 export * from "#schemas/teacher.schema";
 export * from "#schemas/teaching-journal.schema";
 export * from "#schemas/user.schema";
-export * from "#schemas/user.schema";
+export * from "#schemas/file.schema";
+export * from "#schemas/study-result.schema";

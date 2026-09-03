@@ -57,8 +57,5 @@ export const CreateStudentGradeSchema = z.object({
 
 export const UpdateStudentGradeSchema = CreateStudentGradeSchema.partial();
 
-export const createStudentGradeSchema = CreateStudentGradeSchema;
-export const updateStudentGradeSchema = UpdateStudentGradeSchema;
-
 export class CreateStudentGradeDto extends createZodDto(CreateStudentGradeSchema) {}
 export class UpdateStudentGradeDto extends createZodDto(UpdateStudentGradeSchema) {}

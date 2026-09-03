@@ -29,8 +29,5 @@ export const CreateSubjectSchema = z.object({
 
 export const UpdateSubjectSchema = CreateSubjectSchema.partial();
 
-export const createSubjectSchema = CreateSubjectSchema;
-export const updateSubjectSchema = UpdateSubjectSchema;
-
 export class CreateSubjectDto extends createZodDto(CreateSubjectSchema) {}
 export class UpdateSubjectDto extends createZodDto(UpdateSubjectSchema) {}

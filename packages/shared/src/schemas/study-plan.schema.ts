@@ -1,13 +1,13 @@
+import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
-export const studyPlanSchema = z.object({
-  id: z.string().uuid(),
-  created_at: z.date(),
-  updated_at: z.date(),
-  deleted_at: z.date().nullable(),
-  student_id: z.string().uuid(),
-  class_subject_id: z.string().uuid(),
-  academic_year_id: z.string().uuid(),
+export const CreateStudyPlanSchema = z.object({
+  student_id: z.string().uuid().describe("Student ID"),
+  class_subject_id: z.string().uuid().describe("Class subject ID"),
+  academic_year_id: z.string().uuid().describe("Academic year ID"),
 });
 
-export type StudyPlan = z.infer<typeof studyPlanSchema>;
+export const UpdateStudyPlanSchema = CreateStudyPlanSchema.partial();
+
+export class CreateStudyPlanDto extends createZodDto(CreateStudyPlanSchema) {}
+export class UpdateStudyPlanDto extends createZodDto(UpdateStudyPlanSchema) {}

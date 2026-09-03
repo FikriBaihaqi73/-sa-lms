@@ -1,9 +1,15 @@
+import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
-export const specializationSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string(),
-  code: z.string(),
+export const CreateSpecializationSchema = z.object({
+  name: z.string().min(1).describe("Specialization name"),
+  description: z
+    .string()
+    .optional()
+    .describe("Specialization description"),
 });
 
-export type Specialization = z.infer<typeof specializationSchema>;
+export const UpdateSpecializationSchema = CreateSpecializationSchema.partial();
+
+export class CreateSpecializationDto extends createZodDto(CreateSpecializationSchema) {}
+export class UpdateSpecializationDto extends createZodDto(UpdateSpecializationSchema) {}

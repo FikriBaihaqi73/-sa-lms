@@ -34,8 +34,5 @@ export const CreateExaminationScoreSchema = z.object({
 
 export const UpdateExaminationScoreSchema = CreateExaminationScoreSchema.partial();
 
-export const createExaminationScoreSchema = CreateExaminationScoreSchema;
-export const updateExaminationScoreSchema = UpdateExaminationScoreSchema;
-
 export class CreateExaminationScoreDto extends createZodDto(CreateExaminationScoreSchema) {}
 export class UpdateExaminationScoreDto extends createZodDto(UpdateExaminationScoreSchema) {}
