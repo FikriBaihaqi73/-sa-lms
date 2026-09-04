@@ -4,3 +4,8 @@ export * from "#entities/student.entity";
 export * from "#entities/guardian.entity";
 export * from "#entities/student-guardian.entity";
 export * from "#entities/class.entity";
+export * from "#entities/class-student.entity";
+export * from "#entities/subject.entity";
+export * from "#entities/class-subjects.entity";
+export * from "#entities/schedule.entity";
+export * from "#entities/attendance.entity";
