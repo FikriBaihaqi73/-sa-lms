@@ -14,3 +14,8 @@ export * from "#entities/study-plan.entity";
 export * from "#entities/module.entity";
 export * from "#entities/module-content.entity";
 export * from "#entities/assignment.entity";
+export * from "#entities/assignment-submission.entity";
+export * from "#entities/examination.entity";
+export * from "#entities/examination-score.entity";
+export * from "#entities/student-grade.entity";
+export * from "#entities/study-result.entity";
