@@ -11,10 +11,7 @@ export const CreateAnnouncementSchema = z.object({
     .min(1, "Title is required")
     .max(255, "Title must not exceed 255 characters")
     .describe("Title of the announcement"),
-  content: z
-    .string()
-    .optional()
-    .describe("Content of the announcement"),
+  content: z.string().optional().describe("Content of the announcement"),
   isPublished: z
     .boolean()
     .optional()
@@ -36,5 +33,9 @@ export const UpdateAnnouncementSchema = CreateAnnouncementSchema.partial();
 export const createAnnouncementSchema = CreateAnnouncementSchema;
 export const updateAnnouncementSchema = UpdateAnnouncementSchema;
 
-export class CreateAnnouncementDto extends createZodDto(CreateAnnouncementSchema) {}
-export class UpdateAnnouncementDto extends createZodDto(UpdateAnnouncementSchema) {}
+export class CreateAnnouncementDto extends createZodDto(
+  CreateAnnouncementSchema,
+) {}
+export class UpdateAnnouncementDto extends createZodDto(
+  UpdateAnnouncementSchema,
+) {}

@@ -47,6 +47,23 @@ When implementing a new feature or entity, follow this specific sequence in `@re
     - Test files must be located in the same directory as the implementation with the `.spec.ts` suffix.
     - Ensure a high test coverage for business logic.
 
+### Entity Implementation Pattern (Example: `roles` table)
+Entities reside in `packages/shared/src/entities/` and define response/domain payload types derived from Prisma selection objects defined in `packages/shared/src/selects/`.
+
+*Example (`packages/shared/src/entities/role.entity.ts`)*:
+```typescript
+import type { Prisma } from "#generated/client";
+import { roleSelect } from "../selects/role.select";
+
+// Tipe balikan untuk satu objek Role
+export type RoleEntity = Prisma.RoleGetPayload<{
+  select: typeof roleSelect;
+}>;
+
+// Tipe balikan jika datanya berupa Array (untuk list)
+export type RoleListEntity = RoleEntity[];
+```
+
 ## 7. Operational Rules
 
 ### A. Dependency Management

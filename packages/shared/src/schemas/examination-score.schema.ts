@@ -32,7 +32,12 @@ export const CreateExaminationScoreSchema = z.object({
     .describe("Date and time when the examination was graded"),
 });
 
-export const UpdateExaminationScoreSchema = CreateExaminationScoreSchema.partial();
+export const UpdateExaminationScoreSchema =
+  CreateExaminationScoreSchema.partial();
 
-export class CreateExaminationScoreDto extends createZodDto(CreateExaminationScoreSchema) {}
-export class UpdateExaminationScoreDto extends createZodDto(UpdateExaminationScoreSchema) {}
+export class CreateExaminationScoreDto extends createZodDto(
+  CreateExaminationScoreSchema,
+) {}
+export class UpdateExaminationScoreDto extends createZodDto(
+  UpdateExaminationScoreSchema,
+) {}

@@ -49,13 +49,14 @@ export const CreateStudentGradeSchema = z.object({
     .uuid("Invalid grade ID format")
     .optional()
     .describe("ID of the grade letter"),
-  remarks: z
-    .string()
-    .optional()
-    .describe("Additional remarks about the grade"),
+  remarks: z.string().optional().describe("Additional remarks about the grade"),
 });
 
 export const UpdateStudentGradeSchema = CreateStudentGradeSchema.partial();
 
-export class CreateStudentGradeDto extends createZodDto(CreateStudentGradeSchema) {}
-export class UpdateStudentGradeDto extends createZodDto(UpdateStudentGradeSchema) {}
+export class CreateStudentGradeDto extends createZodDto(
+  CreateStudentGradeSchema,
+) {}
+export class UpdateStudentGradeDto extends createZodDto(
+  UpdateStudentGradeSchema,
+) {}

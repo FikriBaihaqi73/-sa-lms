@@ -28,8 +28,8 @@ export const CreateFileSchema = z.object({
     .optional()
     .nullable()
     .describe("MIME type (e.g. image/jpeg)"),
-  file_size: z
-    .coerce.number()
+  file_size: z.coerce
+    .number()
     .int()
     .nonnegative()
     .optional()

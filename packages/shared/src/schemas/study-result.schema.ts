@@ -45,5 +45,9 @@ export const CreateStudyResultSchema = z.object({
 
 export const UpdateStudyResultSchema = CreateStudyResultSchema.partial();
 
-export class CreateStudyResultDto extends createZodDto(CreateStudyResultSchema) {}
-export class UpdateStudyResultDto extends createZodDto(UpdateStudyResultSchema) {}
+export class CreateStudyResultDto extends createZodDto(
+  CreateStudyResultSchema,
+) {}
+export class UpdateStudyResultDto extends createZodDto(
+  UpdateStudyResultSchema,
+) {}

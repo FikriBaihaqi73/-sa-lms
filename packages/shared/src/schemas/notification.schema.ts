@@ -2,10 +2,7 @@ import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
 export const CreateNotificationSchema = z.object({
-  userId: z
-    .string()
-    .uuid("Invalid user ID format")
-    .describe("ID of the user"),
+  userId: z.string().uuid("Invalid user ID format").describe("ID of the user"),
   title: z
     .string()
     .min(1, "Title is required")
@@ -31,5 +28,9 @@ export const UpdateNotificationSchema = CreateNotificationSchema.partial();
 export const createNotificationSchema = CreateNotificationSchema;
 export const updateNotificationSchema = UpdateNotificationSchema;
 
-export class CreateNotificationDto extends createZodDto(CreateNotificationSchema) {}
-export class UpdateNotificationDto extends createZodDto(UpdateNotificationSchema) {}
+export class CreateNotificationDto extends createZodDto(
+  CreateNotificationSchema,
+) {}
+export class UpdateNotificationDto extends createZodDto(
+  UpdateNotificationSchema,
+) {}
