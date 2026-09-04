@@ -35,3 +35,5 @@ export * from "#schemas/teaching-journal.schema";
 export * from "#schemas/user.schema";
 export * from "#schemas/file.schema";
 export * from "#schemas/study-result.schema";
+export * from "#schemas/semester.schema";
+export * from "#schemas/classroom.schema";
