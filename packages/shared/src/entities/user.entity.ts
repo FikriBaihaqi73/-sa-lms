@@ -1,8 +1,5 @@
 import type { Prisma } from "#generated/client";
-import {
-  userSelect,
-  userWithPasswordSelect,
-} from "#selects/user.select";
+import { userSelect, userWithPasswordSelect } from "#selects/user.select";
 
 export type UserEntity = Prisma.UsersGetPayload<{
   select: typeof userSelect;

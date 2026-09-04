@@ -3,9 +3,7 @@ import { z } from "zod";
 
 export const CreateSubjectPrerequisiteSchema = z.object({
   subjectId: z.uuid().describe("Subject ID"),
-  prerequisiteSubjectId: z
-    .uuid()
-    .describe("Prerequisite subject ID"),
+  prerequisiteSubjectId: z.uuid().describe("Prerequisite subject ID"),
 });
 
 export const UpdateSubjectPrerequisiteSchema = z.object({

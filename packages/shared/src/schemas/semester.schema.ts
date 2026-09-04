@@ -16,10 +16,6 @@ export const CreateSemesterSchema = z.object({
 
 export const UpdateSemesterSchema = CreateSemesterSchema.partial();
 
-export class CreateSemesterDto extends createZodDto(
-  CreateSemesterSchema,
-) {}
+export class CreateSemesterDto extends createZodDto(CreateSemesterSchema) {}
 
-export class UpdateSemesterDto extends createZodDto(
-  UpdateSemesterSchema,
-) {}
+export class UpdateSemesterDto extends createZodDto(UpdateSemesterSchema) {}
