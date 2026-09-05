@@ -25,3 +25,9 @@ export * from "#entities/employment-status.entity";
 export * from "#entities/file.entity";
 export * from "#entities/announcement.entity";
 export * from "#entities/notification.entity";
+export * from "#entities/file.entity";
+export * from "#entities/announcement.entity";
+export * from "#entities/notification.entity";
+export * from "#entities/activity-log.entity";
+export * from "#entities/setting.entity";
+
