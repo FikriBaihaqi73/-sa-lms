@@ -30,4 +30,6 @@ export * from "#entities/announcement.entity";
 export * from "#entities/notification.entity";
 export * from "#entities/activity-log.entity";
 export * from "#entities/setting.entity";
-
+export * from "#entities/grades.entity";
+export * from "#entities/religions.entity";
+export * from "#entities/semester.entity";

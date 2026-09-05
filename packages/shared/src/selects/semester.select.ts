@@ -13,6 +13,3 @@ export const semesterSelect = {
 
 export type SemesterSelectType = typeof semesterSelect;
 
-export type SemesterEntity = Prisma.SemestersGetPayload<{
-  select: SemesterSelectType;
-}>;
