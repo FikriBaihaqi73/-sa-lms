@@ -22,3 +22,6 @@ export * from "#entities/study-result.entity";
 export * from "#entities/academic-year.entity";
 export * from "#entities/academic-status.entity";
 export * from "#entities/employment-status.entity";
+export * from "#entities/file.entity";
+export * from "#entities/announcement.entity";
+export * from "#entities/notification.entity";
