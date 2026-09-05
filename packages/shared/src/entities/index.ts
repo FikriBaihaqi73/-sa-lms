@@ -33,3 +33,4 @@ export * from "#entities/setting.entity";
 export * from "#entities/grades.entity";
 export * from "#entities/religions.entity";
 export * from "#entities/semester.entity";
+export * from "#entities/class-announcement.entity";
