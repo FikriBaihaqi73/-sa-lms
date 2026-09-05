@@ -8,6 +8,3 @@ export const religionSelect = {
   deleted_at: true,
 } satisfies Prisma.ReligionSelect;
 
-export type ReligionEntity = Prisma.ReligionGetPayload<{
-  select: typeof religionSelect;
-}>;
