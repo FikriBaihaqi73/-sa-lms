@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "tsx src/index.ts",
+    "dev": "npx tsx src/index.ts",
     "build": "swc src -d dist",
     "start": "node dist/index.js"
   },
