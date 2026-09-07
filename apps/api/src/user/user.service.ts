@@ -37,7 +37,13 @@ export class UserService {
 
   async update(id: string, dto: UpdateUserDto) {
     await this.findOne(id);
-    return this.userRepository.update(id, dto);
+    const { last_login, ...rest } = dto;
+    return this.userRepository.update(id, {
+      ...rest,
+      ...(last_login !== undefined
+        ? { last_login: last_login ? new Date(last_login) : null }
+        : {}),
+    });
   }
 
   async remove(id: string) {
