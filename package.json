@@ -4,7 +4,8 @@
   "private": true,
   "description": "NestJS Monorepo Boilerplate",
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "pnpm --filter @repo/api dev",
+    "dev:all": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "turbo run format",
