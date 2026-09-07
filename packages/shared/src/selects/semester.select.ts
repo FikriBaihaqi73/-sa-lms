@@ -12,4 +12,3 @@ export const semesterSelect = {
 } satisfies Prisma.SemestersSelect;
 
 export type SemesterSelectType = typeof semesterSelect;
-

@@ -7,4 +7,3 @@ export const religionSelect = {
   updated_at: true,
   deleted_at: true,
 } satisfies Prisma.ReligionSelect;
-

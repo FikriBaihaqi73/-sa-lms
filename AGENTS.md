@@ -73,11 +73,11 @@ export type RoleListEntity = RoleEntity[];
 
 ### B. Naming Conventions
 - Internal packages/apps must use the `@repo/` prefix in `package.json`.
-- File naming: use kebab-case (e.g., `user.repository.ts`, `create-user.schema.ts`).
+- File naming: use kebab-case (e.g., `role.repository.ts`, `role.schema.ts`).
 
 ### C. Import Guidelines
 - **Prisma Client**: Always import from `#generated/client` (not `@prisma/client`).
-- **Shared Package**: Use sub-path aliases like `@repo/shared/schemas/user.schema` instead of long relative paths.
+- **Shared Package**: Use sub-path aliases like `@repo/shared/schemas/role.schema` instead of long relative paths.
 - **Type vs Value**: 
     - Use `import type { ... }` for interfaces, types, and Prisma payloads.
     - Use regular `import { ... }` for **Classes (DTOs)**, Services, and Repositories to ensure NestJS metadata reflection works.
@@ -88,12 +88,12 @@ export type RoleListEntity = RoleEntity[];
 - The main configuration resides in `packages/shared/src/prisma/schema.prisma`.
 - The main configuration must be minimalist: no `url` in `datasource` and use `provider = "prisma-client"`.
 - Individual models MUST be placed in `packages/shared/src/prisma/schema/*.prisma`.
-- **Naming Conventions**: Use `snake_case` for database fields and plural names for models (e.g., `Users`).
+- **Naming Conventions**: Use `snake_case` for database fields and plural names for models (e.g., `Roles`).
 - **Database Types**: Always use explicit database types (e.g., `@db.Uuid`, `@db.Timestamp`, `@db.VarChar`).
 - **Mandatory Inspection**: Before implementing any repository or logic, the AI MUST inspect the entire `packages/shared/src/prisma/schema/` directory to understand the complete data model and relationships.
 
 ### E. Modular NestJS Architecture
-- Use feature modules for every domain (e.g., `UserModule` for `User`).
+- Use feature modules for every domain (e.g., `RoleModule` for `Role`).
 - Every feature folder in `apps/*/src/` MUST contain its own `.module.ts` file.
 - **Inter-module Communication**: If a service needs to call logic from another module, import that module in the current module's `imports` array and the main `AppModule`.
 - Always export services that are needed by other modules in the `exports` array.

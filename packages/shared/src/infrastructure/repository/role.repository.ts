@@ -3,12 +3,12 @@ import { type RoleEntity, roleSelect } from "#selects/role.select";
 
 export interface CreateRoleInput {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 
 export interface UpdateRoleInput {
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 
 export class RoleRepository {
