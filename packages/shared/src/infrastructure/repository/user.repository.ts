@@ -9,7 +9,6 @@ import {
 export interface CreateUserInput {
   role_id: string;
   username: string;
-  email: string;
   password: string;
   is_active?: boolean | undefined;
 }
@@ -17,7 +16,6 @@ export interface CreateUserInput {
 export interface UpdateUserInput {
   role_id?: string | undefined;
   username?: string | undefined;
-  email?: string | undefined;
   password?: string | undefined;
   is_active?: boolean | undefined;
   last_login?: Date | null | undefined;
@@ -31,7 +29,6 @@ export class UserRepository {
       data: {
         role_id: data.role_id,
         username: data.username,
-        email: data.email,
         password: data.password,
         ...(data.is_active !== undefined && {
           is_active: data.is_active,
@@ -55,16 +52,6 @@ export class UserRepository {
     return this.prisma.users.findFirst({
       where: {
         username,
-        deleted_at: null,
-      },
-      select: userSelect,
-    });
-  }
-
-  async findByEmail(email: string): Promise<UserEntity | null> {
-    return this.prisma.users.findFirst({
-      where: {
-        email,
         deleted_at: null,
       },
       select: userSelect,
@@ -101,9 +88,6 @@ export class UserRepository {
         }),
         ...(data.username !== undefined && {
           username: data.username,
-        }),
-        ...(data.email !== undefined && {
-          email: data.email,
         }),
         ...(data.password !== undefined && {
           password: data.password,

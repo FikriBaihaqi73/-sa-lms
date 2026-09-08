@@ -4,7 +4,6 @@ import { z } from "zod";
 export const CreateUserSchema = z.object({
   role_id: z.string().uuid().describe("Role ID (UUID) of the user"),
   username: z.string().min(3).max(50).describe("Unique username for login"),
-  email: z.email().describe("Unique email address of the user"),
   password: z.string().min(8).describe("User password (min 8 characters)"),
   is_active: z
     .boolean()
