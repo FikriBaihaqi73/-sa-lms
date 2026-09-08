@@ -7,9 +7,8 @@ model Users {
 
   // attributes
   role_id    String    @db.Uuid
-  username   String    @unique @db.VarChar(255)
-  email      String    @unique @db.VarChar(255)
-  password   String    @db.VarChar(255)
+  username   String    @unique @db.VarChar
+  password   String    @db.VarChar
   is_active  Boolean   @default(true)
   last_login DateTime? @db.Timestamp
 
