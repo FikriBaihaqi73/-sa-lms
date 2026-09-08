@@ -64,19 +64,21 @@ pnpm prisma:migrate
 ```
 
 ### 4. Running Locally
-Run all workspace applications in parallel development mode:
+Build the shared package after a Prisma or shared-code change, then run the API:
 ```bash
-pnpm dev
+pnpm --filter @repo/shared build
+pnpm --filter @repo/api dev
 ```
-The NestJS API will be available at: `http://localhost:3000`.
+The NestJS API will be available at: `http://localhost:5000` by default. Set
+`PORT` to override it.
 
 ---
 
 ## 🔌 API Documentation (RapiDoc)
 
 We use **RapiDoc** for clean, fast, and structured API documentation.
-- **Interactive UI**: `http://localhost:3000/api`
-- **JSON Specification**: `http://localhost:3000/api-json`
+- **Interactive UI**: `http://localhost:5000/api`
+- **JSON Specification**: `http://localhost:5000/api-json`
 
 *Note: All endpoints are documented utilizing DTOs powered by Zod `.describe()`, ensuring exact, self-updating type schemas.*
 
