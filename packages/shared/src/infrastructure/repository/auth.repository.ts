@@ -45,11 +45,9 @@ export class AuthRepository {
     });
   }
 
-  async findLoginUser(
-    username: string,
-  ): Promise<UserWithPasswordEntity | null> {
+  async findLoginUser(email: string): Promise<UserWithPasswordEntity | null> {
     return this.prisma.users.findFirst({
-      where: { username, deleted_at: null },
+      where: { email, deleted_at: null },
       select: userWithPasswordSelect,
     });
   }
@@ -58,6 +56,25 @@ export class AuthRepository {
     return this.prisma.users.update({
       where: { id },
       data: { last_login: new Date() },
+      select: userSelect,
+    });
+  }
+
+  async updateAccessToken(
+    id: string,
+    accessToken: string,
+  ): Promise<UserEntity> {
+    return this.prisma.users.update({
+      where: { id },
+      data: { access_token: accessToken },
+      select: userSelect,
+    });
+  }
+
+  async clearAccessToken(id: string): Promise<UserEntity> {
+    return this.prisma.users.update({
+      where: { id },
+      data: { access_token: null },
       select: userSelect,
     });
   }

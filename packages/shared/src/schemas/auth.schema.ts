@@ -25,17 +25,21 @@ export const RegisterSchema = z.object({
 export class RegisterDto extends createZodDto(RegisterSchema) {}
 
 export const LoginSchema = z.object({
-  username: z
-    .string()
-    .trim()
-    .min(1, "Username is required")
-    .max(50, "Username must not exceed 50 characters")
-    .describe("Registered username"),
+  email: z
+    .email("Email format is invalid")
+    .max(255, "Email must not exceed 255 characters")
+    .describe("Registered email address"),
   password: z
     .string()
-    .min(1, "Password is required")
+    .min(8, "Password must contain at least 8 characters")
     .max(128, "Password must not exceed 128 characters")
     .describe("Account password"),
 });
 
 export class LoginDto extends createZodDto(LoginSchema) {}
+
+export const LogoutSchema = z
+  .object({})
+  .describe("Empty body for logout request");
+
+export class LogoutDto extends createZodDto(LogoutSchema) {}
