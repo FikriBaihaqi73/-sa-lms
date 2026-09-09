@@ -13,7 +13,7 @@ export interface CreatePermissionInput {
 export interface UpdatePermissionInput {
   name?: string;
   module?: string;
-  description?: string;
+  description?: string | null;
 }
 
 export class PermissionRepository {
@@ -31,8 +31,8 @@ export class PermissionRepository {
   }
 
   async findById(id: string): Promise<PermissionEntity | null> {
-    return this.prisma.permission.findUnique({
-      where: { id },
+    return this.prisma.permission.findFirst({
+      where: { id, deletedAt: null },
       select: permissionSelect,
     });
   }

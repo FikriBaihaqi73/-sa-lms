@@ -28,8 +28,8 @@ export class RolePermissionRepository {
   }
 
   async findById(id: string): Promise<RolePermissionEntity | null> {
-    return this.prisma.rolePermission.findUnique({
-      where: { id },
+    return this.prisma.rolePermission.findFirst({
+      where: { id, deletedAt: null },
       select: rolePermissionSelect,
     });
   }
@@ -53,6 +53,16 @@ export class RolePermissionRepository {
   ): Promise<RolePermissionEntity[]> {
     return this.prisma.rolePermission.findMany({
       where: { permissionId, deletedAt: null },
+      select: rolePermissionSelect,
+    });
+  }
+
+  async findByRoleAndPermission(
+    roleId: string,
+    permissionId: string,
+  ): Promise<RolePermissionEntity | null> {
+    return this.prisma.rolePermission.findFirst({
+      where: { roleId, permissionId, deletedAt: null },
       select: rolePermissionSelect,
     });
   }
