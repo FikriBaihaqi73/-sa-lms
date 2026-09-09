@@ -74,8 +74,8 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
-    const username = dto.username.toLowerCase();
-    const user = await this.authRepository.findLoginUser(username);
+    const email = dto.email.toLowerCase();
+    const user = await this.authRepository.findLoginUser(email);
     if (
       !user ||
       !user.is_active ||
