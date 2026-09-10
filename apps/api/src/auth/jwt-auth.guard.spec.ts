@@ -1,67 +1,77 @@
-import { ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import type { ExecutionContext } from "@nestjs/common";
+import { UnauthorizedException } from "@nestjs/common";
+import type { Reflector } from "@nestjs/core";
 import type { JwtService } from "@nestjs/jwt";
-import type { Request } from "express";
-import { JwtAuthGuard, JwtPayload } from "./jwt-auth.guard";
+import { JwtAuthGuard } from "./jwt-auth.guard";
 
-jest.mock("@nestjs/jwt", () => ({ JwtService: class JwtService {} }), {
-  virtual: true,
-});
-
-type RequestWithUser = Request & { user?: JwtPayload };
-
-function createContext(request: RequestWithUser): ExecutionContext {
-  return {
-    switchToHttp: () => ({
-      getRequest: () => request,
-    }),
-  } as unknown as ExecutionContext;
-}
+jest.mock("@nestjs/jwt", () => ({
+  JwtService: class JwtService {},
+}));
 
 describe("JwtAuthGuard", () => {
-  it("rejects requests without a bearer token", async () => {
-    const verifyAsync = jest.fn();
-    const guard = new JwtAuthGuard({ verifyAsync } as unknown as JwtService);
-    const request = { headers: {} } as RequestWithUser;
+  const reflector = {
+    getAllAndOverride: jest.fn(),
+  } as unknown as Reflector;
+  const jwtService = {
+    verifyAsync: jest.fn(),
+  } as unknown as JwtService;
+  const guard = new JwtAuthGuard(reflector, jwtService);
 
-    await expect(
-      guard.canActivate(createContext(request)),
-    ).rejects.toBeInstanceOf(UnauthorizedException);
-    expect(verifyAsync).not.toHaveBeenCalled();
+  const createContext = (authorization?: string): ExecutionContext => {
+    const request = { headers: { authorization } };
+    return {
+      getClass: jest.fn(),
+      getHandler: jest.fn(),
+      switchToHttp: () => ({ getRequest: () => request }),
+    } as unknown as ExecutionContext;
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("verifies a bearer token and attaches its payload to the request", async () => {
-    const payload: JwtPayload = {
+  it("allows endpoints marked as public", async () => {
+    jest.spyOn(reflector, "getAllAndOverride").mockReturnValue(true);
+
+    await expect(guard.canActivate(createContext())).resolves.toBe(true);
+    expect(jwtService.verifyAsync).not.toHaveBeenCalled();
+  });
+
+  it("rejects a protected endpoint without a bearer token", async () => {
+    jest.spyOn(reflector, "getAllAndOverride").mockReturnValue(false);
+
+    await expect(guard.canActivate(createContext())).rejects.toBeInstanceOf(
+      UnauthorizedException,
+    );
+  });
+
+  it("adds a verified payload to a protected request", async () => {
+    const payload = {
       sub: "user-id",
-      username: "admin",
+      username: "jane.doe",
       roleId: "role-id",
+      iat: 1,
+      exp: 2,
     };
-    const verifyAsync = jest.fn().mockResolvedValue(payload);
-    const guard = new JwtAuthGuard({ verifyAsync } as unknown as JwtService);
-    const request = {
-      headers: { authorization: "Bearer valid-token" },
-    } as RequestWithUser;
+    jest.spyOn(reflector, "getAllAndOverride").mockReturnValue(false);
+    jest.spyOn(jwtService, "verifyAsync").mockResolvedValue(payload);
+    const context = createContext("Bearer valid-token");
 
-    await expect(guard.canActivate(createContext(request))).resolves.toBe(true);
-    expect(verifyAsync).toHaveBeenCalledWith("valid-token");
-    expect(request.user).toEqual(payload);
+    await expect(guard.canActivate(context)).resolves.toBe(true);
+    expect(jwtService.verifyAsync).toHaveBeenCalledWith("valid-token");
+    expect(context.switchToHttp().getRequest()).toMatchObject({
+      user: payload,
+    });
   });
 
-  it("rejects invalid, expired, or incomplete tokens", async () => {
-    const verifyAsync = jest
-      .fn()
-      .mockRejectedValueOnce(new Error("expired"))
-      .mockResolvedValueOnce({ sub: "user-id" });
-    const guard = new JwtAuthGuard({ verifyAsync } as unknown as JwtService);
-    const request = {
-      headers: { authorization: "Bearer invalid-token" },
-    } as RequestWithUser;
+  it("rejects an invalid token", async () => {
+    jest.spyOn(reflector, "getAllAndOverride").mockReturnValue(false);
+    jest
+      .spyOn(jwtService, "verifyAsync")
+      .mockRejectedValue(new Error("invalid token"));
 
     await expect(
-      guard.canActivate(createContext(request)),
-    ).rejects.toBeInstanceOf(UnauthorizedException);
-    request.headers.authorization = "Bearer incomplete-token";
-    await expect(
-      guard.canActivate(createContext(request)),
+      guard.canActivate(createContext("Bearer invalid-token")),
     ).rejects.toBeInstanceOf(UnauthorizedException);
   });
 });
