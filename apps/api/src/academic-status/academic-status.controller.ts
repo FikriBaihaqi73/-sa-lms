@@ -6,17 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateAcademicStatusDto,
   UpdateAcademicStatusDto,
 } from "@repo/shared/schemas/academic-status.schema";
 import { ZodValidationPipe } from "nestjs-zod";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { AcademicStatusService } from "./academic-status.service";
 
 @ApiTags("Academic Statuses")
+@ApiBearerAuth("JWT-auth")
+@UseGuards(JwtAuthGuard)
 @Controller("academic-statuses")
 export class AcademicStatusController {
   constructor(private readonly academicStatusService: AcademicStatusService) {}

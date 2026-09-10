@@ -5,20 +5,20 @@ export interface CreateModuleInput {
   created_by?: string;
   class_subject_id: string;
   title: string;
-  description?: string;
-  display_order?: number;
-  is_published?: boolean;
-  is_locked?: boolean;
+  description?: string | null;
+  display_order?: number | null;
+  is_published?: boolean | null;
+  is_locked?: boolean | null;
 }
 
 export interface UpdateModuleInput {
   updated_by?: string;
   class_subject_id?: string;
   title?: string;
-  description?: string;
-  display_order?: number;
-  is_published?: boolean;
-  is_locked?: boolean;
+  description?: string | null;
+  display_order?: number | null;
+  is_published?: boolean | null;
+  is_locked?: boolean | null;
 }
 
 export class ModuleRepository {

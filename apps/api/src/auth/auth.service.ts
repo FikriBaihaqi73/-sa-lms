@@ -16,6 +16,10 @@ const SCRYPT_BLOCK_SIZE = 8;
 const SCRYPT_PARALLELIZATION = 1;
 const KEY_LENGTH = 64;
 
+interface AccessTokenPayload {
+  sub?: unknown;
+}
+
 function isUniqueConstraintViolation(error: unknown): boolean {
   return (
     typeof error === "object" &&
@@ -84,12 +88,16 @@ export class AuthService {
       throw new UnauthorizedException("Invalid credentials");
     }
 
-    const updatedUser = await this.authRepository.updateLastLogin(user.id);
+    await this.authRepository.updateLastLogin(user.id);
     const accessToken = await this.jwtService.signAsync({
       sub: user.id,
       username: user.username,
       roleId: user.role_id,
     });
+    const updatedUser = await this.authRepository.updateAccessToken(
+      user.id,
+      accessToken,
+    );
 
     return {
       accessToken,
@@ -97,6 +105,49 @@ export class AuthService {
       expiresIn: 900,
       user: updatedUser,
     };
+  }
+
+  async logout(authorization?: string) {
+    const accessToken = this.extractAccessToken(authorization);
+    let payload: AccessTokenPayload;
+    try {
+      payload =
+        await this.jwtService.verifyAsync<AccessTokenPayload>(accessToken);
+    } catch {
+      throw new UnauthorizedException("Invalid access token");
+    }
+
+    if (typeof payload.sub !== "string") {
+      throw new UnauthorizedException("Invalid access token");
+    }
+
+    const user = await this.authRepository.findActiveUserByAccessToken(
+      payload.sub,
+      accessToken,
+    );
+    if (!user) {
+      throw new UnauthorizedException("Invalid access token");
+    }
+
+    await this.authRepository.clearAccessToken(user.id);
+    return { success: true };
+  }
+
+  private extractAccessToken(authorization?: string): string {
+    if (!authorization) {
+      throw new UnauthorizedException("Invalid access token");
+    }
+
+    const [scheme, accessToken, ...remaining] = authorization.split(" ");
+    if (
+      !scheme ||
+      scheme.toLowerCase() !== "bearer" ||
+      !accessToken ||
+      remaining.length > 0
+    ) {
+      throw new UnauthorizedException("Invalid access token");
+    }
+    return accessToken;
   }
 
   private async hashPassword(password: string): Promise<string> {

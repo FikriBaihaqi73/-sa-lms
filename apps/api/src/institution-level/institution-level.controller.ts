@@ -6,17 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateInstitutionLevelDto,
   UpdateInstitutionLevelDto,
 } from "@repo/shared/schemas/institution-level.schema";
 import { ZodValidationPipe } from "nestjs-zod";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { InstitutionLevelService } from "./institution-level.service";
 
 @ApiTags("Institution Levels")
+@ApiBearerAuth("JWT-auth")
+@UseGuards(JwtAuthGuard)
 @Controller("institution-levels")
 export class InstitutionLevelController {
   constructor(
