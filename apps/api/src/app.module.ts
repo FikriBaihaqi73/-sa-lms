@@ -15,6 +15,7 @@ import { PermissionModule } from "./permission/permission.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RoleModule } from "./role/role.module";
 import { RolePermissionModule } from "./role-permission/role-permission.module";
+import { SpecializationModule } from "./specialization/specialization.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 
@@ -28,7 +29,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     AcademicYearModule,
     AcademicStatusModule,
     AttendanceStatusModule,
-    AuthModule,
+    SpecializationModule,
     AuthModule,
     AttendanceModule,
     StudyPlanModule,
