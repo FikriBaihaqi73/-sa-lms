@@ -6,7 +6,7 @@ model Institution {
   deletedAt DateTime? @map("deleted_at")
 
   // attributes
-  institutionLevelId String  @map("institution_level_id") @db.Uuid
+  institutionLevelId String? @map("institution_level_id") @db.Uuid
   name               String  @db.VarChar(255)
   shortName          String? @map("short_name") @db.VarChar(255)
   address            String?
@@ -19,7 +19,7 @@ model Institution {
   logoUrl            String? @map("logo_url")
 
   // relations
-  institutionLevel InstitutionLevel @relation(fields: [institutionLevelId], references: [id])
+  institutionLevel InstitutionLevel? @relation(fields: [institutionLevelId], references: [id])
   profiles         Profile[]
   classes          Classes[]
   subjects         Subject[]

@@ -22,6 +22,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
 @Module({
   imports: [
     PrismaModule,
+    AuthModule,
     RoleModule,
     PermissionModule,
     RolePermissionModule,
@@ -30,7 +31,6 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     AcademicStatusModule,
     AttendanceStatusModule,
     SpecializationModule,
-    AuthModule,
     AttendanceModule,
     StudyPlanModule,
     LearningModuleModule,

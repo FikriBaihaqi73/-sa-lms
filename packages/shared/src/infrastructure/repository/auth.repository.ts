@@ -8,21 +8,12 @@ import {
 } from "#selects/user.select";
 
 export interface CreateAuthenticatedUserInput {
-  role_id: string;
-  username: string;
   email: string;
   password: string;
 }
 
 export class AuthRepository {
   constructor(private readonly prisma: PrismaClient) {}
-
-  async findUserByUsername(username: string): Promise<UserEntity | null> {
-    return this.prisma.users.findFirst({
-      where: { username, deleted_at: null },
-      select: userSelect,
-    });
-  }
 
   async findUserByEmail(email: string): Promise<UserEntity | null> {
     return this.prisma.users.findFirst({
@@ -91,6 +82,38 @@ export class AuthRepository {
       where: { id },
       data: { access_token: null },
       select: userSelect,
+    });
+  }
+
+  async registerInstitutionOwner(
+    userPayload: CreateAuthenticatedUserInput,
+    institutionName: string,
+    roleId: string,
+  ): Promise<UserEntity> {
+    return this.prisma.$transaction(async (tx) => {
+      const user = await tx.users.create({
+        data: { ...userPayload, is_active: true },
+      });
+
+      const institution = await tx.institution.create({
+        data: {
+          name: institutionName,
+        },
+      });
+
+      await tx.profile.create({
+        data: {
+          userId: user.id,
+          institutionId: institution.id,
+          roleId: roleId,
+          fullName: "Institution Admin",
+        },
+      });
+
+      return tx.users.findUniqueOrThrow({
+        where: { id: user.id },
+        select: userSelect,
+      });
     });
   }
 }

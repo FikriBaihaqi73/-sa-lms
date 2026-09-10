@@ -2,8 +2,6 @@ import type { Prisma } from "#generated/client";
 
 export const userSelect = {
   id: true,
-  role_id: true,
-  username: true,
   email: true,
   access_token: true,
   is_active: true,

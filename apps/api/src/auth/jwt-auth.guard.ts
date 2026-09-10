@@ -13,8 +13,7 @@ import { IS_PUBLIC_KEY } from "./public.decorator";
 
 interface JwtPayload {
   sub: string;
-  username: string;
-  roleId: string;
+  email: string;
   iat: number;
   exp: number;
 }

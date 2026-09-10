@@ -53,8 +53,7 @@ describe("JwtAuthGuard", () => {
   it("adds a verified payload to a protected request", async () => {
     const payload = {
       sub: "user-id",
-      username: "jane.doe",
-      roleId: "role-id",
+      email: "jane.doe@example.com",
       iat: 1,
       exp: 2,
     };
@@ -76,8 +75,7 @@ describe("JwtAuthGuard", () => {
     jest.spyOn(reflector, "getAllAndOverride").mockReturnValue(false);
     jest.spyOn(jwtService, "verifyAsync").mockResolvedValue({
       sub: "user-id",
-      username: "jane.doe",
-      roleId: "role-id",
+      email: "jane.doe@example.com",
       iat: 1,
       exp: 2,
     });

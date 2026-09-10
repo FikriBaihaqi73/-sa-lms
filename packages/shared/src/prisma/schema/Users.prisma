@@ -6,8 +6,6 @@ model Users {
   deleted_at DateTime? @db.Timestamp
 
   // attributes
-  role_id    String    @db.Uuid
-  username   String    @unique @db.VarChar
   email      String    @unique @db.VarChar
   password   String    @db.VarChar
   access_token String? @db.Text
@@ -15,8 +13,7 @@ model Users {
   last_login DateTime? @db.Timestamp
 
   // relations
-  roles                   Role                   @relation(fields: [role_id], references: [id])
-  profile                 Profile?
+  profile                 Profile[]
   teachingJournalsCreated TeachingJournals[]     @relation("TeachingJournalCreatedBy")
   teachingJournalsUpdated TeachingJournals[]     @relation("TeachingJournalUpdatedBy")
   modulesCreated          Modules[]              @relation("ModuleCreator")
@@ -33,5 +30,4 @@ model Users {
   notifications           Notifications[]
   activityLogs            ActivityLogs[]
 
-  @@index([role_id])
 }

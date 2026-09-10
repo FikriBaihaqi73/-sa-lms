@@ -11,7 +11,7 @@ model Role {
 
   // relations
   rolePermissions RolePermission[]
-  users           Users[]
+  profiles        Profile[]
 
   @@map("roles")
 }
