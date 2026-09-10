@@ -42,4 +42,4 @@ export const LogoutSchema = z
   .object({})
   .describe("Empty body for logout request");
 
-export class LogoutDto extends createZodDto(LogoutSchema) {}
+export class logoutDto extends createZodDto(LogoutSchema) {}

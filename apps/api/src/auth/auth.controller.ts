@@ -6,7 +6,7 @@ import {
   HttpStatus,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import { LoginDto, RegisterDto } from "@repo/shared/schemas/auth.schema";
 import { ZodValidationPipe } from "nestjs-zod";
@@ -43,6 +43,7 @@ export class AuthController {
   }
 
   @Post("logout")
+  @ApiBearerAuth("JWT-auth")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: "Revoke the current access token" })
   async logout(@Headers("authorization") authorization?: string) {

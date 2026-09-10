@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateAttendanceDto,
@@ -17,6 +17,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { AttendanceService } from "./attendance.service";
 
 @ApiTags("Attendances")
+@ApiBearerAuth("JWT-auth")
 @Controller("attendances")
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
