@@ -71,6 +71,21 @@ export class AuthRepository {
     });
   }
 
+  async findActiveUserByAccessToken(
+    id: string,
+    accessToken: string,
+  ): Promise<UserEntity | null> {
+    return this.prisma.users.findFirst({
+      where: {
+        id,
+        access_token: accessToken,
+        is_active: true,
+        deleted_at: null,
+      },
+      select: userSelect,
+    });
+  }
+
   async clearAccessToken(id: string): Promise<UserEntity> {
     return this.prisma.users.update({
       where: { id },

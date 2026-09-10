@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Headers,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import { LoginDto, RegisterDto } from "@repo/shared/schemas/auth.schema";
@@ -33,5 +40,13 @@ export class AuthController {
   async login(@Body(new ZodValidationPipe()) dto: LoginDto) {
     const result = await this.authService.login(dto);
     return ResponseHelper.success(result, "Login successful");
+  }
+
+  @Post("logout")
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: "Revoke the current access token" })
+  async logout(@Headers("authorization") authorization?: string) {
+    const result = await this.authService.logout(authorization);
+    return ResponseHelper.success(result, "Logout successful");
   }
 }

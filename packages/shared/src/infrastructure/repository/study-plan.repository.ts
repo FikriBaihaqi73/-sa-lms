@@ -49,6 +49,22 @@ export class StudyPlanRepository {
     });
   }
 
+  async findByStudentClassSubjectAndAcademicYear(
+    student_id: string,
+    class_subject_id: string,
+    academic_year_id: string,
+  ): Promise<StudyPlanEntity | null> {
+    return this.prisma.studyPlans.findFirst({
+      where: {
+        student_id,
+        class_subject_id,
+        academic_year_id,
+        deleted_at: null,
+      },
+      select: studyPlanSelect,
+    });
+  }
+
   async update(
     id: string,
     data: UpdateStudyPlanInput,
