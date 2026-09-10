@@ -3,15 +3,23 @@ import { JwtModule } from "@nestjs/jwt";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 
+const jwtSecret = process.env.JWT_SECRET;
+
+if (!jwtSecret) {
+  throw new Error("JWT_SECRET must be configured");
+}
+
 @Module({
   imports: [
     JwtModule.register({
-      secret: process.env.JWT_SECRET ?? "local-development-secret-change-me",
-      signOptions: { expiresIn: "15m" },
+      secret: jwtSecret,
+      signOptions: {
+        expiresIn: (process.env.JWT_EXPIRES_IN ?? "15m") as "15m" | "1d",
+      },
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

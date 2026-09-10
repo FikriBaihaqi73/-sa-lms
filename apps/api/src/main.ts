@@ -70,8 +70,11 @@ async function bootstrap() {
     }),
   );
 
-  const port = process.env.PORT || 5000;
-  await app.listen(port);
+  const rawPort = process.env.PORT;
+  const parsedPort = rawPort ? Number(rawPort) : Number.NaN;
+  const port = Number.isInteger(parsedPort) && parsedPort > 0 ? parsedPort : 5000;
+
+  await app.listen(port, "localhost");
   console.log(`Application is running on: http://localhost:${port}/api`);
 }
 bootstrap();
