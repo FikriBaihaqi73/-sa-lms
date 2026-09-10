@@ -1,10 +1,13 @@
 import { Module } from "@nestjs/common";
+import { APP_GUARD } from "@nestjs/core";
 import { AcademicStatusModule } from "./academic-status/academic-status.module";
 import { AcademicYearModule } from "./academic-year/academic-year.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { AttendanceModule } from "./attendance/attendance.module";
+import { AttendanceStatusModule } from "./attendance-status/attendance-status.module";
 import { AuthModule } from "./auth/auth.module";
+import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { AttendanceModule } from "./attendance/attendance.module";
 import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { LearningModuleModule } from "./module/module.module";
 import { ModuleContentModule } from "./module-content/module-content.module";
@@ -24,6 +27,8 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     InstitutionLevelModule,
     AcademicYearModule,
     AcademicStatusModule,
+    AttendanceStatusModule,
+    AuthModule,
     AuthModule,
     AttendanceModule,
     StudyPlanModule,
@@ -32,6 +37,12 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     TeachingJournalModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
