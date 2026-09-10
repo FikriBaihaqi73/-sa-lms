@@ -6,17 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateRolePermissionDto,
   UpdateRolePermissionDto,
 } from "@repo/shared/schemas/role-permission.schema";
 import { ZodValidationPipe } from "nestjs-zod";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { RolePermissionService } from "./role-permission.service";
 
 @ApiTags("Role Permissions")
+@ApiBearerAuth("JWT-auth")
+@UseGuards(JwtAuthGuard)
 @Controller("role-permissions")
 export class RolePermissionController {
   constructor(private readonly rolePermissionService: RolePermissionService) {}
