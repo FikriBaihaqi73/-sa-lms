@@ -12,6 +12,7 @@ import { PermissionModule } from "./permission/permission.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { RoleModule } from "./role/role.module";
 import { RolePermissionModule } from "./role-permission/role-permission.module";
+import { SpecializationModule } from "./specialization/specialization.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RolePermissionModule } from "./role-permission/role-permission.module";
     AcademicYearModule,
     AcademicStatusModule,
     AttendanceStatusModule,
+    SpecializationModule,
     AuthModule,
   ],
   controllers: [AppController],
