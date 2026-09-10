@@ -6,17 +6,18 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
-import { CreateSpecializationDto, UpdateSpecializationDto } from "@repo/shared/schemas/specialization.schema";
+import {
+  CreateSpecializationDto,
+  UpdateSpecializationDto,
+} from "@repo/shared/schemas/specialization.schema";
 import { SpecializationService } from "./specialization.service";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @ApiTags("Specializations")
+@ApiBearerAuth("JWT-auth")
 @Controller("specializations")
-@UseGuards(JwtAuthGuard)
 export class SpecializationController {
   constructor(private readonly specializationService: SpecializationService) {}
 
@@ -24,34 +25,58 @@ export class SpecializationController {
   @ApiOperation({ summary: "Get all specializations" })
   async findAll() {
     const specializations = await this.specializationService.findAll();
-    return ResponseHelper.success(specializations, "Specializations retrieved successfully");
+    return ResponseHelper.success(
+      specializations,
+      "Specializations retrieved successfully",
+    );
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Get specialization by ID" })
   async findOne(@Param("id") id: string) {
     const specialization = await this.specializationService.findOne(id);
-    return ResponseHelper.success(specialization, "Specialization detail retrieved successfully");
+    return ResponseHelper.success(
+      specialization,
+      "Specialization detail retrieved successfully",
+    );
   }
 
   @Post()
   @ApiOperation({ summary: "Create a new specialization" })
   async create(@Body() createSpecializationDto: CreateSpecializationDto) {
-    const specialization = await this.specializationService.create(createSpecializationDto);
-    return ResponseHelper.success(specialization, "Specialization created successfully", 201);
+    const specialization = await this.specializationService.create(
+      createSpecializationDto,
+    );
+    return ResponseHelper.success(
+      specialization,
+      "Specialization created successfully",
+      201,
+    );
   }
 
   @Patch(":id")
   @ApiOperation({ summary: "Update an existing specialization" })
-  async update(@Param("id") id: string, @Body() updateSpecializationDto: UpdateSpecializationDto) {
-    const specialization = await this.specializationService.update(id, updateSpecializationDto);
-    return ResponseHelper.success(specialization, "Specialization updated successfully");
+  async update(
+    @Param("id") id: string,
+    @Body() updateSpecializationDto: UpdateSpecializationDto,
+  ) {
+    const specialization = await this.specializationService.update(
+      id,
+      updateSpecializationDto,
+    );
+    return ResponseHelper.success(
+      specialization,
+      "Specialization updated successfully",
+    );
   }
 
   @Delete(":id")
   @ApiOperation({ summary: "Delete a specialization" })
   async remove(@Param("id") id: string) {
     const result = await this.specializationService.remove(id);
-    return ResponseHelper.success(result, "Specialization deleted successfully");
+    return ResponseHelper.success(
+      result,
+      "Specialization deleted successfully",
+    );
   }
 }

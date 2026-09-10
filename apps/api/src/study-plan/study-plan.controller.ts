@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateStudyPlanDto,
@@ -17,6 +17,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { StudyPlanService } from "./study-plan.service";
 
 @ApiTags("Study Plans")
+@ApiBearerAuth("JWT-auth")
 @Controller("study-plans")
 export class StudyPlanController {
   constructor(private readonly studyPlanService: StudyPlanService) {}

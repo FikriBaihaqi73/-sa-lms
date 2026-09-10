@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -15,12 +14,10 @@ import {
   UpdatePermissionDto,
 } from "@repo/shared/schemas/permission.schema";
 import { ZodValidationPipe } from "nestjs-zod";
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { PermissionService } from "./permission.service";
 
 @ApiTags("Permissions")
 @ApiBearerAuth("JWT-auth")
-@UseGuards(JwtAuthGuard)
 @Controller("permissions")
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}

@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateModuleContentDto,
@@ -17,6 +17,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { ModuleContentService } from "./module-content.service";
 
 @ApiTags("Module Contents")
+@ApiBearerAuth("JWT-auth")
 @Controller("module-contents")
 export class ModuleContentController {
   constructor(private readonly moduleContentService: ModuleContentService) {}

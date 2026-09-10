@@ -6,7 +6,9 @@ import {
 } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
+import { AuthRepository } from "@repo/shared/infrastructure/repository/auth.repository";
 import type { Request } from "express";
+import { PrismaService } from "../prisma/prisma.service";
 import { IS_PUBLIC_KEY } from "./public.decorator";
 
 interface JwtPayload {
@@ -23,10 +25,15 @@ interface AuthenticatedRequest extends Request {
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  private readonly authRepository: AuthRepository;
+
   constructor(
     private readonly reflector: Reflector,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly prisma: PrismaService,
+  ) {
+    this.authRepository = new AuthRepository(this.prisma.client);
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -45,7 +52,15 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
-      request.user = await this.jwtService.verifyAsync<JwtPayload>(token);
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+      const user = await this.authRepository.findActiveUserByAccessToken(
+        payload.sub,
+        token,
+      );
+      if (!user) {
+        throw new UnauthorizedException("Invalid or expired access token");
+      }
+      request.user = payload;
       return true;
     } catch {
       throw new UnauthorizedException("Invalid or expired access token");

@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateTeachingJournalDto,
@@ -17,6 +17,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { TeachingJournalService } from "./teaching-journal.service";
 
 @ApiTags("Teaching Journals")
+@ApiBearerAuth("JWT-auth")
 @Controller("teaching-journals")
 export class TeachingJournalController {
   constructor(

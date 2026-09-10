@@ -7,12 +7,13 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import { CreateRoleDto, UpdateRoleDto } from "@repo/shared/schemas/role.schema";
 import { RoleService } from "./role.service";
 
 @ApiTags("Roles")
+@ApiBearerAuth("JWT-auth")
 @Controller("roles")
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}

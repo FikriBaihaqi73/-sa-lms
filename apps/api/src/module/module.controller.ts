@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateModuleDto,
@@ -17,6 +17,7 @@ import { ZodValidationPipe } from "nestjs-zod";
 import { LearningModuleService } from "./module.service";
 
 @ApiTags("Learning Modules")
+@ApiBearerAuth("JWT-auth")
 @Controller("modules")
 export class LearningModuleController {
   constructor(private readonly learningModuleService: LearningModuleService) {}
