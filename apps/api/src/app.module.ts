@@ -8,6 +8,7 @@ import { AttendanceStatusModule } from "./attendance-status/attendance-status.mo
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { AttendanceModule } from "./attendance/attendance.module";
+import { EmploymentStatusModule } from "./employment-status/employment-status.module";
 import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { LearningModuleModule } from "./module/module.module";
 import { ModuleContentModule } from "./module-content/module-content.module";
@@ -29,6 +30,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     InstitutionLevelModule,
     AcademicYearModule,
     AcademicStatusModule,
+    EmploymentStatusModule,
     AttendanceStatusModule,
     SpecializationModule,
     AttendanceModule,
