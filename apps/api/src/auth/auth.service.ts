@@ -2,15 +2,16 @@ import { randomBytes, scrypt, timingSafeEqual } from "node:crypto";
 import {
   ConflictException,
   Injectable,
-  ServiceUnavailableException,
   UnauthorizedException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthRepository } from "@repo/shared/infrastructure/repository/auth.repository";
 import type { LoginDto, RegisterDto } from "@repo/shared/schemas/auth.schema";
+import type { UserEntity } from "@repo/shared/selects/user.select";
 import { PrismaService } from "../prisma/prisma.service";
 
 const DEFAULT_REGISTRATION_ROLE = "student";
+const TOKEN_EXPIRES_IN_SECONDS = 900;
 const SCRYPT_COST = 16_384;
 const SCRYPT_BLOCK_SIZE = 8;
 const SCRYPT_PARALLELIZATION = 1;
@@ -25,6 +26,15 @@ function isUniqueConstraintViolation(error: unknown): boolean {
   );
 }
 
+export type AuthUser = Omit<UserEntity, "access_token">;
+
+export interface AuthResult {
+  accessToken: string;
+  tokenType: "Bearer";
+  expiresIn: number;
+  user: AuthUser;
+}
+
 @Injectable()
 export class AuthService {
   private readonly authRepository: AuthRepository;
@@ -36,7 +46,7 @@ export class AuthService {
     this.authRepository = new AuthRepository(this.prisma.client);
   }
 
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto): Promise<AuthResult> {
     const username = dto.username.toLowerCase();
     const email = dto.email.toLowerCase();
     const [userByUsername, userByEmail] = await Promise.all([
@@ -50,21 +60,19 @@ export class AuthService {
 
     const roleName =
       process.env.DEFAULT_REGISTRATION_ROLE ?? DEFAULT_REGISTRATION_ROLE;
-    const role = await this.authRepository.findDefaultRole(roleName);
-    if (!role) {
-      throw new ServiceUnavailableException(
-        "Registration is temporarily unavailable",
-      );
-    }
+    const role =
+      (await this.authRepository.findDefaultRole(roleName)) ??
+      (await this.authRepository.upsertDefaultRole(roleName));
 
     const password = await this.hashPassword(dto.password);
     try {
-      return await this.authRepository.createUser({
+      const user = await this.authRepository.createUser({
         role_id: role.id,
         username,
         email,
         password,
       });
+      return await this.createAuthResult(user);
     } catch (error) {
       if (isUniqueConstraintViolation(error)) {
         throw new ConflictException("Registration could not be completed");
@@ -73,7 +81,7 @@ export class AuthService {
     }
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto): Promise<AuthResult> {
     const email = dto.email.toLowerCase();
     const user = await this.authRepository.findLoginUser(email);
     if (
@@ -85,17 +93,39 @@ export class AuthService {
     }
 
     const updatedUser = await this.authRepository.updateLastLogin(user.id);
+    return await this.createAuthResult(updatedUser);
+  }
+
+  private async createAuthResult(user: UserEntity): Promise<AuthResult> {
     const accessToken = await this.jwtService.signAsync({
       sub: user.id,
       username: user.username,
       roleId: user.role_id,
     });
+    const updatedUser = await this.authRepository.updateAccessToken(
+      user.id,
+      accessToken,
+    );
 
     return {
       accessToken,
       tokenType: "Bearer",
-      expiresIn: 900,
-      user: updatedUser,
+      expiresIn: TOKEN_EXPIRES_IN_SECONDS,
+      user: this.toAuthUser(updatedUser),
+    };
+  }
+
+  private toAuthUser(user: UserEntity): AuthUser {
+    return {
+      id: user.id,
+      role_id: user.role_id,
+      username: user.username,
+      email: user.email,
+      is_active: user.is_active,
+      last_login: user.last_login,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      deleted_at: user.deleted_at,
     };
   }
 

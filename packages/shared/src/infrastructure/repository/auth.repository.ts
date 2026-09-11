@@ -38,6 +38,18 @@ export class AuthRepository {
     });
   }
 
+  async upsertDefaultRole(name: string): Promise<RoleEntity> {
+    return this.prisma.role.upsert({
+      where: { name },
+      update: { deletedAt: null },
+      create: {
+        name,
+        description: "Default role for self-service registration",
+      },
+      select: roleSelect,
+    });
+  }
+
   async createUser(data: CreateAuthenticatedUserInput): Promise<UserEntity> {
     return this.prisma.users.create({
       data: { ...data, is_active: true },

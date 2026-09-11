@@ -6,6 +6,8 @@
   "scripts": {
     "prisma:generate": "prisma generate --schema src/prisma",
     "prisma:migrate": "prisma migrate dev --schema src/prisma",
+    "prisma:status": "prisma migrate status --schema src/prisma",
+    "prisma:deploy": "prisma migrate deploy --schema src/prisma",
     "prisma:push": "prisma db push --schema src/prisma",
     "prisma:reset": "prisma migrate reset --schema src/prisma",
     "build": "swc src -d dist --strip-leading-paths",

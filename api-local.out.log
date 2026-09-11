@@ -1,0 +1,70 @@
+
+> @repo/api@0.0.1 start D:\boilerplate-backend-nestjs\apps\api
+> nest start
+
+>  TSC  Found 0 issues.
+>  SWC  Running...
+◇ injected env (4) from .env // tip: ⌘ override existing { override: true }
+◇ injected env (0) from ..\..\packages\shared\.env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (0) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +42ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRoleModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPermissionModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRolePermissionModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInstitutionLevelModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAcademicYearModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAcademicStatusModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAssignmentTypesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +88ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRoleController {/roles}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/roles, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/roles/:id, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/roles, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/roles/:id, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/roles/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPermissionController {/permissions}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/permissions, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/permissions/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/permissions, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/permissions/:id, PATCH} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/permissions/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mRolePermissionController {/role-permissions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/role-permissions, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/role-permissions/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/role-permissions, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/role-permissions/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/role-permissions/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInstitutionLevelController {/institution-levels}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/institution-levels, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/institution-levels/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/institution-levels, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/institution-levels/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/institution-levels/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAcademicYearController {/academic-years}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-years, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-years/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-years, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-years/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-years/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAcademicStatusController {/academic-statuses}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-statuses, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-statuses/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-statuses, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-statuses/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/academic-statuses/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAssignmentTypesController {/assignment-types}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assignment-types, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assignment-types, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assignment-types/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assignment-types/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/assignment-types/:id, DELETE} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 6768  - [39m11/09/2026, 09.33.07 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +115ms[39m
+Application is running on: http://localhost:5000/api
