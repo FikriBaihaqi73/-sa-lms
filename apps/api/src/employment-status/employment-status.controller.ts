@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
   CreateEmploymentStatusDto,
@@ -16,6 +16,7 @@ import {
 import { EmploymentStatusService } from "./employment-status.service";
 
 @ApiTags("Employment Statuses")
+@ApiBearerAuth("JWT-auth")
 @Controller("employment-statuses")
 export class EmploymentStatusController {
   constructor(
