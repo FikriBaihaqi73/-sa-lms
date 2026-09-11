@@ -1,13 +1,10 @@
-import {
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
-import { InstitutionLevelRepository } from "@repo/shared/infrastructure/repository/institution-level.repository";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import {
   type CreateInstitutionInput,
   InstitutionRepository,
   type UpdateInstitutionInput,
 } from "@repo/shared/infrastructure/repository/institution.repository";
+import { InstitutionLevelRepository } from "@repo/shared/infrastructure/repository/institution-level.repository";
 import type {
   CreateInstitutionDto,
   UpdateInstitutionDto,
@@ -38,7 +35,7 @@ export class InstitutionService {
 
   async create(dto: CreateInstitutionDto) {
     await this.ensureRelationsExist(dto.institutionLevelId);
-    
+
     const input: CreateInstitutionInput = {
       institutionLevelId: dto.institutionLevelId,
       name: dto.name,
@@ -59,11 +56,13 @@ export class InstitutionService {
   async update(id: string, dto: UpdateInstitutionDto) {
     await this.findOne(id);
     if (dto.institutionLevelId) {
-        await this.ensureRelationsExist(dto.institutionLevelId);
+      await this.ensureRelationsExist(dto.institutionLevelId);
     }
-    
+
     const input: UpdateInstitutionInput = {
-      ...(dto.institutionLevelId !== undefined && { institutionLevelId: dto.institutionLevelId }),
+      ...(dto.institutionLevelId !== undefined && {
+        institutionLevelId: dto.institutionLevelId,
+      }),
       ...(dto.name !== undefined && { name: dto.name }),
       ...(dto.shortName !== undefined && { shortName: dto.shortName }),
       ...(dto.address !== undefined && { address: dto.address }),
@@ -86,7 +85,9 @@ export class InstitutionService {
   }
 
   private async ensureRelationsExist(institutionLevelId: string) {
-    const institutionLevel = await this.institutionLevelRepository.findById(institutionLevelId);
-    if (!institutionLevel) throw new NotFoundException("Institution level not found");
+    const institutionLevel =
+      await this.institutionLevelRepository.findById(institutionLevelId);
+    if (!institutionLevel)
+      throw new NotFoundException("Institution level not found");
   }
 }

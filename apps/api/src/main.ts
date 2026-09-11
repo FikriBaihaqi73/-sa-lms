@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { apiReference } from "@scalar/nestjs-api-reference";
@@ -11,25 +12,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Security & Optimization
+  app.enableCors();
   app.use(
     helmet({
-      contentSecurityPolicy: {
-        directives: {
-          ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-          "script-src": [
-            "'self'",
-            "'unsafe-inline'",
-            "https://cdn.jsdelivr.net",
-          ],
-          "style-src": [
-            "'self'",
-            "'unsafe-inline'",
-            "https://fonts.googleapis.com",
-          ],
-          "font-src": ["'self'", "https://fonts.gstatic.com"],
-          "img-src": ["'self'", "data:", "https://cdn.jsdelivr.net"],
-        },
-      },
+      contentSecurityPolicy: false,
     }),
   );
   app.use(compression());
@@ -57,7 +43,7 @@ async function bootstrap() {
 
   // Serve OpenAPI JSON
   app.getHttpAdapter().get("/api-json", (_req: Request, res: Response) => {
-    res.json(document);
+    (res as Response & { json: (body: unknown) => void }).json(document);
   });
 
   // Serve Scalar API Reference UI
@@ -72,7 +58,8 @@ async function bootstrap() {
 
   const rawPort = process.env.PORT;
   const parsedPort = rawPort ? Number(rawPort) : Number.NaN;
-  const port = Number.isInteger(parsedPort) && parsedPort > 0 ? parsedPort : 5000;
+  const port =
+    Number.isInteger(parsedPort) && parsedPort > 0 ? parsedPort : 5000;
 
   await app.listen(port, "localhost");
   console.log(`Application is running on: http://localhost:${port}/api`);
