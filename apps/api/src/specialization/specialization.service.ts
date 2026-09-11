@@ -15,7 +15,9 @@ export class SpecializationService {
   private specializationRepository: SpecializationRepository;
 
   constructor(private readonly prisma: PrismaService) {
-    this.specializationRepository = new SpecializationRepository(this.prisma.client);
+    this.specializationRepository = new SpecializationRepository(
+      this.prisma.client,
+    );
   }
 
   async findAll() {
@@ -46,7 +48,9 @@ export class SpecializationService {
     if (dto.name) {
       const existing = await this.specializationRepository.findByName(dto.name);
       if (existing && existing.id !== id) {
-        throw new ConflictException("Specialization name already in use by another specialization");
+        throw new ConflictException(
+          "Specialization name already in use by another specialization",
+        );
       }
     }
     return this.specializationRepository.update(id, {
