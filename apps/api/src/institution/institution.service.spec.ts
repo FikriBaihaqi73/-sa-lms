@@ -1,6 +1,6 @@
 import { NotFoundException } from "@nestjs/common";
-import { InstitutionLevelRepository } from "@repo/shared/infrastructure/repository/institution-level.repository";
 import { InstitutionRepository } from "@repo/shared/infrastructure/repository/institution.repository";
+import { InstitutionLevelRepository } from "@repo/shared/infrastructure/repository/institution-level.repository";
 import type { CreateInstitutionDto } from "@repo/shared/schemas/institution.schema";
 import type { PrismaService } from "../prisma/prisma.service";
 import { InstitutionService } from "./institution.service";
@@ -26,7 +26,9 @@ describe("InstitutionService", () => {
   afterEach(() => jest.restoreAllMocks());
 
   it("rejects an institution that references a missing institution level", async () => {
-    jest.spyOn(InstitutionLevelRepository.prototype, "findById").mockResolvedValue(null);
+    jest
+      .spyOn(InstitutionLevelRepository.prototype, "findById")
+      .mockResolvedValue(null);
     await expect(service.create(dto)).rejects.toBeInstanceOf(NotFoundException);
   });
 

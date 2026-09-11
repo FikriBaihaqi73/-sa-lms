@@ -5,6 +5,13 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolvePackageJsonExports": true,
+    "baseUrl": ".",
+    "paths": {
+      "#generated/*": ["../../packages/shared/src/generated/*"]
+    },
+    "types": ["node", "jest", "express"],
+    "declaration": false,
+    "declarationMap": false,
     "esModuleInterop": true,
     "isolatedModules": true,
     "emitDecoratorMetadata": true,
@@ -13,12 +20,10 @@
     "target": "esnext",
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "types": ["node", "jest"]
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
