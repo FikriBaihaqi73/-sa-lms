@@ -16,7 +16,7 @@ describe("AuthService logout", () => {
 
   beforeEach(() => {
     jwtService = { verifyAsync: jest.fn() };
-    service = new AuthService({} as PrismaService, jwtService as JwtService);
+    service = new AuthService({} as PrismaService, jwtService as unknown as JwtService);
   });
 
   afterEach(() => jest.restoreAllMocks());
