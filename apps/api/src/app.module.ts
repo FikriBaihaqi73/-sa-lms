@@ -21,8 +21,9 @@ import { RolePermissionModule } from "./role-permission/role-permission.module";
 import { SpecializationModule } from "./specialization/specialization.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
+import { NationalityModule } from "./nationality/nationality.module";
 
-@Module({
+@Module({  
   imports: [
     PrismaModule,
     AuthModule,
@@ -41,6 +42,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     LearningModuleModule,
     ModuleContentModule,
     TeachingJournalModule,
+    NationalityModule,
     ReligionModule,
   ],
   controllers: [AppController],
