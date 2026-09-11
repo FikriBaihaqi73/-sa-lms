@@ -1,5 +1,6 @@
+import type { ReligionEntity } from "#entities/religions.entity";
 import type { PrismaClient } from "#generated/client";
-import { type ReligionEntity, religionSelect } from "#selects/religions.select";
+import { religionSelect } from "#selects/religions.select";
 
 export interface CreateReligionInput {
   name: string;

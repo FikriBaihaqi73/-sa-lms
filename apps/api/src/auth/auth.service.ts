@@ -1,4 +1,3 @@
-import * as bcrypt from "bcrypt";
 import {
   ConflictException,
   Injectable,
@@ -8,6 +7,7 @@ import {
 import { JwtService } from "@nestjs/jwt";
 import { AuthRepository } from "@repo/shared/infrastructure/repository/auth.repository";
 import type { LoginDto, RegisterDto } from "@repo/shared/schemas/auth.schema";
+import * as bcrypt from "bcrypt";
 import { PrismaService } from "../prisma/prisma.service";
 
 interface AccessTokenPayload {
@@ -39,7 +39,9 @@ export class AuthService {
     const userByEmail = await this.authRepository.findUserByEmail(email);
 
     if (userByEmail) {
-      throw new ConflictException("Registration could not be completed (email in use)");
+      throw new ConflictException(
+        "Registration could not be completed (email in use)",
+      );
     }
 
     const password = await this.hashPassword(dto.password);
@@ -54,13 +56,15 @@ export class AuthService {
         const roleName = process.env.DEFAULT_INSTITUTION_ADMIN_ROLE ?? "admin";
         const role = await this.authRepository.findDefaultRole(roleName);
         if (!role) {
-          throw new ServiceUnavailableException("Registration is temporarily unavailable (missing default admin role)");
+          throw new ServiceUnavailableException(
+            "Registration is temporarily unavailable (missing default admin role)",
+          );
         }
-        
+
         return await this.authRepository.registerInstitutionOwner(
           { email, password },
           dto.institutionName as string,
-          role.id
+          role.id,
         );
       }
       throw new ConflictException("Invalid registration role");

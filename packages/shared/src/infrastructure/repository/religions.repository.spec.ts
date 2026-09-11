@@ -1,0 +1,83 @@
+import type { PrismaClient } from "#generated/client";
+import { ReligionRepository } from "./religions.repository";
+
+describe("ReligionRepository", () => {
+  const religion = {
+    create: jest.fn(),
+    findFirst: jest.fn(),
+    findMany: jest.fn(),
+    update: jest.fn(),
+  };
+  const prisma = { religion } as unknown as PrismaClient;
+  const repository = new ReligionRepository(prisma);
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("creates a religion", async () => {
+    const result = { id: "religion-id", name: "Islam" };
+    religion.create.mockResolvedValue(result);
+
+    await expect(repository.create({ name: "Islam" })).resolves.toEqual(result);
+    expect(religion.create).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { name: "Islam" } }),
+    );
+  });
+
+  it("only finds active religions by ID and name", async () => {
+    religion.findFirst.mockResolvedValue(null);
+
+    await expect(repository.findById("missing-id")).resolves.toBeNull();
+    await expect(repository.findByName("Islam")).resolves.toBeNull();
+
+    expect(religion.findFirst).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        where: { id: "missing-id", deleted_at: null },
+      }),
+    );
+    expect(religion.findFirst).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ where: { name: "Islam", deleted_at: null } }),
+    );
+  });
+
+  it("lists only active religions", async () => {
+    const results = [{ id: "religion-id", name: "Islam" }];
+    religion.findMany.mockResolvedValue(results);
+
+    await expect(repository.findAll()).resolves.toEqual(results);
+    expect(religion.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { deleted_at: null } }),
+    );
+  });
+
+  it("updates only supplied fields", async () => {
+    const result = { id: "religion-id", name: "Kristen" };
+    religion.update.mockResolvedValue(result);
+
+    await expect(
+      repository.update("religion-id", { name: "Kristen" }),
+    ).resolves.toEqual(result);
+    expect(religion.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "religion-id" },
+        data: { name: "Kristen" },
+      }),
+    );
+  });
+
+  it("soft-deletes a religion", async () => {
+    const result = { id: "religion-id", name: "Islam" };
+    religion.update.mockResolvedValue(result);
+
+    await expect(repository.delete("religion-id")).resolves.toEqual(result);
+    expect(religion.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: "religion-id" },
+        data: { deleted_at: expect.any(Date) },
+      }),
+    );
+  });
+});

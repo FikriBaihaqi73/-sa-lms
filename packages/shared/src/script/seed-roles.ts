@@ -1,4 +1,4 @@
-import { getPrisma } from "../infrastructure/database/client.js";
+import { getPrisma } from "#infrastructure/database/client";
 
 async function main() {
   const prisma = getPrisma();
