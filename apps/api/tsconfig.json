@@ -7,9 +7,11 @@
     "resolvePackageJsonExports": true,
     "baseUrl": ".",
     "paths": {
-      "@repo/shared/*": ["../../packages/shared/src/*"]
+      "#generated/*": ["../../packages/shared/src/generated/*"]
     },
     "types": ["node", "jest", "express"],
+    "declaration": false,
+    "declarationMap": false,
     "esModuleInterop": true,
     "isolatedModules": true,
     "emitDecoratorMetadata": true,

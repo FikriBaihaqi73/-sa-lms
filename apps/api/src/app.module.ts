@@ -9,8 +9,8 @@ import { AttendanceStatusModule } from "./attendance-status/attendance-status.mo
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
-import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { InstitutionModule } from "./institution/institution.module";
+import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { LearningModuleModule } from "./module/module.module";
 import { ModuleContentModule } from "./module-content/module-content.module";
 import { PermissionModule } from "./permission/permission.module";
