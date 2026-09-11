@@ -23,9 +23,7 @@ import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { NationalityModule } from "./nationality/nationality.module";
 
-import { NationalityModule } from "./nationality/nationality.module";
-
-@Module({
+@Module({  
   imports: [
     PrismaModule,
     AuthModule,
