@@ -4,9 +4,11 @@ import { AcademicStatusModule } from "./academic-status/academic-status.module";
 import { AcademicYearModule } from "./academic-year/academic-year.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AssignmentTypeModule } from "./assignment-type/assignment-type.module";
 import { AttendanceModule } from "./attendance/attendance.module";
 import { AttendanceStatusModule } from "./attendance-status/attendance-status.module";
 import { AuthModule } from "./auth/auth.module";
+import { DepartmentsModule } from "./departments/departments.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
 import { InstitutionModule } from "./institution/institution.module";
@@ -44,6 +46,8 @@ import { NationalityModule } from "./nationality/nationality.module";
     TeachingJournalModule,
     NationalityModule,
     ReligionModule,
+    AssignmentTypeModule,
+    DepartmentsModule,
   ],
   controllers: [AppController],
   providers: [
