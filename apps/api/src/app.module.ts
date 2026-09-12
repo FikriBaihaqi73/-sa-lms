@@ -25,6 +25,7 @@ import { SpecializationModule } from "./specialization/specialization.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
+import { ProfileModule } from "./profile/profile.module";
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
     TeachingJournalModule,
     NationalityModule,
     ReligionModule,
+    ProfileModule,
     AssignmentTypeModule,
     DepartmentsModule,
     TeachersModule,
