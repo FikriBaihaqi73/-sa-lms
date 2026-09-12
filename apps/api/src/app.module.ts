@@ -8,13 +8,14 @@ import { AssignmentTypeModule } from "./assignment-type/assignment-type.module";
 import { AttendanceModule } from "./attendance/attendance.module";
 import { AttendanceStatusModule } from "./attendance-status/attendance-status.module";
 import { AuthModule } from "./auth/auth.module";
-import { DepartmentsModule } from "./departments/departments.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
 import { InstitutionModule } from "./institution/institution.module";
 import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { LearningModuleModule } from "./module/module.module";
 import { ModuleContentModule } from "./module-content/module-content.module";
+import { NationalityModule } from "./nationality/nationality.module";
 import { PermissionModule } from "./permission/permission.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ReligionModule } from "./religion/religion.module";
@@ -22,11 +23,11 @@ import { RoleModule } from "./role/role.module";
 import { RolePermissionModule } from "./role-permission/role-permission.module";
 import { SpecializationModule } from "./specialization/specialization.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
+import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
-import { NationalityModule } from "./nationality/nationality.module";
 import { ProfileModule } from "./profile/profile.module";
 
-@Module({  
+@Module({
   imports: [
     PrismaModule,
     AuthModule,
@@ -50,6 +51,7 @@ import { ProfileModule } from "./profile/profile.module";
     ProfileModule,
     AssignmentTypeModule,
     DepartmentsModule,
+    TeachersModule,
   ],
   controllers: [AppController],
   providers: [

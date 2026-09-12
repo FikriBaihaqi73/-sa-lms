@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const CreateProfileSchema = z.object({
   userId: z.string().uuid().describe("User ID"),
+  roleId: z.string().uuid().describe("Role ID"),
   institutionId: z.string().uuid().describe("Institution ID"),
   fullName: z.string().min(1).max(255).describe("Full name of the profile"),
   identityNumber: z.string().max(255).optional().describe("Identity number"),

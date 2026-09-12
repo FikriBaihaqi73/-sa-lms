@@ -3,6 +3,7 @@ import { type ProfileEntity, profileSelect } from "#selects/profile.select";
 
 export interface CreateProfileInput {
   userId: string;
+  roleId: string;
   institutionId: string;
   fullName: string;
   identityNumber?: string;
@@ -39,6 +40,7 @@ export class ProfileRepository {
     return this.prisma.profile.create({
       data: {
         userId: data.userId,
+        roleId: data.roleId,
         institutionId: data.institutionId,
         fullName: data.fullName,
         ...(data.identityNumber !== undefined && {
