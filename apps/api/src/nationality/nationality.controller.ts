@@ -47,9 +47,8 @@ export class NationalityController {
   async create(
     @Body(new ZodValidationPipe()) createNationalityDto: CreateNationalityDto,
   ) {
-    const nationality = await this.nationalityService.create(
-      createNationalityDto,
-    );
+    const nationality =
+      await this.nationalityService.create(createNationalityDto);
     return ResponseHelper.success(
       nationality,
       "Nationality created successfully",
