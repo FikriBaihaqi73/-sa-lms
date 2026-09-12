@@ -22,6 +22,7 @@ import { SpecializationModule } from "./specialization/specialization.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { NationalityModule } from "./nationality/nationality.module";
+import { ProfileModule } from "./profile/profile.module";
 
 @Module({  
   imports: [
@@ -44,6 +45,7 @@ import { NationalityModule } from "./nationality/nationality.module";
     TeachingJournalModule,
     NationalityModule,
     ReligionModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [
