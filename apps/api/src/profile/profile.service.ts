@@ -29,6 +29,7 @@ export class ProfileService {
   async create(dto: CreateProfileDto) {
     return this.profileRepository.create({
       userId: dto.userId,
+      roleId: dto.roleId,
       institutionId: dto.institutionId,
       fullName: dto.fullName,
       ...(dto.identityNumber !== undefined ? { identityNumber: dto.identityNumber } : {}),
