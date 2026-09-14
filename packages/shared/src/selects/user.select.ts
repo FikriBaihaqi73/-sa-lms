@@ -1,4 +1,5 @@
 import type { Prisma } from "#generated/client";
+import { profileSelect } from "./profile.select.js";
 
 export const userSelect = {
   id: true,
@@ -9,6 +10,9 @@ export const userSelect = {
   created_at: true,
   updated_at: true,
   deleted_at: true,
+  profile: {
+    select: profileSelect,
+  },
 } satisfies Prisma.UsersSelect;
 
 export type UserSelectType = typeof userSelect;

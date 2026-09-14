@@ -6,6 +6,13 @@ export const attendanceStatusSelect = {
   description: true,
   created_at: true,
   updated_at: true,
+  attendances: {
+    select: {
+      id: true,
+      attendance_date: true,
+      attendance_status_id: true,
+    },
+  },
 } satisfies Prisma.AttendanceStatusesSelect;
 
 export type AttendanceStatusSelectType = typeof attendanceStatusSelect;

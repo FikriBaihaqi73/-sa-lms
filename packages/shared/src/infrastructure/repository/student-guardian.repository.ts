@@ -42,13 +42,89 @@ export class StudentGuardianRepository {
     });
   }
 
-  async findAll(): Promise<StudentGuardianEntity[]> {
-    return this.prisma.studentGuardian.findMany({
+  async findByStudentAndGuardian(
+    studentId: string,
+    guardianId: string,
+  ): Promise<StudentGuardianEntity | null> {
+    return this.prisma.studentGuardian.findFirst({
       where: {
+        studentId,
+        guardianId,
         deletedAt: null,
       },
       select: studentGuardianSelect,
     });
+  }
+
+  async findAll(
+    page = 1,
+    limit = 10,
+    search?: string,
+  ): Promise<{ data: StudentGuardianEntity[]; meta: any }> {
+    const skip = (page - 1) * limit;
+    const whereCondition = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                student: {
+                  studentNumber: { contains: search, mode: "insensitive" as const },
+                },
+              },
+              {
+                student: {
+                  profile: {
+                    fullName: { contains: search, mode: "insensitive" as const },
+                  },
+                },
+              },
+              {
+                guardian: {
+                  fullName: { contains: search, mode: "insensitive" as const },
+                },
+              },
+              {
+                guardian: {
+                  email: { contains: search, mode: "insensitive" as const },
+                },
+              },
+              {
+                guardian: {
+                  phoneNumber: { contains: search, mode: "insensitive" as const },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.studentGuardian.findMany({
+        where: whereCondition,
+        skip,
+        take: limit,
+        select: studentGuardianSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.studentGuardian.count({
+        where: whereCondition,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
+      },
+    };
   }
 
   async findByStudentId(studentId: string): Promise<StudentGuardianEntity[]> {
