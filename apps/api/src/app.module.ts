@@ -29,6 +29,7 @@ import { TeachingJournalModule } from "./teaching-journal/teaching-journal.modul
 import { ProfileModule } from "./profile/profile.module";
 import { UserModule } from "./user/user.module";
 import { StudentGuardianModule } from "./student-guardian/student-guardian.module";
+import { StudentModule } from "./student/student.module";
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { StudentGuardianModule } from "./student-guardian/student-guardian.modul
     TeachersModule,
     UserModule,
     StudentGuardianModule,
+    StudentModule,
   ],
   controllers: [AppController],
   providers: [
