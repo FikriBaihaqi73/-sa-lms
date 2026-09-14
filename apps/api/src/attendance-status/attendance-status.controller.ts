@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -26,10 +27,23 @@ export class AttendanceStatusController {
 
   @Get()
   @ApiOperation({ summary: "Get all attendance statuses" })
-  async findAll() {
+  async findAll(
+    @Query("page") page = "1",
+    @Query("limit") limit = "10",
+    @Query("search") search?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    const result = await this.attendanceStatusService.findAll(
+      pageNumber,
+      limitNumber,
+      search,
+    );
     return ResponseHelper.success(
-      await this.attendanceStatusService.findAll(),
+      result.data,
       "Attendance statuses retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

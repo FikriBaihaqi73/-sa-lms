@@ -28,6 +28,7 @@ model Profile {
   religion    Religion?    @relation(fields: [religionId], references: [id])
   nationality Nationality? @relation(fields: [nationalityId], references: [id])
   teacher     Teachers?
+  student     Student?
 
   @@index([roleId])
   @@map("profiles")

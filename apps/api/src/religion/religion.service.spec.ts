@@ -23,12 +23,15 @@ describe("ReligionService", () => {
   });
 
   it("returns all active religions", async () => {
-    const religions = [{ id: "islam-id", name: "Islam" }];
+    const result = {
+      data: [{ id: "islam-id", name: "Islam" }],
+      meta: { totalData: 1, totalPages: 1, currentPage: 1, perPage: 10 },
+    };
     jest
       .spyOn(ReligionRepository.prototype, "findAll")
-      .mockResolvedValue(religions as never);
+      .mockResolvedValue(result as never);
 
-    await expect(service.findAll()).resolves.toEqual(religions);
+    await expect(service.findAll(1, 10, "Islam")).resolves.toEqual(result);
   });
 
   it("rejects a missing religion", async () => {
