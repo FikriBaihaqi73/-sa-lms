@@ -13,6 +13,7 @@ model Student {
   enrollmentYear   Int?    @map("enrollment_year")
 
   // relations
+  profile               Profile                @relation(fields: [profileId], references: [id])
   studentGuardians      StudentGuardian[]
   examinationScores     ExaminationScores[]
   classStudents         ClassStudent[]

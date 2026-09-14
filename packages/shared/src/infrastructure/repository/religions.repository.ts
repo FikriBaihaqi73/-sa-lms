@@ -42,13 +42,47 @@ export class ReligionRepository {
     });
   }
 
-  async findAll(): Promise<ReligionEntity[]> {
-    return this.prisma.religion.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page = 1,
+    limit = 10,
+    search?: string,
+  ): Promise<{ data: ReligionEntity[]; meta: any }> {
+    const skip = (page - 1) * limit;
+    const whereCondition = {
+      deleted_at: null,
+      ...(search
+        ? {
+            name: { contains: search, mode: "insensitive" as const },
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.religion.findMany({
+        where: whereCondition,
+        skip,
+        take: limit,
+        select: religionSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.religion.count({
+        where: whereCondition,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: religionSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateReligionInput): Promise<ReligionEntity> {

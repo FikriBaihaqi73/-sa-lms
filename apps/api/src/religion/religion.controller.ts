@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -24,10 +25,23 @@ export class ReligionController {
 
   @Get()
   @ApiOperation({ summary: "Get all active religions" })
-  async findAll() {
+  async findAll(
+    @Query("page") page = "1",
+    @Query("limit") limit = "10",
+    @Query("search") search?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    const result = await this.religionService.findAll(
+      pageNumber,
+      limitNumber,
+      search,
+    );
     return ResponseHelper.success(
-      await this.religionService.findAll(),
+      result.data,
       "Religions retrieved successfully",
+      200,
+      result.meta,
     );
   }
 
