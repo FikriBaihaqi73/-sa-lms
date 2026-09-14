@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -19,10 +20,16 @@ export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all roles" })
-  async findAll() {
-    const roles = await this.roleService.findAll();
-    return ResponseHelper.success(roles, "Roles retrieved successfully");
+  @ApiOperation({ summary: "Get all roles with pagination and relationships" })
+  async findAll(
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10'
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    
+    const result = await this.roleService.findAll(pageNumber, limitNumber);
+    return ResponseHelper.success(result.data, "Roles retrieved successfully", 200, result.meta);
   }
 
   @Get(":id")
