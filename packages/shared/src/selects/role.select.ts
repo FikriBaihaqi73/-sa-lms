@@ -6,6 +6,7 @@ export const roleSelect = {
   description: true,
   createdAt: true,
   updatedAt: true,
+  rolePermissions: true,
 } satisfies Prisma.RoleSelect;
 
 export type RoleSelectType = typeof roleSelect;

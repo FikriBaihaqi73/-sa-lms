@@ -44,13 +44,39 @@ export class RoleRepository {
     });
   }
 
-  async findAll(): Promise<RoleEntity[]> {
-    return this.prisma.role.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(page: number, limit: number): Promise<{ data: RoleEntity[], meta: any }> {
+    const skip = (page - 1) * limit;
+    
+    const [data, totalData] = await Promise.all([
+      this.prisma.role.findMany({
+        where: {
+          deletedAt: null,
+        },
+        skip,
+        take: limit,
+        select: roleSelect,
+        orderBy: {
+          createdAt: 'desc',
+        }
+      }),
+      this.prisma.role.count({
+        where: {
+          deletedAt: null,
+        },
+      })
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: roleSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateRoleInput): Promise<RoleEntity> {

@@ -18,8 +18,8 @@ export class RoleService {
     this.roleRepository = new RoleRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.roleRepository.findAll();
+  async findAll(page: number, limit: number) {
+    return this.roleRepository.findAll(page, limit);
   }
 
   async findOne(id: string) {
