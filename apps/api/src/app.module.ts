@@ -26,6 +26,7 @@ import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { ProfileModule } from "./profile/profile.module";
+import { UserModule } from "./user/user.module";
 import { StudentGuardianModule } from "./student-guardian/student-guardian.module";
 
 @Module({
@@ -53,6 +54,7 @@ import { StudentGuardianModule } from "./student-guardian/student-guardian.modul
     AssignmentTypeModule,
     DepartmentsModule,
     TeachersModule,
+    UserModule,
     StudentGuardianModule,
   ],
   controllers: [AppController],
