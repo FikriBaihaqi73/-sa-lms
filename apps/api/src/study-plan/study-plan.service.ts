@@ -31,8 +31,17 @@ export class StudyPlanService {
     this.studyPlanRepository = new StudyPlanRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.studyPlanRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: {
+      search?: string | undefined;
+      student_id?: string | undefined;
+      class_subject_id?: string | undefined;
+      academic_year_id?: string | undefined;
+    },
+  ) {
+    return this.studyPlanRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {

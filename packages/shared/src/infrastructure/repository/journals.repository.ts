@@ -6,20 +6,26 @@ import {
 
 export interface CreateTeachingJournalInput {
   schedule_id: string;
-  meeting_number?: number | null;
-  journal_date?: Date | null;
-  topic?: string | null;
-  material?: string | null;
-  notes?: string | null;
+  meeting_number?: number | undefined;
+  journal_date?: Date | undefined;
+  topic?: string | undefined;
+  material?: string | undefined;
+  notes?: string | undefined;
 }
 
 export interface UpdateTeachingJournalInput {
-  schedule_id?: string;
-  meeting_number?: number | null;
-  journal_date?: Date | null;
-  topic?: string | null;
-  material?: string | null;
-  notes?: string | null;
+  schedule_id?: string | undefined;
+  meeting_number?: number | undefined;
+  journal_date?: Date | undefined;
+  topic?: string | undefined;
+  material?: string | undefined;
+  notes?: string | undefined;
+}
+
+export interface TeachingJournalSearchInput {
+  search?: string | undefined;
+  schedule_id?: string | undefined;
+  journal_date?: string | undefined;
 }
 
 export class TeachingJournalRepository {
@@ -51,13 +57,56 @@ export class TeachingJournalRepository {
     });
   }
 
-  async findAll(): Promise<TeachingJournalEntity[]> {
-    return this.prisma.teachingJournals.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: TeachingJournalSearchInput,
+  ): Promise<{ data: TeachingJournalEntity[]; meta: any }> {
+    const skip = (page - 1) * limit;
+
+    const where: any = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            OR: [
+              { topic: { contains: filters.search, mode: "insensitive" } },
+              { material: { contains: filters.search, mode: "insensitive" } },
+              { notes: { contains: filters.search, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+      ...(filters?.schedule_id ? { schedule_id: filters.schedule_id } : {}),
+      ...(filters?.journal_date
+        ? { journal_date: new Date(filters.journal_date) }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.teachingJournals.findMany({
+        where,
+        skip,
+        take: limit,
+        select: teachingJournalSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.teachingJournals.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: teachingJournalSelect,
-    });
+    };
   }
 
   async update(

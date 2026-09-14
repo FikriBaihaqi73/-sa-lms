@@ -12,6 +12,9 @@ export const moduleSelect = {
   display_order: true,
   is_published: true,
   is_locked: true,
+  moduleContents: true,
+  assignments: true,
+  class_subject: true,
 } satisfies Prisma.ModulesSelect;
 
 export type ModuleSelectType = typeof moduleSelect;

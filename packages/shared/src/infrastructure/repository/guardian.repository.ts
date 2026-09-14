@@ -1,22 +1,26 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import { type GuardianEntity, guardianSelect } from "#selects/guardian.select";
 
 export interface CreateGuardianInput {
   fullName: string;
-  relationship?: string;
-  phoneNumber?: string;
-  email?: string;
-  address?: string;
-  occupation?: string;
+  relationship?: string | undefined;
+  phoneNumber?: string | undefined;
+  email?: string | undefined;
+  address?: string | undefined;
+  occupation?: string | undefined;
 }
 
 export interface UpdateGuardianInput {
-  fullName?: string;
-  relationship?: string;
-  phoneNumber?: string;
-  email?: string;
-  address?: string;
-  occupation?: string;
+  fullName?: string | undefined;
+  relationship?: string | undefined;
+  phoneNumber?: string | undefined;
+  email?: string | undefined;
+  address?: string | undefined;
+  occupation?: string | undefined;
+}
+
+export interface GuardianSearchInput {
+  search?: string | undefined;
 }
 
 export class GuardianRepository {
@@ -56,13 +60,58 @@ export class GuardianRepository {
     });
   }
 
-  async findAll(): Promise<GuardianEntity[]> {
-    return this.prisma.guardian.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: GuardianSearchInput,
+  ): Promise<{
+    data: GuardianEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deletedAt: null,
+      ...(filters?.search
+        ? {
+            fullName: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.GuardianWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.guardian.findMany({
+        where,
+        skip,
+        take: limit,
+        select: guardianSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.guardian.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: guardianSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateGuardianInput): Promise<GuardianEntity> {

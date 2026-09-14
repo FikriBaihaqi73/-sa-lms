@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type StudyPlanEntity,
   studyPlanSelect,
@@ -11,9 +11,16 @@ export interface CreateStudyPlanInput {
 }
 
 export interface UpdateStudyPlanInput {
-  student_id?: string;
-  class_subject_id?: string;
-  academic_year_id?: string;
+  student_id?: string | undefined;
+  class_subject_id?: string | undefined;
+  academic_year_id?: string | undefined;
+}
+
+export interface StudyPlanSearchInput {
+  search?: string | undefined;
+  student_id?: string | undefined;
+  class_subject_id?: string | undefined;
+  academic_year_id?: string | undefined;
 }
 
 export class StudyPlanRepository {
@@ -40,13 +47,112 @@ export class StudyPlanRepository {
     });
   }
 
-  async findAll(): Promise<StudyPlanEntity[]> {
-    return this.prisma.studyPlans.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: StudyPlanSearchInput,
+  ): Promise<{
+    data: StudyPlanEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+
+    const where = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            OR: [
+              {
+                student: {
+                  is: {
+                    studentNumber: {
+                      contains: filters.search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+              {
+                classSubject: {
+                  is: {
+                    subject: {
+                      is: {
+                        name: {
+                          contains: filters.search,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                classSubject: {
+                  is: {
+                    subject: {
+                      is: {
+                        code: {
+                          contains: filters.search,
+                          mode: "insensitive",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                academicYear: {
+                  is: {
+                    academic_year: {
+                      contains: filters.search,
+                      mode: "insensitive",
+                    },
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+      ...(filters?.student_id ? { student_id: filters.student_id } : {}),
+      ...(filters?.class_subject_id
+        ? { class_subject_id: filters.class_subject_id }
+        : {}),
+      ...(filters?.academic_year_id
+        ? { academic_year_id: filters.academic_year_id }
+        : {}),
+    } satisfies Prisma.StudyPlansWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.studyPlans.findMany({
+        where,
+        skip,
+        take: limit,
+        select: studyPlanSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.studyPlans.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: studyPlanSelect,
-    });
+    };
   }
 
   async findByStudentClassSubjectAndAcademicYear(

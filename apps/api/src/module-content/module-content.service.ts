@@ -19,8 +19,12 @@ export class ModuleContentService {
     this.moduleRepository = new ModuleRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.moduleContentRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: { search?: string | undefined },
+  ) {
+    return this.moduleContentRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {
@@ -35,9 +39,9 @@ export class ModuleContentService {
       moduleId: dto.moduleId,
       title: dto.title,
       contentType: dto.contentType,
-      ...(dto.content !== undefined ? { content: dto.content } : {}),
-      ...(dto.fileId !== undefined ? { fileId: dto.fileId } : {}),
-      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder } : {}),
+      ...(dto.content !== undefined ? { content: dto.content ?? undefined } : {}),
+      ...(dto.fileId !== undefined ? { fileId: dto.fileId ?? undefined } : {}),
+      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder ?? undefined } : {}),
     });
   }
 
@@ -50,9 +54,9 @@ export class ModuleContentService {
       ...(dto.contentType !== undefined
         ? { contentType: dto.contentType }
         : {}),
-      ...(dto.content !== undefined ? { content: dto.content } : {}),
-      ...(dto.fileId !== undefined ? { fileId: dto.fileId } : {}),
-      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder } : {}),
+      ...(dto.content !== undefined ? { content: dto.content ?? undefined } : {}),
+      ...(dto.fileId !== undefined ? { fileId: dto.fileId ?? undefined } : {}),
+      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder ?? undefined } : {}),
     });
   }
 

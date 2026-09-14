@@ -18,8 +18,12 @@ export class DepartmentsService {
     this.departmentRepository = new DepartmentRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.departmentRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: { search?: string | undefined },
+  ) {
+    return this.departmentRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {

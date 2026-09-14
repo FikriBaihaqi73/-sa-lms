@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -23,12 +24,31 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all attendance records" })
-  async findAll() {
-    const attendances = await this.attendanceService.findAll();
+  @ApiOperation({ summary: "Get all attendance records with pagination, search and filters" })
+  async findAll(
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
+    @Query("search") search?: string,
+    @Query("schedule_id") schedule_id?: string,
+    @Query("student_id") student_id?: string,
+    @Query("attendance_status_id") attendance_status_id?: string,
+    @Query("attendance_date") attendance_date?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    
+    const result = await this.attendanceService.findAll(pageNumber, limitNumber, {
+      search,
+      schedule_id,
+      student_id,
+      attendance_status_id,
+      attendance_date,
+    });
     return ResponseHelper.success(
-      attendances,
+      result.data,
       "Attendances retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

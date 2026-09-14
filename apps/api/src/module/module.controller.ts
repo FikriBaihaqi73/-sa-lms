@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -23,11 +24,23 @@ export class LearningModuleController {
   constructor(private readonly learningModuleService: LearningModuleService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all learning modules" })
-  async findAll() {
+  @ApiOperation({ summary: "Get all learning modules with pagination and search" })
+  async findAll(
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
+    @Query("search") search?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+
+    const result = await this.learningModuleService.findAll(pageNumber, limitNumber, {
+      search,
+    });
     return ResponseHelper.success(
-      await this.learningModuleService.findAll(),
+      result.data,
       "Learning modules retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

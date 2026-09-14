@@ -23,8 +23,12 @@ export class InstitutionService {
     this.institutionRepository = new InstitutionRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.institutionRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: { search?: string | undefined },
+  ) {
+    return this.institutionRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {

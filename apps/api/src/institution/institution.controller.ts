@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -23,11 +24,23 @@ export class InstitutionController {
   constructor(private readonly institutionService: InstitutionService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all institutions" })
-  async findAll() {
+  @ApiOperation({ summary: "Get all institutions with pagination and search" })
+  async findAll(
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
+    @Query("search") search?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+
+    const result = await this.institutionService.findAll(pageNumber, limitNumber, {
+      search,
+    });
     return ResponseHelper.success(
-      await this.institutionService.findAll(),
+      result.data,
       "Institutions retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

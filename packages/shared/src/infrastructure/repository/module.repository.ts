@@ -1,24 +1,28 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import { type ModuleEntity, moduleSelect } from "#selects/module.select";
 
 export interface CreateModuleInput {
-  created_by?: string;
+  created_by?: string | undefined;
   class_subject_id: string;
   title: string;
-  description?: string | null;
-  display_order?: number | null;
-  is_published?: boolean | null;
-  is_locked?: boolean | null;
+  description?: string | undefined;
+  display_order?: number | undefined;
+  is_published?: boolean | undefined;
+  is_locked?: boolean | undefined;
 }
 
 export interface UpdateModuleInput {
-  updated_by?: string;
-  class_subject_id?: string;
-  title?: string;
-  description?: string | null;
-  display_order?: number | null;
-  is_published?: boolean | null;
-  is_locked?: boolean | null;
+  updated_by?: string | undefined;
+  class_subject_id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  display_order?: number | undefined;
+  is_published?: boolean | undefined;
+  is_locked?: boolean | undefined;
+}
+
+export interface ModuleSearchInput {
+  search?: string | undefined;
 }
 
 export class ModuleRepository {
@@ -48,13 +52,58 @@ export class ModuleRepository {
     });
   }
 
-  async findAll(): Promise<ModuleEntity[]> {
-    return this.prisma.modules.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: ModuleSearchInput,
+  ): Promise<{
+    data: ModuleEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            title: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.ModulesWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.modules.findMany({
+        where,
+        skip,
+        take: limit,
+        select: moduleSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.modules.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: moduleSelect,
-    });
+    };
   }
 
   async findByClassSubjectId(

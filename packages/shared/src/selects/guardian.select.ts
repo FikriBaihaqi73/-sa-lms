@@ -10,6 +10,7 @@ export const guardianSelect = {
   occupation: true,
   createdAt: true,
   updatedAt: true,
+  studentGuardians: true,
 } satisfies Prisma.GuardianSelect;
 
 export type GuardianSelectType = typeof guardianSelect;

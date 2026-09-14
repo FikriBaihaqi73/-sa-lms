@@ -8,16 +8,24 @@ export interface CreateAttendanceInput {
   schedule_id: string;
   student_id: string;
   attendance_status_id: string;
-  attendance_date?: Date | null;
-  notes?: string | null;
+  attendance_date?: Date | undefined;
+  notes?: string | undefined;
 }
 
 export interface UpdateAttendanceInput {
-  schedule_id?: string;
-  student_id?: string;
-  attendance_status_id?: string;
-  attendance_date?: Date | null;
-  notes?: string | null;
+  schedule_id?: string | undefined;
+  student_id?: string | undefined;
+  attendance_status_id?: string | undefined;
+  attendance_date?: Date | undefined;
+  notes?: string | undefined;
+}
+
+export interface AttendanceSearchInput {
+  search?: string | undefined;
+  schedule_id?: string | undefined;
+  student_id?: string | undefined;
+  attendance_status_id?: string | undefined;
+  attendance_date?: string | undefined;
 }
 
 export class AttendanceRepository {
@@ -96,13 +104,59 @@ export class AttendanceRepository {
     });
   }
 
-  async findAll(): Promise<AttendanceEntity[]> {
-    return this.prisma.attendances.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: AttendanceSearchInput,
+  ): Promise<{ data: AttendanceEntity[]; meta: any }> {
+    const skip = (page - 1) * limit;
+
+    const where: any = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            notes: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+      ...(filters?.schedule_id ? { schedule_id: filters.schedule_id } : {}),
+      ...(filters?.student_id ? { student_id: filters.student_id } : {}),
+      ...(filters?.attendance_status_id
+        ? { attendance_status_id: filters.attendance_status_id }
+        : {}),
+      ...(filters?.attendance_date
+        ? { attendance_date: new Date(filters.attendance_date) }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.attendances.findMany({
+        where,
+        skip,
+        take: limit,
+        select: attendanceSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.attendances.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: attendanceSelect,
-    });
+    };
   }
 
   async update(
