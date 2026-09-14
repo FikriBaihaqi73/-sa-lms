@@ -8,6 +8,9 @@ export const studyPlanSelect = {
   student_id: true,
   class_subject_id: true,
   academic_year_id: true,
+  student: true,
+  classSubject: true,
+  academicYear: true,
 } satisfies Prisma.StudyPlansSelect;
 
 export type StudyPlanEntity = Prisma.StudyPlansGetPayload<{

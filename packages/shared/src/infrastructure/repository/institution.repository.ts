@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type InstitutionEntity,
   institutionSelect,
@@ -7,29 +7,33 @@ import {
 export interface CreateInstitutionInput {
   institutionLevelId: string;
   name: string;
-  shortName?: string;
-  address?: string;
-  city?: string;
-  province?: string;
-  postalCode?: string;
-  phoneNumber?: string;
-  email?: string;
-  website?: string;
-  logoUrl?: string;
+  shortName?: string | undefined;
+  address?: string | undefined;
+  city?: string | undefined;
+  province?: string | undefined;
+  postalCode?: string | undefined;
+  phoneNumber?: string | undefined;
+  email?: string | undefined;
+  website?: string | undefined;
+  logoUrl?: string | undefined;
 }
 
 export interface UpdateInstitutionInput {
-  institutionLevelId?: string;
-  name?: string;
-  shortName?: string;
-  address?: string;
-  city?: string;
-  province?: string;
-  postalCode?: string;
-  phoneNumber?: string;
-  email?: string;
-  website?: string;
-  logoUrl?: string;
+  institutionLevelId?: string | undefined;
+  name?: string | undefined;
+  shortName?: string | undefined;
+  address?: string | undefined;
+  city?: string | undefined;
+  province?: string | undefined;
+  postalCode?: string | undefined;
+  phoneNumber?: string | undefined;
+  email?: string | undefined;
+  website?: string | undefined;
+  logoUrl?: string | undefined;
+}
+
+export interface InstitutionSearchInput {
+  search?: string | undefined;
 }
 
 export class InstitutionRepository {
@@ -64,13 +68,58 @@ export class InstitutionRepository {
     });
   }
 
-  async findAll(): Promise<InstitutionEntity[]> {
-    return this.prisma.institution.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: InstitutionSearchInput,
+  ): Promise<{
+    data: InstitutionEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deletedAt: null,
+      ...(filters?.search
+        ? {
+            name: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.InstitutionWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.institution.findMany({
+        where,
+        skip,
+        take: limit,
+        select: institutionSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.institution.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: institutionSelect,
-    });
+    };
   }
 
   async update(

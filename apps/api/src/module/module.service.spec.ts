@@ -21,6 +21,19 @@ describe("LearningModuleService", () => {
 
   afterEach(() => jest.restoreAllMocks());
 
+  it("forwards the search filter when retrieving learning modules", async () => {
+    const findAll = jest
+      .spyOn(ModuleRepository.prototype, "findAll")
+      .mockResolvedValue({
+        data: [],
+        meta: { totalData: 0, totalPages: 0, currentPage: 1, perPage: 10 },
+      });
+
+    await service.findAll(1, 10, { search: "mathematics" });
+
+    expect(findAll).toHaveBeenCalledWith(1, 10, { search: "mathematics" });
+  });
+
   it("rejects a module with a missing class subject", async () => {
     jest
       .spyOn(ClassSubjectsRepository.prototype, "findById")

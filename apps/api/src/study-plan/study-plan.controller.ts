@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -23,11 +24,28 @@ export class StudyPlanController {
   constructor(private readonly studyPlanService: StudyPlanService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all study plans" })
-  async findAll() {
+  @ApiOperation({ summary: "Get all study plans with pagination, search and filters" })
+  async findAll(
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
+    @Query("search") search?: string,
+    @Query("student_id") student_id?: string,
+    @Query("class_subject_id") class_subject_id?: string,
+    @Query("academic_year_id") academic_year_id?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    const result = await this.studyPlanService.findAll(pageNumber, limitNumber, {
+      search,
+      student_id,
+      class_subject_id,
+      academic_year_id,
+    });
     return ResponseHelper.success(
-      await this.studyPlanService.findAll(),
+      result.data,
       "Study plans retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

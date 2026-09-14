@@ -40,6 +40,19 @@ describe("StudyPlanService", () => {
 
   afterEach(() => jest.restoreAllMocks());
 
+  it("forwards the search filter when retrieving study plans", async () => {
+    const findAll = jest
+      .spyOn(StudyPlanRepository.prototype, "findAll")
+      .mockResolvedValue({
+        data: [],
+        meta: { totalData: 0, totalPages: 0, currentPage: 1, perPage: 10 },
+      });
+
+    await service.findAll(1, 10, { search: "mathematics" });
+
+    expect(findAll).toHaveBeenCalledWith(1, 10, { search: "mathematics" });
+  });
+
   it("rejects a study plan that references a missing student", async () => {
     jest.spyOn(StudentRepository.prototype, "findById").mockResolvedValue(null);
     await expect(service.create(dto)).rejects.toBeInstanceOf(NotFoundException);

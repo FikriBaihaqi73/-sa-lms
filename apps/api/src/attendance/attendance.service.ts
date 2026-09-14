@@ -29,8 +29,18 @@ export class AttendanceService {
     this.studentRepository = new StudentRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.attendanceRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: {
+      search?: string | undefined;
+      schedule_id?: string | undefined;
+      student_id?: string | undefined;
+      attendance_status_id?: string | undefined;
+      attendance_date?: string | undefined;
+    },
+  ) {
+    return this.attendanceRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {
@@ -65,7 +75,7 @@ export class AttendanceService {
     const studentId = dto.student_id ?? current.student_id;
     const attendanceDate =
       dto.attendance_date === undefined
-        ? current.attendance_date
+        ? current.attendance_date ?? undefined
         : this.toDate(dto.attendance_date);
 
     await this.ensureRelationsExist({
@@ -123,7 +133,7 @@ export class AttendanceService {
   private async ensureAttendanceDoesNotExist(
     scheduleId: string,
     studentId: string,
-    attendanceDate: Date | null,
+    attendanceDate: Date | undefined,
     excludedId?: string,
   ) {
     if (!attendanceDate) return;
@@ -140,7 +150,7 @@ export class AttendanceService {
     }
   }
 
-  private toDate(value: string | undefined): Date | null {
-    return value === undefined ? null : new Date(value);
+  private toDate(value: string | undefined): Date | undefined {
+    return value === undefined ? undefined : new Date(value);
   }
 }

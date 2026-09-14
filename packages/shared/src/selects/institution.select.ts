@@ -15,6 +15,7 @@ export const institutionSelect = {
   logoUrl: true,
   createdAt: true,
   updatedAt: true,
+  institutionLevel: true,
 } satisfies Prisma.InstitutionSelect;
 
 export type InstitutionSelectType = typeof institutionSelect;

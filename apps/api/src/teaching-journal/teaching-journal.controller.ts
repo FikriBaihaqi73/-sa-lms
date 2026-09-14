@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -25,12 +26,27 @@ export class TeachingJournalController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all teaching journals" })
-  async findAll() {
-    const journals = await this.teachingJournalService.findAll();
+  @ApiOperation({ summary: "Get all teaching journals with pagination, search and filters" })
+  async findAll(
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
+    @Query("search") search?: string,
+    @Query("schedule_id") schedule_id?: string,
+    @Query("journal_date") journal_date?: string,
+  ) {
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+    
+    const result = await this.teachingJournalService.findAll(pageNumber, limitNumber, {
+      search,
+      schedule_id,
+      journal_date,
+    });
     return ResponseHelper.success(
-      journals,
+      result.data,
       "Teaching journals retrieved successfully",
+      200,
+      result.meta,
     );
   }
 

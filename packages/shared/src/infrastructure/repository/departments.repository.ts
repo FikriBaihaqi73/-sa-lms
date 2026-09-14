@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type DepartmentEntity,
   departmentSelect,
@@ -10,8 +10,12 @@ export interface CreateDepartmentInput {
 }
 
 export interface UpdateDepartmentInput {
-  name?: string;
-  code?: string;
+  name?: string | undefined;
+  code?: string | undefined;
+}
+
+export interface DepartmentSearchInput {
+  search?: string | undefined;
 }
 
 export class DepartmentRepository {
@@ -47,13 +51,58 @@ export class DepartmentRepository {
     });
   }
 
-  async findAll(): Promise<DepartmentEntity[]> {
-    return this.prisma.departments.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: DepartmentSearchInput,
+  ): Promise<{
+    data: DepartmentEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            name: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.DepartmentsWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.departments.findMany({
+        where,
+        skip,
+        take: limit,
+        select: departmentSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.departments.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: departmentSelect,
-    });
+    };
   }
 
   async update(

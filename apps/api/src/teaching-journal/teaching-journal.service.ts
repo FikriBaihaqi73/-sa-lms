@@ -19,8 +19,16 @@ export class TeachingJournalService {
     );
   }
 
-  async findAll() {
-    return this.teachingJournalRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: {
+      search?: string | undefined;
+      schedule_id?: string | undefined;
+      journal_date?: string | undefined;
+    },
+  ) {
+    return this.teachingJournalRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {

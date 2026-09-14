@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type ModuleContentEntity,
   moduleContentSelect,
@@ -8,18 +8,22 @@ export interface CreateModuleContentInput {
   moduleId: string;
   title: string;
   contentType: string;
-  content?: string | null;
-  fileId?: string | null;
-  sortOrder?: number | null;
+  content?: string | undefined;
+  fileId?: string | undefined;
+  sortOrder?: number | undefined;
 }
 
 export interface UpdateModuleContentInput {
-  moduleId?: string;
-  title?: string;
-  contentType?: string;
-  content?: string | null;
-  fileId?: string | null;
-  sortOrder?: number | null;
+  moduleId?: string | undefined;
+  title?: string | undefined;
+  contentType?: string | undefined;
+  content?: string | undefined;
+  fileId?: string | undefined;
+  sortOrder?: number | undefined;
+}
+
+export interface ModuleContentSearchInput {
+  search?: string | undefined;
 }
 
 export class ModuleContentRepository {
@@ -62,13 +66,58 @@ export class ModuleContentRepository {
     });
   }
 
-  async findAll(): Promise<ModuleContentEntity[]> {
-    return this.prisma.moduleContent.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: ModuleContentSearchInput,
+  ): Promise<{
+    data: ModuleContentEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deletedAt: null,
+      ...(filters?.search
+        ? {
+            title: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.ModuleContentWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.moduleContent.findMany({
+        where,
+        skip,
+        take: limit,
+        select: moduleContentSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.moduleContent.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: moduleContentSelect,
-    });
+    };
   }
 
   async update(

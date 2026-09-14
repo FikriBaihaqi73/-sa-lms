@@ -21,6 +21,19 @@ describe("ModuleContentService", () => {
 
   afterEach(() => jest.restoreAllMocks());
 
+  it("forwards the search filter when retrieving module contents", async () => {
+    const findAll = jest
+      .spyOn(ModuleContentRepository.prototype, "findAll")
+      .mockResolvedValue({
+        data: [],
+        meta: { totalData: 0, totalPages: 0, currentPage: 1, perPage: 10 },
+      });
+
+    await service.findAll(1, 10, { search: "lesson" });
+
+    expect(findAll).toHaveBeenCalledWith(1, 10, { search: "lesson" });
+  });
+
   it("rejects module content for a missing module", async () => {
     jest.spyOn(ModuleRepository.prototype, "findById").mockResolvedValue(null);
     await expect(

@@ -11,6 +11,7 @@ export const moduleContentSelect = {
   content: true,
   fileId: true,
   sortOrder: true,
+  module: true,
 } satisfies Prisma.ModuleContentSelect;
 
 export type ModuleContentSelectType = typeof moduleContentSelect;

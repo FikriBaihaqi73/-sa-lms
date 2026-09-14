@@ -11,6 +11,7 @@ import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
+import { GuardianModule } from "./guardian/guardian.module";
 import { InstitutionModule } from "./institution/institution.module";
 import { InstitutionLevelModule } from "./institution-level/institution-level.module";
 import { LearningModuleModule } from "./module/module.module";
@@ -41,6 +42,7 @@ import { StudentGuardianModule } from "./student-guardian/student-guardian.modul
     AcademicYearModule,
     AcademicStatusModule,
     EmploymentStatusModule,
+    GuardianModule,
     AttendanceStatusModule,
     SpecializationModule,
     AttendanceModule,

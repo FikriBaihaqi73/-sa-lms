@@ -7,6 +7,8 @@ export const departmentSelect = {
   created_at: true,
   updated_at: true,
   deleted_at: true,
+  teachers: true,
+  subjects: true,
 } satisfies Prisma.DepartmentsSelect;
 
 export type DepartmentSelectType = typeof departmentSelect;

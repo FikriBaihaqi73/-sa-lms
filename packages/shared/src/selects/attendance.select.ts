@@ -9,6 +9,9 @@ export const attendanceSelect = {
   notes: true,
   created_at: true,
   updated_at: true,
+  schedule: true,
+  student: true,
+  attendance_status: true,
 } satisfies Prisma.AttendancesSelect;
 
 export type AttendanceSelectType = typeof attendanceSelect;

@@ -25,6 +25,19 @@ describe("InstitutionService", () => {
 
   afterEach(() => jest.restoreAllMocks());
 
+  it("forwards the search filter when retrieving institutions", async () => {
+    const findAll = jest
+      .spyOn(InstitutionRepository.prototype, "findAll")
+      .mockResolvedValue({
+        data: [],
+        meta: { totalData: 0, totalPages: 0, currentPage: 1, perPage: 10 },
+      });
+
+    await service.findAll(1, 10, { search: "academy" });
+
+    expect(findAll).toHaveBeenCalledWith(1, 10, { search: "academy" });
+  });
+
   it("rejects an institution that references a missing institution level", async () => {
     jest
       .spyOn(InstitutionLevelRepository.prototype, "findById")

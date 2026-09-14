@@ -19,8 +19,12 @@ export class LearningModuleService {
     this.moduleRepository = new ModuleRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.moduleRepository.findAll();
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: { search?: string | undefined },
+  ) {
+    return this.moduleRepository.findAll(page, limit, filters);
   }
 
   async findOne(id: string) {
@@ -36,15 +40,15 @@ export class LearningModuleService {
       class_subject_id: dto.class_subject_id,
       title: dto.title,
       ...(dto.description !== undefined
-        ? { description: dto.description }
+        ? { description: dto.description ?? undefined }
         : {}),
       ...(dto.display_order !== undefined
-        ? { display_order: dto.display_order }
+        ? { display_order: dto.display_order ?? undefined }
         : {}),
       ...(dto.is_published !== undefined
-        ? { is_published: dto.is_published }
+        ? { is_published: dto.is_published ?? undefined }
         : {}),
-      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked } : {}),
+      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked ?? undefined } : {}),
     });
   }
 
@@ -59,15 +63,15 @@ export class LearningModuleService {
         : {}),
       ...(dto.title !== undefined ? { title: dto.title } : {}),
       ...(dto.description !== undefined
-        ? { description: dto.description }
+        ? { description: dto.description ?? undefined }
         : {}),
       ...(dto.display_order !== undefined
-        ? { display_order: dto.display_order }
+        ? { display_order: dto.display_order ?? undefined }
         : {}),
       ...(dto.is_published !== undefined
-        ? { is_published: dto.is_published }
+        ? { is_published: dto.is_published ?? undefined }
         : {}),
-      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked } : {}),
+      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked ?? undefined } : {}),
     });
   }
 
