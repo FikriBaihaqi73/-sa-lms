@@ -16,6 +16,22 @@ export interface UpdateStudentInput {
   enrollmentYear?: number | null;
 }
 
+export interface FindAllStudentInput {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface FindAllStudentResult {
+  data: StudentEntity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export class StudentRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -64,13 +80,54 @@ export class StudentRepository {
     });
   }
 
-  async findAll(): Promise<StudentEntity[]> {
-    return this.prisma.student.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    params: FindAllStudentInput = {},
+  ): Promise<FindAllStudentResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
+    const where = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                studentNumber: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.student.findMany({
+        where,
+        select: studentSelect,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+
+      this.prisma.student.count({
+        where,
+      }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-      select: studentSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateStudentInput): Promise<StudentEntity> {
