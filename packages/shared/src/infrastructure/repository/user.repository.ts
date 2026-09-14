@@ -7,18 +7,15 @@ import {
 } from "#selects/user.select";
 
 export interface CreateUserInput {
-  role_id: string;
-  username: string;
+  email: string;
   password: string;
   is_active?: boolean | undefined;
 }
 
 export interface UpdateUserInput {
-  role_id?: string | undefined;
-  username?: string | undefined;
+  email?: string | undefined;
   password?: string | undefined;
   is_active?: boolean | undefined;
-  last_login?: Date | null | undefined;
 }
 
 export class UserRepository {
@@ -27,8 +24,7 @@ export class UserRepository {
   async create(data: CreateUserInput): Promise<UserEntity> {
     return this.prisma.users.create({
       data: {
-        role_id: data.role_id,
-        username: data.username,
+        email: data.email,
         password: data.password,
         ...(data.is_active !== undefined && {
           is_active: data.is_active,
@@ -48,20 +44,10 @@ export class UserRepository {
     });
   }
 
-  async findByUsername(username: string): Promise<UserEntity | null> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     return this.prisma.users.findFirst({
       where: {
-        username,
-        deleted_at: null,
-      },
-      select: userSelect,
-    });
-  }
-
-  async findByRoleId(role_id: string): Promise<UserEntity[]> {
-    return this.prisma.users.findMany({
-      where: {
-        role_id,
+        email,
         deleted_at: null,
       },
       select: userSelect,
@@ -83,20 +69,14 @@ export class UserRepository {
         id,
       },
       data: {
-        ...(data.role_id !== undefined && {
-          role_id: data.role_id,
-        }),
-        ...(data.username !== undefined && {
-          username: data.username,
+        ...(data.email !== undefined && {
+          email: data.email,
         }),
         ...(data.password !== undefined && {
           password: data.password,
         }),
         ...(data.is_active !== undefined && {
           is_active: data.is_active,
-        }),
-        ...(data.last_login !== undefined && {
-          last_login: data.last_login,
         }),
       },
       select: userSelect,
@@ -115,27 +95,16 @@ export class UserRepository {
     });
   }
 
-  async findByUsernameWithPassword(
-    username: string,
+  async findByEmailWithPassword(
+    email: string,
   ): Promise<UserWithPasswordEntity | null> {
     return this.prisma.users.findFirst({
       where: {
-        username,
+        email,
         deleted_at: null,
       },
       select: userWithPasswordSelect,
     });
   }
 
-  async updateLastLogin(id: string): Promise<UserEntity> {
-    return this.prisma.users.update({
-      where: {
-        id,
-      },
-      data: {
-        last_login: new Date(),
-      },
-      select: userSelect,
-    });
-  }
 }

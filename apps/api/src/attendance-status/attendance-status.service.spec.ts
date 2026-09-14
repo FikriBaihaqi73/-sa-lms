@@ -23,12 +23,15 @@ describe("AttendanceStatusService", () => {
   });
 
   it("returns all active attendance statuses", async () => {
-    const statuses = [{ id: "present-id", name: "Present" }];
+    const result = {
+      data: [{ id: "present-id", name: "Present" }],
+      meta: { totalData: 1, totalPages: 1, currentPage: 1, perPage: 10 },
+    };
     jest
       .spyOn(AttendanceStatusRepository.prototype, "findAll")
-      .mockResolvedValue(statuses as never);
+      .mockResolvedValue(result as never);
 
-    await expect(service.findAll()).resolves.toEqual(statuses);
+    await expect(service.findAll(1, 10, "Present")).resolves.toEqual(result);
   });
 
   it("rejects a missing attendance status", async () => {

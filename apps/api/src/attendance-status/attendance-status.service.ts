@@ -20,8 +20,8 @@ export class AttendanceStatusService {
     );
   }
 
-  findAll() {
-    return this.attendanceStatusRepository.findAll();
+  findAll(page = 1, limit = 10, search?: string) {
+    return this.attendanceStatusRepository.findAll(page, limit, search);
   }
 
   async findOne(id: string) {

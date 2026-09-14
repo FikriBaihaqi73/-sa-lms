@@ -18,8 +18,8 @@ export class ReligionService {
     this.religionRepository = new ReligionRepository(this.prisma.client);
   }
 
-  findAll() {
-    return this.religionRepository.findAll();
+  findAll(page = 1, limit = 10, search?: string) {
+    return this.religionRepository.findAll(page, limit, search);
   }
 
   async findOne(id: string) {
