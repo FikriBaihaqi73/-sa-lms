@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import { type ClassEntity, classSelect } from "#selects/class.select";
 
 export interface CreateClassInput {
@@ -12,11 +12,25 @@ export interface CreateClassInput {
 
 export interface UpdateClassInput {
   institution_id?: string;
-  homeroom_teacher_id?: string;
+  homeroom_teacher_id?: string | null;
   academic_year_id?: string;
   name?: string;
   grade_level?: number;
-  capacity?: number;
+  capacity?: number | null;
+}
+
+export interface ClassSearchInput {
+  search?: string | undefined;
+}
+
+export interface FindAllClassResult {
+  data: ClassEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class ClassRepository {
@@ -46,13 +60,48 @@ export class ClassRepository {
     });
   }
 
-  async findAll(): Promise<ClassEntity[]> {
-    return this.prisma.classes.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: ClassSearchInput,
+  ): Promise<FindAllClassResult> {
+    const currentPage = Math.max(Math.floor(page || 1), 1);
+    const perPage = Math.min(Math.max(Math.floor(limit || 10), 1), 100);
+    const search = filters?.search?.trim();
+    const where = {
+      deleted_at: null,
+      ...(search
+        ? {
+            name: {
+              contains: search,
+              mode: "insensitive" as const,
+            },
+          }
+        : {}),
+    } satisfies Prisma.ClassesWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.classes.findMany({
+        where,
+        skip: (currentPage - 1) * perPage,
+        take: perPage,
+        select: classSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.classes.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages: Math.ceil(totalData / perPage),
+        currentPage,
+        perPage,
       },
-      select: classSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateClassInput): Promise<ClassEntity> {
