@@ -12,6 +12,39 @@ export const studentSelect = {
   studentNumber: true,
   enrollmentYear: true,
 
+  profile: {
+    select: {
+      id: true,
+      userId: true,
+      institutionId: true,
+      roleId: true,
+      fullName: true,
+      identityNumber: true,
+      gender: true,
+      birthPlace: true,
+      birthDate: true,
+      religionId: true,
+      nationalityId: true,
+      address: true,
+      phoneNumber: true,
+      email: true,
+      photoUrl: true,
+      institution: {
+        select: {
+          id: true,
+          name: true,
+          shortName: true,
+        },
+      },
+      role: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+
   assignmentSubmissions: {
     where: {
       deletedAt: null,

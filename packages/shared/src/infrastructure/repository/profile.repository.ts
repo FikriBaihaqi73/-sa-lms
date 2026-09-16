@@ -33,6 +33,22 @@ export interface UpdateProfileInput {
   photoUrl?: string;
 }
 
+export interface FindAllProfileInput {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface FindAllProfileResult {
+  data: ProfileEntity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export class ProfileRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -98,13 +114,109 @@ export class ProfileRepository {
     });
   }
 
-  async findAll(): Promise<ProfileEntity[]> {
-    return this.prisma.profile.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    params: FindAllProfileInput = {},
+  ): Promise<FindAllProfileResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
+    const where = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                fullName: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                identityNumber: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                email: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                phoneNumber: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                users: {
+                  email: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                institution: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                role: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                religion: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                nationality: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.profile.findMany({
+        where,
+        select: profileSelect,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.profile.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-      select: profileSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateProfileInput): Promise<ProfileEntity> {

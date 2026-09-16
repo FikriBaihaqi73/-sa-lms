@@ -14,8 +14,12 @@ export class ProfileService {
     this.profileRepository = new ProfileRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.profileRepository.findAll();
+  async findAll(page = 1, limit = 10, search?: string) {
+    return this.profileRepository.findAll({
+      page,
+      limit,
+      ...(search !== undefined ? { search } : {}),
+    });
   }
 
   async findOne(id: string) {

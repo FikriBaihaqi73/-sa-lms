@@ -9,6 +9,8 @@ import { AttendanceModule } from "./attendance/attendance.module";
 import { AttendanceStatusModule } from "./attendance-status/attendance-status.module";
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
+import { ClassModule } from "./class/class.module";
+import { ClassStudentModule } from "./class-student/class-student.module";
 import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
 import { GuardianModule } from "./guardian/guardian.module";
@@ -60,6 +62,8 @@ import { StudentModule } from "./student/student.module";
     UserModule,
     StudentGuardianModule,
     StudentModule,
+    ClassStudentModule,
+    ClassModule,
   ],
   controllers: [AppController],
   providers: [

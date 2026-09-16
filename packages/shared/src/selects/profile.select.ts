@@ -17,6 +17,41 @@ export const profileSelect = {
   photoUrl: true,
   createdAt: true,
   updatedAt: true,
+  users: {
+    select: {
+      id: true,
+      email: true,
+      is_active: true,
+      last_login: true,
+    },
+  },
+  institution: {
+    select: {
+      id: true,
+      name: true,
+      shortName: true,
+    },
+  },
+  role: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
+  },
+  religion: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+  nationality: {
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
+  },
 } satisfies Prisma.ProfileSelect;
 
 export type ProfileSelectType = typeof profileSelect;

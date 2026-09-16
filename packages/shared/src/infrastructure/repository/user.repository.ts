@@ -18,6 +18,22 @@ export interface UpdateUserInput {
   is_active?: boolean | undefined;
 }
 
+export interface FindAllUserInput {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface FindAllUserResult {
+  data: UserEntity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export class UserRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -54,13 +70,93 @@ export class UserRepository {
     });
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.prisma.users.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    params: FindAllUserInput = {},
+  ): Promise<FindAllUserResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
+    const where = {
+      deleted_at: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                email: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                profile: {
+                  some: {
+                    OR: [
+                      {
+                        fullName: {
+                          contains: search,
+                          mode: "insensitive" as const,
+                        },
+                      },
+                      {
+                        identityNumber: {
+                          contains: search,
+                          mode: "insensitive" as const,
+                        },
+                      },
+                      {
+                        phoneNumber: {
+                          contains: search,
+                          mode: "insensitive" as const,
+                        },
+                      },
+                      {
+                        institution: {
+                          name: {
+                            contains: search,
+                            mode: "insensitive" as const,
+                          },
+                        },
+                      },
+                      {
+                        role: {
+                          name: {
+                            contains: search,
+                            mode: "insensitive" as const,
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.users.findMany({
+        where,
+        select: userSelect,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.users.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-      select: userSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateUserInput): Promise<UserEntity> {

@@ -14,6 +14,22 @@ export interface UpdateClassStudentInput {
   studentId?: string;
 }
 
+export interface FindAllClassStudentInput {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
+export interface FindAllClassStudentResult {
+  data: ClassStudentEntity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export class ClassStudentRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -71,13 +87,61 @@ export class ClassStudentRepository {
     });
   }
 
-  async findAll(): Promise<ClassStudentEntity[]> {
-    return this.prisma.classStudent.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    params: FindAllClassStudentInput = {},
+  ): Promise<FindAllClassStudentResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
+    const where = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                classes: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                student: {
+                  studentNumber: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.classStudent.findMany({
+        where,
+        select: classStudentSelect,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.classStudent.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-      select: classStudentSelect,
-    });
+    };
   }
 
   async update(
