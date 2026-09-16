@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { ClassRepository } from "@repo/shared/infrastructure/repository/class.repository";
 import { AcademicYearRepository } from "@repo/shared/infrastructure/repository/academic-year.repository";
 import {
   ClassRepository,
@@ -16,6 +17,17 @@ import { PrismaService } from "../prisma/prisma.service";
 @Injectable()
 export class ClassService {
   private readonly classRepository: ClassRepository;
+
+  constructor(private readonly prisma: PrismaService) {
+    this.classRepository = new ClassRepository(this.prisma.client);
+  }
+
+  findAll(page = 1, limit = 10, search?: string) {
+    return this.classRepository.findAll({
+      page,
+      limit,
+      ...(search !== undefined ? { search } : {}),
+    });
   private readonly academicYearRepository: AcademicYearRepository;
   private readonly institutionRepository: InstitutionRepository;
   private readonly teacherRepository: TeacherRepository;
@@ -38,6 +50,14 @@ export class ClassService {
 
   async findOne(id: string) {
     const classEntity = await this.classRepository.findById(id);
+    if (!classEntity) {
+      throw new NotFoundException("Class not found");
+    }
+    return classEntity;
+  }
+
+  create(dto: CreateClassDto) {
+    return this.classRepository.create({
     if (!classEntity) throw new NotFoundException("Class not found");
     return classEntity;
   }
@@ -54,6 +74,11 @@ export class ClassService {
       academic_year_id: dto.academic_year_id,
       name: dto.name,
       grade_level: dto.grade_level,
+      ...(dto.homeroom_teacher_id !== undefined
+        ? { homeroom_teacher_id: dto.homeroom_teacher_id }
+        : {}),
+      ...(dto.capacity !== undefined ? { capacity: dto.capacity } : {}),
+    });
       ...(dto.homeroom_teacher_id !== undefined && {
         homeroom_teacher_id: dto.homeroom_teacher_id,
       }),
@@ -65,6 +90,20 @@ export class ClassService {
 
   async update(id: string, dto: UpdateClassDto) {
     await this.findOne(id);
+    return this.classRepository.update(id, {
+      ...(dto.institution_id !== undefined
+        ? { institution_id: dto.institution_id }
+        : {}),
+      ...(dto.homeroom_teacher_id !== undefined
+        ? { homeroom_teacher_id: dto.homeroom_teacher_id }
+        : {}),
+      ...(dto.academic_year_id !== undefined
+        ? { academic_year_id: dto.academic_year_id }
+        : {}),
+      ...(dto.name !== undefined ? { name: dto.name } : {}),
+      ...(dto.grade_level !== undefined ? { grade_level: dto.grade_level } : {}),
+      ...(dto.capacity !== undefined ? { capacity: dto.capacity } : {}),
+    });
     await this.ensureRelationsExist(
       dto.institution_id,
       dto.academic_year_id,
@@ -94,6 +133,7 @@ export class ClassService {
     await this.classRepository.delete(id);
     return { success: true, id };
   }
+}
 
   private async ensureRelationsExist(
     institutionId?: string,

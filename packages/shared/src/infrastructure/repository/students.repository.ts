@@ -98,6 +98,30 @@ export class StudentRepository {
                   mode: "insensitive" as const,
                 },
               },
+              {
+                profile: {
+                  fullName: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                profile: {
+                  email: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                profile: {
+                  identityNumber: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
             ],
           }
         : {}),

@@ -10,6 +10,7 @@ import { AttendanceStatusModule } from "./attendance-status/attendance-status.mo
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { ClassModule } from "./class/class.module";
+import { ClassStudentModule } from "./class-student/class-student.module";
 import { ClassSubjectModule } from "./class-subject/class-subject.module";
 import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
@@ -63,6 +64,8 @@ import { SubjectModule } from "./subject/subject.module";
     UserModule,
     StudentGuardianModule,
     StudentModule,
+    ClassStudentModule,
+    ClassModule,
     ClassModule,
     SubjectModule,
     ClassSubjectModule,

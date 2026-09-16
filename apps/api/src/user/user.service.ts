@@ -19,8 +19,12 @@ export class UserService {
     this.userRepository = new UserRepository(this.prisma.client);
   }
 
-  async findAll() {
-    return this.userRepository.findAll();
+  async findAll(page = 1, limit = 10, search?: string) {
+    return this.userRepository.findAll({
+      page,
+      limit,
+      ...(search !== undefined ? { search } : {}),
+    });
   }
 
   async findOne(id: string) {

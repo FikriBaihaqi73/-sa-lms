@@ -4,8 +4,10 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
@@ -20,9 +22,13 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all users" })
-  async findAll() {
-    const users = await this.userService.findAll();
+  @ApiOperation({ summary: "Get users with search and pagination" })
+  async findAll(
+    @Query("page", new ParseIntPipe({ optional: true })) page?: number,
+    @Query("limit", new ParseIntPipe({ optional: true })) limit?: number,
+    @Query("search") search?: string,
+  ) {
+    const users = await this.userService.findAll(page, limit, search);
     return ResponseHelper.success(users, "Users retrieved successfully");
   }
 

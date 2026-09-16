@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -25,6 +26,22 @@ export class ClassController {
   constructor(private readonly classService: ClassService) {}
 
   @Get()
+  @ApiOperation({ summary: "Get classes with search and pagination" })
+  async findAll(
+    @Query("page", new ParseIntPipe({ optional: true })) page?: number,
+    @Query("limit", new ParseIntPipe({ optional: true })) limit?: number,
+    @Query("search") search?: string,
+  ) {
+    const classes = await this.classService.findAll(page, limit, search);
+    return ResponseHelper.success(classes, "Classes retrieved successfully");
+  }
+
+  @Get(":id")
+  @ApiOperation({ summary: "Get class by ID" })
+  async findOne(@Param("id") id: string) {
+    return ResponseHelper.success(
+      await this.classService.findOne(id),
+      "Class retrieved successfully",
   @ApiOperation({ summary: "Get all classes with pagination and search" })
   async findAll(@Query(new ZodValidationPipe()) query: ClassQueryDto) {
     const result = await this.classService.findAll(
@@ -73,6 +90,7 @@ export class ClassController {
   }
 
   @Delete(":id")
+  @ApiOperation({ summary: "Delete a class" })
   @ApiOperation({ summary: "Soft-delete a class" })
   async remove(@Param("id") id: string) {
     return ResponseHelper.success(
@@ -80,4 +98,5 @@ export class ClassController {
       "Class deleted successfully",
     );
   }
+}
 }

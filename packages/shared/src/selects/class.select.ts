@@ -10,6 +10,27 @@ export const classSelect = {
   capacity: true,
   created_at: true,
   updated_at: true,
+  institution: {
+    select: {
+      id: true,
+      name: true,
+      shortName: true,
+    },
+  },
+  homeroom_teacher: {
+    select: {
+      id: true,
+      teacher_number: true,
+      profile_id: true,
+    },
+  },
+  academic_year: {
+    select: {
+      id: true,
+      academic_year: true,
+      is_active: true,
+    },
+  },
 } satisfies Prisma.ClassesSelect;
 
 export type ClassSelectType = typeof classSelect;

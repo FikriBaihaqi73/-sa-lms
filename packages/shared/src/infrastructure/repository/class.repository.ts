@@ -19,6 +19,10 @@ export interface UpdateClassInput {
   capacity?: number | null;
 }
 
+export interface FindAllClassInput {
+  page?: number;
+  limit?: number;
+  search?: string;
 export interface ClassSearchInput {
   search?: string | undefined;
 }
@@ -26,6 +30,10 @@ export interface ClassSearchInput {
 export interface FindAllClassResult {
   data: ClassEntity[];
   meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
     totalData: number;
     totalPages: number;
     currentPage: number;
@@ -61,6 +69,12 @@ export class ClassRepository {
   }
 
   async findAll(
+    params: FindAllClassInput = {},
+  ): Promise<FindAllClassResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
     page: number,
     limit: number,
     filters?: ClassSearchInput,
@@ -72,6 +86,48 @@ export class ClassRepository {
       deleted_at: null,
       ...(search
         ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                institution: {
+                  name: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                homeroom_teacher: {
+                  teacher_number: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+              {
+                academic_year: {
+                  academic_year: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.classes.findMany({
+        where,
+        select: classSelect,
+        skip: (page - 1) * limit,
+        take: limit,
             name: {
               contains: search,
               mode: "insensitive" as const,
@@ -96,6 +152,10 @@ export class ClassRepository {
     return {
       data,
       meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
         totalData,
         totalPages: Math.ceil(totalData / perPage),
         currentPage,
