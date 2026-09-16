@@ -1,5 +1,6 @@
+/// <reference types="jest" />
 import type { PrismaClient } from "#generated/client";
-import { ReligionRepository } from "./religions.repository";
+import { ReligionRepository } from "./religions.repository.js";
 
 describe("ReligionRepository", () => {
   const religion = {

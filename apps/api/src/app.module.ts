@@ -10,6 +10,7 @@ import { AttendanceStatusModule } from "./attendance-status/attendance-status.mo
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { ClassModule } from "./class/class.module";
+import { ClassSubjectModule } from "./class-subject/class-subject.module";
 import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
 import { GuardianModule } from "./guardian/guardian.module";
@@ -31,6 +32,7 @@ import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
+import { SubjectModule } from "./subject/subject.module";
 
 @Module({
   imports: [
@@ -62,6 +64,8 @@ import { UserModule } from "./user/user.module";
     StudentGuardianModule,
     StudentModule,
     ClassModule,
+    SubjectModule,
+    ClassSubjectModule,
   ],
   controllers: [AppController],
   providers: [

@@ -24,7 +24,9 @@ export class StudyPlanController {
   constructor(private readonly studyPlanService: StudyPlanService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all study plans with pagination, search and filters" })
+  @ApiOperation({
+    summary: "Get all study plans with pagination, search and filters",
+  })
   async findAll(
     @Query("page") page: string = "1",
     @Query("limit") limit: string = "10",
@@ -35,12 +37,16 @@ export class StudyPlanController {
   ) {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
-    const result = await this.studyPlanService.findAll(pageNumber, limitNumber, {
-      search,
-      student_id,
-      class_subject_id,
-      academic_year_id,
-    });
+    const result = await this.studyPlanService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+        student_id,
+        class_subject_id,
+        academic_year_id,
+      },
+    );
     return ResponseHelper.success(
       result.data,
       "Study plans retrieved successfully",

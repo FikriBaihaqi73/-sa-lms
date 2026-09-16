@@ -48,7 +48,9 @@ export class LearningModuleService {
       ...(dto.is_published !== undefined
         ? { is_published: dto.is_published ?? undefined }
         : {}),
-      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked ?? undefined } : {}),
+      ...(dto.is_locked !== undefined
+        ? { is_locked: dto.is_locked ?? undefined }
+        : {}),
     });
   }
 
@@ -71,7 +73,9 @@ export class LearningModuleService {
       ...(dto.is_published !== undefined
         ? { is_published: dto.is_published ?? undefined }
         : {}),
-      ...(dto.is_locked !== undefined ? { is_locked: dto.is_locked ?? undefined } : {}),
+      ...(dto.is_locked !== undefined
+        ? { is_locked: dto.is_locked ?? undefined }
+        : {}),
     });
   }
 

@@ -39,9 +39,13 @@ export class ModuleContentService {
       moduleId: dto.moduleId,
       title: dto.title,
       contentType: dto.contentType,
-      ...(dto.content !== undefined ? { content: dto.content ?? undefined } : {}),
+      ...(dto.content !== undefined
+        ? { content: dto.content ?? undefined }
+        : {}),
       ...(dto.fileId !== undefined ? { fileId: dto.fileId ?? undefined } : {}),
-      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder ?? undefined } : {}),
+      ...(dto.sortOrder !== undefined
+        ? { sortOrder: dto.sortOrder ?? undefined }
+        : {}),
     });
   }
 
@@ -54,9 +58,13 @@ export class ModuleContentService {
       ...(dto.contentType !== undefined
         ? { contentType: dto.contentType }
         : {}),
-      ...(dto.content !== undefined ? { content: dto.content ?? undefined } : {}),
+      ...(dto.content !== undefined
+        ? { content: dto.content ?? undefined }
+        : {}),
       ...(dto.fileId !== undefined ? { fileId: dto.fileId ?? undefined } : {}),
-      ...(dto.sortOrder !== undefined ? { sortOrder: dto.sortOrder ?? undefined } : {}),
+      ...(dto.sortOrder !== undefined
+        ? { sortOrder: dto.sortOrder ?? undefined }
+        : {}),
     });
   }
 

@@ -32,14 +32,22 @@ export class ProfileService {
       roleId: dto.roleId,
       institutionId: dto.institutionId,
       fullName: dto.fullName,
-      ...(dto.identityNumber !== undefined ? { identityNumber: dto.identityNumber } : {}),
+      ...(dto.identityNumber !== undefined
+        ? { identityNumber: dto.identityNumber }
+        : {}),
       ...(dto.gender !== undefined ? { gender: dto.gender } : {}),
       ...(dto.birthPlace !== undefined ? { birthPlace: dto.birthPlace } : {}),
-      ...(dto.birthDate !== undefined ? { birthDate: new Date(dto.birthDate) } : {}),
+      ...(dto.birthDate !== undefined
+        ? { birthDate: new Date(dto.birthDate) }
+        : {}),
       ...(dto.religionId !== undefined ? { religionId: dto.religionId } : {}),
-      ...(dto.nationalityId !== undefined ? { nationalityId: dto.nationalityId } : {}),
+      ...(dto.nationalityId !== undefined
+        ? { nationalityId: dto.nationalityId }
+        : {}),
       ...(dto.address !== undefined ? { address: dto.address } : {}),
-      ...(dto.phoneNumber !== undefined ? { phoneNumber: dto.phoneNumber } : {}),
+      ...(dto.phoneNumber !== undefined
+        ? { phoneNumber: dto.phoneNumber }
+        : {}),
       ...(dto.email !== undefined ? { email: dto.email } : {}),
       ...(dto.photoUrl !== undefined ? { photoUrl: dto.photoUrl } : {}),
     });
@@ -48,16 +56,26 @@ export class ProfileService {
   async update(id: string, dto: UpdateProfileDto) {
     await this.findOne(id);
     return this.profileRepository.update(id, {
-      ...(dto.institutionId !== undefined ? { institutionId: dto.institutionId } : {}),
+      ...(dto.institutionId !== undefined
+        ? { institutionId: dto.institutionId }
+        : {}),
       ...(dto.fullName !== undefined ? { fullName: dto.fullName } : {}),
-      ...(dto.identityNumber !== undefined ? { identityNumber: dto.identityNumber } : {}),
+      ...(dto.identityNumber !== undefined
+        ? { identityNumber: dto.identityNumber }
+        : {}),
       ...(dto.gender !== undefined ? { gender: dto.gender } : {}),
       ...(dto.birthPlace !== undefined ? { birthPlace: dto.birthPlace } : {}),
-      ...(dto.birthDate !== undefined ? { birthDate: new Date(dto.birthDate) } : {}),
+      ...(dto.birthDate !== undefined
+        ? { birthDate: new Date(dto.birthDate) }
+        : {}),
       ...(dto.religionId !== undefined ? { religionId: dto.religionId } : {}),
-      ...(dto.nationalityId !== undefined ? { nationalityId: dto.nationalityId } : {}),
+      ...(dto.nationalityId !== undefined
+        ? { nationalityId: dto.nationalityId }
+        : {}),
       ...(dto.address !== undefined ? { address: dto.address } : {}),
-      ...(dto.phoneNumber !== undefined ? { phoneNumber: dto.phoneNumber } : {}),
+      ...(dto.phoneNumber !== undefined
+        ? { phoneNumber: dto.phoneNumber }
+        : {}),
       ...(dto.email !== undefined ? { email: dto.email } : {}),
       ...(dto.photoUrl !== undefined ? { photoUrl: dto.photoUrl } : {}),
     });

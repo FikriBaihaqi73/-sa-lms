@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type ClassSubjectsEntity,
   classSubjectsSelect,
@@ -16,6 +16,20 @@ export interface UpdateClassSubjectsInput {
   subject_id?: string;
   teacher_id?: string;
   academic_year_id?: string;
+}
+
+export interface ClassSubjectsSearchInput {
+  search?: string | undefined;
+}
+
+export interface ClassSubjectsPaginationResult {
+  data: ClassSubjectsEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class ClassSubjectsRepository {
@@ -85,13 +99,88 @@ export class ClassSubjectsRepository {
     });
   }
 
-  async findAll(): Promise<ClassSubjectsEntity[]> {
-    return this.prisma.classSubjects.findMany({
+  async findByUniqueCombination(
+    class_id: string,
+    subject_id: string,
+    teacher_id: string,
+    academic_year_id: string,
+  ): Promise<ClassSubjectsEntity | null> {
+    return this.prisma.classSubjects.findFirst({
       where: {
+        class_id,
+        subject_id,
+        teacher_id,
+        academic_year_id,
         deleted_at: null,
       },
       select: classSubjectsSelect,
     });
+  }
+
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: ClassSubjectsSearchInput,
+  ): Promise<ClassSubjectsPaginationResult> {
+    const skip = (page - 1) * limit;
+    const search = filters?.search?.trim();
+
+    const where: Prisma.ClassSubjectsWhereInput = {
+      deleted_at: null,
+      ...(search
+        ? {
+            OR: [
+              { class: { name: { contains: search, mode: "insensitive" } } },
+              { subject: { name: { contains: search, mode: "insensitive" } } },
+              { subject: { code: { contains: search, mode: "insensitive" } } },
+              {
+                teacher: {
+                  teacher_number: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                teacher: {
+                  profile: {
+                    fullName: { contains: search, mode: "insensitive" },
+                  },
+                },
+              },
+              {
+                academic_year: {
+                  academic_year: { contains: search, mode: "insensitive" },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.classSubjects.findMany({
+        where,
+        skip,
+        take: limit,
+        select: classSubjectsSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.classSubjects.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
+      },
+    };
   }
 
   async update(

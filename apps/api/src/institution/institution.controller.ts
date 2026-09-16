@@ -33,9 +33,13 @@ export class InstitutionController {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
 
-    const result = await this.institutionService.findAll(pageNumber, limitNumber, {
-      search,
-    });
+    const result = await this.institutionService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+      },
+    );
     return ResponseHelper.success(
       result.data,
       "Institutions retrieved successfully",
