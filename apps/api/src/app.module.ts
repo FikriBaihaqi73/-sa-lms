@@ -30,6 +30,7 @@ import { ProfileModule } from "./profile/profile.module";
 import { UserModule } from "./user/user.module";
 import { StudentGuardianModule } from "./student-guardian/student-guardian.module";
 import { StudentModule } from "./student/student.module";
+import { SubjectModule } from "./subject/subject.module";
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { StudentModule } from "./student/student.module";
     UserModule,
     StudentGuardianModule,
     StudentModule,
+    SubjectModule,
   ],
   controllers: [AppController],
   providers: [
