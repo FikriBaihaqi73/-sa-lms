@@ -24,7 +24,9 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all attendance records with pagination, search and filters" })
+  @ApiOperation({
+    summary: "Get all attendance records with pagination, search and filters",
+  })
   async findAll(
     @Query("page") page: string = "1",
     @Query("limit") limit: string = "10",
@@ -36,14 +38,18 @@ export class AttendanceController {
   ) {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
-    
-    const result = await this.attendanceService.findAll(pageNumber, limitNumber, {
-      search,
-      schedule_id,
-      student_id,
-      attendance_status_id,
-      attendance_date,
-    });
+
+    const result = await this.attendanceService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+        schedule_id,
+        student_id,
+        attendance_status_id,
+        attendance_date,
+      },
+    );
     return ResponseHelper.success(
       result.data,
       "Attendances retrieved successfully",

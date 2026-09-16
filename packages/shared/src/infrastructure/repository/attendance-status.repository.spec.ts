@@ -1,5 +1,6 @@
+/// <reference types="jest" />
 import type { PrismaClient } from "#generated/client";
-import { AttendanceStatusRepository } from "./attendance-status.repository";
+import { AttendanceStatusRepository } from "./attendance-status.repository.js";
 
 describe("AttendanceStatusRepository", () => {
   const attendanceStatuses = {

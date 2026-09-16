@@ -35,7 +35,9 @@ describe("StudentGuardianService", () => {
         },
       },
     };
-    service = new StudentGuardianService(mockPrismaService as unknown as PrismaService);
+    service = new StudentGuardianService(
+      mockPrismaService as unknown as PrismaService,
+    );
   });
 
   afterEach(() => {
@@ -44,18 +46,32 @@ describe("StudentGuardianService", () => {
 
   it("returns paginated student guardian relations", async () => {
     const paginatedResult = {
-      data: [{ id: "relation-1", studentId: "student-1", guardianId: "guardian-1", isPrimary: true }],
+      data: [
+        {
+          id: "relation-1",
+          studentId: "student-1",
+          guardianId: "guardian-1",
+          isPrimary: true,
+        },
+      ],
       meta: { totalData: 1, totalPages: 1, currentPage: 1, perPage: 10 },
     };
     jest
       .spyOn(StudentGuardianRepository.prototype, "findAll")
       .mockResolvedValue(paginatedResult as never);
 
-    await expect(service.findAll(1, 10, "John")).resolves.toEqual(paginatedResult);
+    await expect(service.findAll(1, 10, "John")).resolves.toEqual(
+      paginatedResult,
+    );
   });
 
   it("returns a single student guardian relation by ID", async () => {
-    const record = { id: "relation-1", studentId: "student-1", guardianId: "guardian-1", isPrimary: true };
+    const record = {
+      id: "relation-1",
+      studentId: "student-1",
+      guardianId: "guardian-1",
+      isPrimary: true,
+    };
     jest
       .spyOn(StudentGuardianRepository.prototype, "findById")
       .mockResolvedValue(record as never);
@@ -74,39 +90,51 @@ describe("StudentGuardianService", () => {
   });
 
   it("returns guardians by student ID if student exists", async () => {
-    mockPrismaService.client.student.findFirst.mockResolvedValue({ id: "student-1" });
-    const guardians = [{ id: "relation-1", studentId: "student-1", guardianId: "guardian-1" }];
+    mockPrismaService.client.student.findFirst.mockResolvedValue({
+      id: "student-1",
+    });
+    const guardians = [
+      { id: "relation-1", studentId: "student-1", guardianId: "guardian-1" },
+    ];
     jest
       .spyOn(StudentGuardianRepository.prototype, "findByStudentId")
       .mockResolvedValue(guardians as never);
 
-    await expect(service.findByStudentId("student-1")).resolves.toEqual(guardians);
+    await expect(service.findByStudentId("student-1")).resolves.toEqual(
+      guardians,
+    );
   });
 
   it("throws NotFoundException if student does not exist when getting guardians", async () => {
     mockPrismaService.client.student.findFirst.mockResolvedValue(null);
 
-    await expect(service.findByStudentId("missing-student")).rejects.toBeInstanceOf(
-      NotFoundException,
-    );
+    await expect(
+      service.findByStudentId("missing-student"),
+    ).rejects.toBeInstanceOf(NotFoundException);
   });
 
   it("returns students by guardian ID if guardian exists", async () => {
-    mockPrismaService.client.guardian.findFirst.mockResolvedValue({ id: "guardian-1" });
-    const students = [{ id: "relation-1", studentId: "student-1", guardianId: "guardian-1" }];
+    mockPrismaService.client.guardian.findFirst.mockResolvedValue({
+      id: "guardian-1",
+    });
+    const students = [
+      { id: "relation-1", studentId: "student-1", guardianId: "guardian-1" },
+    ];
     jest
       .spyOn(StudentGuardianRepository.prototype, "findByGuardianId")
       .mockResolvedValue(students as never);
 
-    await expect(service.findByGuardianId("guardian-1")).resolves.toEqual(students);
+    await expect(service.findByGuardianId("guardian-1")).resolves.toEqual(
+      students,
+    );
   });
 
   it("throws NotFoundException if guardian does not exist when getting students", async () => {
     mockPrismaService.client.guardian.findFirst.mockResolvedValue(null);
 
-    await expect(service.findByGuardianId("missing-guardian")).rejects.toBeInstanceOf(
-      NotFoundException,
-    );
+    await expect(
+      service.findByGuardianId("missing-guardian"),
+    ).rejects.toBeInstanceOf(NotFoundException);
   });
 
   it("throws NotFoundException when creating relation with non-existent student", async () => {
@@ -121,7 +149,9 @@ describe("StudentGuardianService", () => {
   });
 
   it("throws NotFoundException when creating relation with non-existent guardian", async () => {
-    mockPrismaService.client.student.findFirst.mockResolvedValue({ id: "student-1" });
+    mockPrismaService.client.student.findFirst.mockResolvedValue({
+      id: "student-1",
+    });
     mockPrismaService.client.guardian.findFirst.mockResolvedValue(null);
 
     await expect(
@@ -133,8 +163,12 @@ describe("StudentGuardianService", () => {
   });
 
   it("throws ConflictException when creating duplicate student guardian relation", async () => {
-    mockPrismaService.client.student.findFirst.mockResolvedValue({ id: "student-1" });
-    mockPrismaService.client.guardian.findFirst.mockResolvedValue({ id: "guardian-1" });
+    mockPrismaService.client.student.findFirst.mockResolvedValue({
+      id: "student-1",
+    });
+    mockPrismaService.client.guardian.findFirst.mockResolvedValue({
+      id: "guardian-1",
+    });
     jest
       .spyOn(StudentGuardianRepository.prototype, "findByStudentAndGuardian")
       .mockResolvedValue({ id: "relation-existing" } as never);
@@ -148,8 +182,12 @@ describe("StudentGuardianService", () => {
   });
 
   it("creates a new student guardian relation successfully", async () => {
-    mockPrismaService.client.student.findFirst.mockResolvedValue({ id: "student-1" });
-    mockPrismaService.client.guardian.findFirst.mockResolvedValue({ id: "guardian-1" });
+    mockPrismaService.client.student.findFirst.mockResolvedValue({
+      id: "student-1",
+    });
+    mockPrismaService.client.guardian.findFirst.mockResolvedValue({
+      id: "guardian-1",
+    });
     jest
       .spyOn(StudentGuardianRepository.prototype, "findByStudentAndGuardian")
       .mockResolvedValue(null);

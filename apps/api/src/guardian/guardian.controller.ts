@@ -58,7 +58,11 @@ export class GuardianController {
   @ApiOperation({ summary: "Create a guardian" })
   async create(@Body(new ZodValidationPipe()) dto: CreateGuardianDto) {
     const guardian = await this.guardianService.create(dto);
-    return ResponseHelper.success(guardian, "Guardian created successfully", 201);
+    return ResponseHelper.success(
+      guardian,
+      "Guardian created successfully",
+      201,
+    );
   }
 
   @Patch(":id")

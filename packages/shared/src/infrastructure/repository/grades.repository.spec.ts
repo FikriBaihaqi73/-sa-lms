@@ -1,9 +1,8 @@
-import type { GradeEntity } from "#entities/grades.entity";
 /// <reference types="jest" />
-
+import type { GradeEntity } from "#entities/grades.entity";
 import type { PrismaClient } from "#generated/client";
 import { gradeSelect } from "#selects/grades.select";
-import { GradeRepository } from "./grades.repository";
+import { GradeRepository } from "./grades.repository.js";
 
 describe("GradeRepository", () => {
   const create = jest.fn();
