@@ -26,7 +26,9 @@ export class TeachingJournalController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all teaching journals with pagination, search and filters" })
+  @ApiOperation({
+    summary: "Get all teaching journals with pagination, search and filters",
+  })
   async findAll(
     @Query("page") page: string = "1",
     @Query("limit") limit: string = "10",
@@ -36,12 +38,16 @@ export class TeachingJournalController {
   ) {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
-    
-    const result = await this.teachingJournalService.findAll(pageNumber, limitNumber, {
-      search,
-      schedule_id,
-      journal_date,
-    });
+
+    const result = await this.teachingJournalService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+        schedule_id,
+        journal_date,
+      },
+    );
     return ResponseHelper.success(
       result.data,
       "Teaching journals retrieved successfully",

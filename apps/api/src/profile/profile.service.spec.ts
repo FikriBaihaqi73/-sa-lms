@@ -20,7 +20,6 @@ describe("ProfileService", () => {
 
     service = module.get<ProfileService>(ProfileService);
 
-    
     (service as any).profileRepository = {
       findAll: jest.fn(),
       findById: jest.fn(),
@@ -38,7 +37,9 @@ describe("ProfileService", () => {
   describe("findAll", () => {
     it("should return an array of profiles", async () => {
       const mockResult = [{ id: "1" }];
-      jest.spyOn((service as any).profileRepository, "findAll").mockResolvedValue(mockResult);
+      jest
+        .spyOn((service as any).profileRepository, "findAll")
+        .mockResolvedValue(mockResult);
 
       expect(await service.findAll()).toBe(mockResult);
     });
@@ -47,13 +48,17 @@ describe("ProfileService", () => {
   describe("findOne", () => {
     it("should return a profile if found", async () => {
       const mockResult = { id: "1" };
-      jest.spyOn((service as any).profileRepository, "findById").mockResolvedValue(mockResult);
+      jest
+        .spyOn((service as any).profileRepository, "findById")
+        .mockResolvedValue(mockResult);
 
       expect(await service.findOne("1")).toBe(mockResult);
     });
 
     it("should throw NotFoundException if not found", async () => {
-      jest.spyOn((service as any).profileRepository, "findById").mockResolvedValue(null);
+      jest
+        .spyOn((service as any).profileRepository, "findById")
+        .mockResolvedValue(null);
 
       await expect(service.findOne("1")).rejects.toThrow(NotFoundException);
     });
@@ -61,9 +66,15 @@ describe("ProfileService", () => {
 
   describe("create", () => {
     it("should create a profile", async () => {
-      const mockDto: any = { userId: "1", institutionId: "1", fullName: "Test" };
+      const mockDto: any = {
+        userId: "1",
+        institutionId: "1",
+        fullName: "Test",
+      };
       const mockResult = { id: "1", ...mockDto };
-      jest.spyOn((service as any).profileRepository, "create").mockResolvedValue(mockResult);
+      jest
+        .spyOn((service as any).profileRepository, "create")
+        .mockResolvedValue(mockResult);
 
       expect(await service.create(mockDto)).toBe(mockResult);
     });
@@ -74,7 +85,9 @@ describe("ProfileService", () => {
       const mockDto: any = { fullName: "Updated" };
       const mockResult = { id: "1", fullName: "Updated" };
       jest.spyOn(service, "findOne").mockResolvedValue({ id: "1" } as any);
-      jest.spyOn((service as any).profileRepository, "update").mockResolvedValue(mockResult);
+      jest
+        .spyOn((service as any).profileRepository, "update")
+        .mockResolvedValue(mockResult);
 
       expect(await service.update("1", mockDto)).toBe(mockResult);
     });
@@ -83,7 +96,9 @@ describe("ProfileService", () => {
   describe("remove", () => {
     it("should remove a profile", async () => {
       jest.spyOn(service, "findOne").mockResolvedValue({ id: "1" } as any);
-      jest.spyOn((service as any).profileRepository, "delete").mockResolvedValue({ id: "1" } as any);
+      jest
+        .spyOn((service as any).profileRepository, "delete")
+        .mockResolvedValue({ id: "1" } as any);
 
       const result = await service.remove("1");
       expect(result).toEqual({ success: true, id: "1" });

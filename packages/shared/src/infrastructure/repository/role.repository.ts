@@ -44,9 +44,12 @@ export class RoleRepository {
     });
   }
 
-  async findAll(page: number, limit: number): Promise<{ data: RoleEntity[], meta: any }> {
+  async findAll(
+    page: number,
+    limit: number,
+  ): Promise<{ data: RoleEntity[]; meta: any }> {
     const skip = (page - 1) * limit;
-    
+
     const [data, totalData] = await Promise.all([
       this.prisma.role.findMany({
         where: {
@@ -56,14 +59,14 @@ export class RoleRepository {
         take: limit,
         select: roleSelect,
         orderBy: {
-          createdAt: 'desc',
-        }
+          createdAt: "desc",
+        },
       }),
       this.prisma.role.count({
         where: {
           deletedAt: null,
         },
-      })
+      }),
     ]);
 
     const totalPages = Math.ceil(totalData / limit);

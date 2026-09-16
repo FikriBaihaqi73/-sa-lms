@@ -16,6 +16,7 @@ import {
   UpdateStudentDto,
 } from "@repo/shared/schemas/student.schema";
 import { ZodValidationPipe } from "nestjs-zod";
+import { StudentService } from "./student.service";
 
 @ApiTags("Students")
 @ApiBearerAuth("JWT-auth")
@@ -53,6 +54,7 @@ export class StudentController {
     @Param("id") id: string,
     @Body(new ZodValidationPipe()) updateStudentDto: UpdateStudentDto,
   ) {
+  update(@Param("id") id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentService.update(id, updateStudentDto);
   }
 

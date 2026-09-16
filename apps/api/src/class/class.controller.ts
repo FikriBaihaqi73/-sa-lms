@@ -12,6 +12,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
 import {
+  ClassQueryDto,
   CreateClassDto,
   UpdateClassDto,
 } from "@repo/shared/schemas/class.schema";
@@ -41,6 +42,28 @@ export class ClassController {
     return ResponseHelper.success(
       await this.classService.findOne(id),
       "Class retrieved successfully",
+  @ApiOperation({ summary: "Get all classes with pagination and search" })
+  async findAll(@Query(new ZodValidationPipe()) query: ClassQueryDto) {
+    const result = await this.classService.findAll(
+      query.page ?? 1,
+      query.limit ?? 10,
+      { search: query.search },
+    );
+
+    return ResponseHelper.success(
+      result.data,
+      "Classes retrieved successfully",
+      200,
+      result.meta,
+    );
+  }
+
+  @Get(":id")
+  @ApiOperation({ summary: "Get a class by ID" })
+  async findOne(@Param("id") id: string) {
+    return ResponseHelper.success(
+      await this.classService.findOne(id),
+      "Class detail retrieved successfully",
     );
   }
 
@@ -68,10 +91,12 @@ export class ClassController {
 
   @Delete(":id")
   @ApiOperation({ summary: "Delete a class" })
+  @ApiOperation({ summary: "Soft-delete a class" })
   async remove(@Param("id") id: string) {
     return ResponseHelper.success(
       await this.classService.remove(id),
       "Class deleted successfully",
     );
   }
+}
 }

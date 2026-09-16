@@ -60,7 +60,9 @@ export class AttendanceStatusRepository {
         ? {
             OR: [
               { name: { contains: search, mode: "insensitive" as const } },
-              { description: { contains: search, mode: "insensitive" as const } },
+              {
+                description: { contains: search, mode: "insensitive" as const },
+              },
             ],
           }
         : {}),
