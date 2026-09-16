@@ -23,6 +23,14 @@ export const UpdateClassSchema = z.object({
   capacity: z.number().int().nullable().optional().describe("Class capacity"),
 });
 
+export const ClassQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).optional().describe("Page number"),
+  limit: z.coerce.number().int().min(1).optional().describe("Items per page"),
+  search: z.string().trim().optional().describe("Search keyword"),
+});
+
 export class CreateClassDto extends createZodDto(CreateClassSchema) {}
 
 export class UpdateClassDto extends createZodDto(UpdateClassSchema) {}
+
+export class ClassQueryDto extends createZodDto(ClassQuerySchema) {}
