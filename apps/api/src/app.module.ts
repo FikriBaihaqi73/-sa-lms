@@ -31,6 +31,7 @@ import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
+import { SubjectModule } from "./subject/subject.module";
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { UserModule } from "./user/user.module";
     UserModule,
     StudentGuardianModule,
     StudentModule,
+    SubjectModule,
     ClassSubjectModule,
   ],
   controllers: [AppController],

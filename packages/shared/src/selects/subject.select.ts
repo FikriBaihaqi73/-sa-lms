@@ -10,10 +10,18 @@ export const subjectSelect = {
   departmentId: true,
   createdAt: true,
   updatedAt: true,
+  institution: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+  department: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
 } satisfies Prisma.SubjectSelect;
 
 export type SubjectSelectType = typeof subjectSelect;
-
-export type SubjectEntity = Prisma.SubjectGetPayload<{
-  select: SubjectSelectType;
-}>;
