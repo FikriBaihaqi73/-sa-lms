@@ -9,10 +9,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
-import {
-  CreateUserDto,
-  UpdateUserDto,
-} from "@repo/shared/schemas/user.schema";
+import { CreateUserDto, UpdateUserDto } from "@repo/shared/schemas/user.schema";
 import { ZodValidationPipe } from "nestjs-zod";
 import { UserService } from "./user.service";
 

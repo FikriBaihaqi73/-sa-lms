@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { TeacherRepository } from "@repo/shared/infrastructure/repository/teacher.repository";
-import type { CreateTeacherDto, UpdateTeacherDto } from "@repo/shared/schemas/teacher.schema";
 import { ResponseHelper } from "@repo/shared/http/response";
+import { TeacherRepository } from "@repo/shared/infrastructure/repository/teacher.repository";
+import type {
+  CreateTeacherDto,
+  UpdateTeacherDto,
+} from "@repo/shared/schemas/teacher.schema";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
@@ -16,10 +19,18 @@ export class TeachersService {
     const teacher = await this.teachersRepository.create({
       profile_id: createTeacherDto.profile_id,
       teacher_number: createTeacherDto.teacher_number,
-      ...(createTeacherDto.department_id ? { department_id: createTeacherDto.department_id } : {}),
-      ...(createTeacherDto.specialization_id ? { specialization_id: createTeacherDto.specialization_id } : {}),
-      ...(createTeacherDto.employment_status_id ? { employment_status_id: createTeacherDto.employment_status_id } : {}),
-      ...(createTeacherDto.join_date ? { join_date: new Date(createTeacherDto.join_date) } : {}),
+      ...(createTeacherDto.department_id
+        ? { department_id: createTeacherDto.department_id }
+        : {}),
+      ...(createTeacherDto.specialization_id
+        ? { specialization_id: createTeacherDto.specialization_id }
+        : {}),
+      ...(createTeacherDto.employment_status_id
+        ? { employment_status_id: createTeacherDto.employment_status_id }
+        : {}),
+      ...(createTeacherDto.join_date
+        ? { join_date: new Date(createTeacherDto.join_date) }
+        : {}),
     });
     return ResponseHelper.success(teacher, "Teacher successfully created");
   }
@@ -43,12 +54,24 @@ export class TeachersService {
       throw new NotFoundException("Teacher not found");
     }
     const teacher = await this.teachersRepository.update(id, {
-      ...(updateTeacherDto.profile_id ? { profile_id: updateTeacherDto.profile_id } : {}),
-      ...(updateTeacherDto.teacher_number ? { teacher_number: updateTeacherDto.teacher_number } : {}),
-      ...(updateTeacherDto.department_id ? { department_id: updateTeacherDto.department_id } : {}),
-      ...(updateTeacherDto.specialization_id ? { specialization_id: updateTeacherDto.specialization_id } : {}),
-      ...(updateTeacherDto.employment_status_id ? { employment_status_id: updateTeacherDto.employment_status_id } : {}),
-      ...(updateTeacherDto.join_date ? { join_date: new Date(updateTeacherDto.join_date) } : {}),
+      ...(updateTeacherDto.profile_id
+        ? { profile_id: updateTeacherDto.profile_id }
+        : {}),
+      ...(updateTeacherDto.teacher_number
+        ? { teacher_number: updateTeacherDto.teacher_number }
+        : {}),
+      ...(updateTeacherDto.department_id
+        ? { department_id: updateTeacherDto.department_id }
+        : {}),
+      ...(updateTeacherDto.specialization_id
+        ? { specialization_id: updateTeacherDto.specialization_id }
+        : {}),
+      ...(updateTeacherDto.employment_status_id
+        ? { employment_status_id: updateTeacherDto.employment_status_id }
+        : {}),
+      ...(updateTeacherDto.join_date
+        ? { join_date: new Date(updateTeacherDto.join_date) }
+        : {}),
     });
     return ResponseHelper.success(teacher, "Teacher successfully updated");
   }

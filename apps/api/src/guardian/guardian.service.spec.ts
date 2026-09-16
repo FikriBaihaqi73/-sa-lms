@@ -31,7 +31,9 @@ describe("GuardianService", () => {
   });
 
   it("throws NotFoundException when the guardian does not exist", async () => {
-    jest.spyOn(GuardianRepository.prototype, "findById").mockResolvedValue(null);
+    jest
+      .spyOn(GuardianRepository.prototype, "findById")
+      .mockResolvedValue(null);
 
     await expect(service.findOne("missing-id")).rejects.toBeInstanceOf(
       NotFoundException,

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { ResponseHelper } from "@repo/shared/http/response";
 import { StudentRepository } from "@repo/shared/infrastructure/repository/students.repository";
 import type {
   CreateStudentDto,
   UpdateStudentDto,
 } from "@repo/shared/schemas/student.schema";
-import { ResponseHelper } from "@repo/shared/http/response";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
@@ -31,18 +31,15 @@ export class StudentService {
     return ResponseHelper.success(student, "Student successfully created");
   }
 
-async findAll(page = 1, limit = 10, search?: string) {
-  const students = await this.studentRepository.findAll({
-    page,
-    limit,
-    ...(search !== undefined ? { search } : {}),
-  });
+  async findAll(page = 1, limit = 10, search?: string) {
+    const students = await this.studentRepository.findAll({
+      page,
+      limit,
+      ...(search !== undefined ? { search } : {}),
+    });
 
-  return ResponseHelper.success(
-    students,
-    "Students fetched successfully",
-  );
-}
+    return ResponseHelper.success(students, "Students fetched successfully");
+  }
 
   async findById(id: string) {
     const student = await this.studentRepository.findById(id);

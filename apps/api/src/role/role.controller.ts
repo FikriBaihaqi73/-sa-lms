@@ -22,14 +22,19 @@ export class RoleController {
   @Get()
   @ApiOperation({ summary: "Get all roles with pagination and relationships" })
   async findAll(
-    @Query('page') page: string = '1',
-    @Query('limit') limit: string = '10'
+    @Query("page") page: string = "1",
+    @Query("limit") limit: string = "10",
   ) {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
-    
+
     const result = await this.roleService.findAll(pageNumber, limitNumber);
-    return ResponseHelper.success(result.data, "Roles retrieved successfully", 200, result.meta);
+    return ResponseHelper.success(
+      result.data,
+      "Roles retrieved successfully",
+      200,
+      result.meta,
+    );
   }
 
   @Get(":id")

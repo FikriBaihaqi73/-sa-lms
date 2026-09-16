@@ -9,11 +9,11 @@ import {
   Post,
   Query,
 } from "@nestjs/common";
-import { StudentService } from "./student.service";
 import {
   CreateStudentDto,
   UpdateStudentDto,
 } from "@repo/shared/schemas/student.schema";
+import { StudentService } from "./student.service";
 
 @Controller("students")
 export class StudentController {
@@ -39,10 +39,7 @@ export class StudentController {
   }
 
   @Patch(":id")
-  update(
-    @Param("id") id: string,
-    @Body() updateStudentDto: UpdateStudentDto,
-  ) {
+  update(@Param("id") id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentService.update(id, updateStudentDto);
   }
 
