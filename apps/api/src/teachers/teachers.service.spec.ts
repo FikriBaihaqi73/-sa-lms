@@ -1,9 +1,9 @@
+import { NotFoundException } from "@nestjs/common";
 import { Test, type TestingModule } from "@nestjs/testing";
-import { TeachersService } from "./teachers.service";
+import { ResponseHelper } from "@repo/shared/http/response";
 import { TeacherRepository } from "@repo/shared/infrastructure/repository/teacher.repository";
 import { PrismaService } from "../prisma/prisma.service";
-import { NotFoundException } from "@nestjs/common";
-import { ResponseHelper } from "@repo/shared/http/response";
+import { TeachersService } from "./teachers.service";
 
 // Mock the TeacherRepository constructor
 jest.mock("@repo/shared/infrastructure/repository/teacher.repository");
@@ -23,7 +23,9 @@ describe("TeachersService", () => {
       delete: jest.fn(),
     } as unknown as jest.Mocked<TeacherRepository>;
 
-    (TeacherRepository as jest.Mock).mockImplementation(() => mockRepositoryInstance);
+    (TeacherRepository as jest.Mock).mockImplementation(
+      () => mockRepositoryInstance,
+    );
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -57,7 +59,9 @@ describe("TeachersService", () => {
 
       const result = await service.create(createDto);
 
-      expect(result).toEqual(ResponseHelper.success(teacherEntity, "Teacher successfully created"));
+      expect(result).toEqual(
+        ResponseHelper.success(teacherEntity, "Teacher successfully created"),
+      );
       expect(mockRepositoryInstance.create).toHaveBeenCalled();
     });
   });
@@ -69,7 +73,9 @@ describe("TeachersService", () => {
 
       const result = await service.findAll();
 
-      expect(result).toEqual(ResponseHelper.success(teachersList, "Teachers successfully retrieved"));
+      expect(result).toEqual(
+        ResponseHelper.success(teachersList, "Teachers successfully retrieved"),
+      );
       expect(mockRepositoryInstance.findAll).toHaveBeenCalled();
     });
   });
@@ -81,7 +87,9 @@ describe("TeachersService", () => {
 
       const result = await service.findById("1");
 
-      expect(result).toEqual(ResponseHelper.success(teacherEntity, "Teacher successfully retrieved"));
+      expect(result).toEqual(
+        ResponseHelper.success(teacherEntity, "Teacher successfully retrieved"),
+      );
       expect(mockRepositoryInstance.findById).toHaveBeenCalledWith("1");
     });
 
@@ -104,22 +112,33 @@ describe("TeachersService", () => {
 
       const result = await service.update("1", updateDto);
 
-      expect(result).toEqual(ResponseHelper.success(updatedTeacher, "Teacher successfully updated"));
-      expect(mockRepositoryInstance.update).toHaveBeenCalledWith("1", expect.any(Object));
+      expect(result).toEqual(
+        ResponseHelper.success(updatedTeacher, "Teacher successfully updated"),
+      );
+      expect(mockRepositoryInstance.update).toHaveBeenCalledWith(
+        "1",
+        expect.any(Object),
+      );
     });
   });
 
   describe("delete", () => {
     it("should delete a teacher if found", async () => {
       const existingTeacher = { id: "1", teacher_number: "T001" };
-      const deletedTeacher = { id: "1", teacher_number: "T001", deleted_at: new Date() };
+      const deletedTeacher = {
+        id: "1",
+        teacher_number: "T001",
+        deleted_at: new Date(),
+      };
 
       mockRepositoryInstance.findById.mockResolvedValue(existingTeacher as any);
       mockRepositoryInstance.delete.mockResolvedValue(deletedTeacher as any);
 
       const result = await service.delete("1");
 
-      expect(result).toEqual(ResponseHelper.success(deletedTeacher, "Teacher successfully deleted"));
+      expect(result).toEqual(
+        ResponseHelper.success(deletedTeacher, "Teacher successfully deleted"),
+      );
       expect(mockRepositoryInstance.delete).toHaveBeenCalledWith("1");
     });
   });

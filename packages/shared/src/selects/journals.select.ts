@@ -10,7 +10,7 @@ export const teachingJournalSelect = {
   notes: true,
   created_at: true,
   updated_at: true,
-  schedule:true,
+  schedule: true,
 } satisfies Prisma.TeachingJournalsSelect;
 
 export type TeachingJournalEntity = Prisma.TeachingJournalsGetPayload<{

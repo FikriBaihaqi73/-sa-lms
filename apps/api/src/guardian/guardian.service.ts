@@ -34,7 +34,9 @@ export class GuardianService {
       ...(dto.relationship !== undefined
         ? { relationship: dto.relationship }
         : {}),
-      ...(dto.phoneNumber !== undefined ? { phoneNumber: dto.phoneNumber } : {}),
+      ...(dto.phoneNumber !== undefined
+        ? { phoneNumber: dto.phoneNumber }
+        : {}),
       ...(dto.email !== undefined ? { email: dto.email } : {}),
       ...(dto.address !== undefined ? { address: dto.address } : {}),
       ...(dto.occupation !== undefined ? { occupation: dto.occupation } : {}),
@@ -48,7 +50,9 @@ export class GuardianService {
       ...(dto.relationship !== undefined
         ? { relationship: dto.relationship }
         : {}),
-      ...(dto.phoneNumber !== undefined ? { phoneNumber: dto.phoneNumber } : {}),
+      ...(dto.phoneNumber !== undefined
+        ? { phoneNumber: dto.phoneNumber }
+        : {}),
       ...(dto.email !== undefined ? { email: dto.email } : {}),
       ...(dto.address !== undefined ? { address: dto.address } : {}),
       ...(dto.occupation !== undefined ? { occupation: dto.occupation } : {}),

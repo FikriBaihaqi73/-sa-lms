@@ -69,13 +69,19 @@ export class StudentGuardianRepository {
             OR: [
               {
                 student: {
-                  studentNumber: { contains: search, mode: "insensitive" as const },
+                  studentNumber: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
                 },
               },
               {
                 student: {
                   profile: {
-                    fullName: { contains: search, mode: "insensitive" as const },
+                    fullName: {
+                      contains: search,
+                      mode: "insensitive" as const,
+                    },
                   },
                 },
               },
@@ -91,7 +97,10 @@ export class StudentGuardianRepository {
               },
               {
                 guardian: {
-                  phoneNumber: { contains: search, mode: "insensitive" as const },
+                  phoneNumber: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
                 },
               },
             ],

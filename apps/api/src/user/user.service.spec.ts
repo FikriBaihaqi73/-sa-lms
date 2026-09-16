@@ -23,9 +23,7 @@ describe("UserService", () => {
   });
 
   it("rejects a missing user", async () => {
-    jest
-      .spyOn(UserRepository.prototype, "findById")
-      .mockResolvedValue(null);
+    jest.spyOn(UserRepository.prototype, "findById").mockResolvedValue(null);
 
     await expect(service.findOne("missing-id")).rejects.toBeInstanceOf(
       NotFoundException,
@@ -46,9 +44,7 @@ describe("UserService", () => {
   });
 
   it("hashes the password before creating a user", async () => {
-    jest
-      .spyOn(UserRepository.prototype, "findByEmail")
-      .mockResolvedValue(null);
+    jest.spyOn(UserRepository.prototype, "findByEmail").mockResolvedValue(null);
     const create = jest
       .spyOn(UserRepository.prototype, "create")
       .mockResolvedValue({ id: "user-id" } as never);

@@ -24,7 +24,9 @@ export class ModuleContentController {
   constructor(private readonly moduleContentService: ModuleContentService) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all module contents with pagination and search" })
+  @ApiOperation({
+    summary: "Get all module contents with pagination and search",
+  })
   async findAll(
     @Query("page") page: string = "1",
     @Query("limit") limit: string = "10",
@@ -33,9 +35,13 @@ export class ModuleContentController {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
 
-    const result = await this.moduleContentService.findAll(pageNumber, limitNumber, {
-      search,
-    });
+    const result = await this.moduleContentService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+      },
+    );
     return ResponseHelper.success(
       result.data,
       "Module contents retrieved successfully",

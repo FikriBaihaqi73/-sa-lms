@@ -75,7 +75,7 @@ export class AttendanceService {
     const studentId = dto.student_id ?? current.student_id;
     const attendanceDate =
       dto.attendance_date === undefined
-        ? current.attendance_date ?? undefined
+        ? (current.attendance_date ?? undefined)
         : this.toDate(dto.attendance_date);
 
     await this.ensureRelationsExist({
