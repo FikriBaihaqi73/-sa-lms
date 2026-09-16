@@ -9,7 +9,6 @@ import {
   Post,
   Query,
 } from "@nestjs/common";
-import { StudentService } from "./student.service";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
   CreateStudentDto,
@@ -54,7 +53,6 @@ export class StudentController {
     @Param("id") id: string,
     @Body(new ZodValidationPipe()) updateStudentDto: UpdateStudentDto,
   ) {
-  update(@Param("id") id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentService.update(id, updateStudentDto);
   }
 

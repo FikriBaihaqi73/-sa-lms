@@ -10,4 +10,3 @@ import { ClassService } from "./class.service";
   exports: [ClassService],
 })
 export class ClassModule {}
-export class ClassModule {}
