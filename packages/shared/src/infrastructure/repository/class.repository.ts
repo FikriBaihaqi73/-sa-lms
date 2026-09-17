@@ -23,8 +23,6 @@ export interface FindAllClassInput {
   page?: number;
   limit?: number;
   search?: string;
-export interface ClassSearchInput {
-  search?: string | undefined;
 }
 
 export interface FindAllClassResult {
@@ -34,10 +32,6 @@ export interface FindAllClassResult {
     limit: number;
     total: number;
     totalPages: number;
-    totalData: number;
-    totalPages: number;
-    currentPage: number;
-    perPage: number;
   };
 }
 
@@ -75,13 +69,6 @@ export class ClassRepository {
     const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
     const search = params.search?.trim();
 
-    page: number,
-    limit: number,
-    filters?: ClassSearchInput,
-  ): Promise<FindAllClassResult> {
-    const currentPage = Math.max(Math.floor(page || 1), 1);
-    const perPage = Math.min(Math.max(Math.floor(limit || 10), 1), 100);
-    const search = filters?.search?.trim();
     const where = {
       deleted_at: null,
       ...(search
@@ -120,7 +107,7 @@ export class ClassRepository {
             ],
           }
         : {}),
-    };
+    } satisfies Prisma.ClassesWhereInput;
 
     const [data, total] = await Promise.all([
       this.prisma.classes.findMany({
@@ -128,20 +115,6 @@ export class ClassRepository {
         select: classSelect,
         skip: (page - 1) * limit,
         take: limit,
-            name: {
-              contains: search,
-              mode: "insensitive" as const,
-            },
-          }
-        : {}),
-    } satisfies Prisma.ClassesWhereInput;
-
-    const [data, totalData] = await Promise.all([
-      this.prisma.classes.findMany({
-        where,
-        skip: (currentPage - 1) * perPage,
-        take: perPage,
-        select: classSelect,
         orderBy: {
           created_at: "desc",
         },
@@ -156,10 +129,6 @@ export class ClassRepository {
         limit,
         total,
         totalPages: Math.ceil(total / limit),
-        totalData,
-        totalPages: Math.ceil(totalData / perPage),
-        currentPage,
-        perPage,
       },
     };
   }
@@ -177,15 +146,11 @@ export class ClassRepository {
         ...(data.academic_year_id !== undefined && {
           academic_year_id: data.academic_year_id,
         }),
-        ...(data.name !== undefined && {
-          name: data.name,
-        }),
+        ...(data.name !== undefined && { name: data.name }),
         ...(data.grade_level !== undefined && {
           grade_level: data.grade_level,
         }),
-        ...(data.capacity !== undefined && {
-          capacity: data.capacity,
-        }),
+        ...(data.capacity !== undefined && { capacity: data.capacity }),
       },
       select: classSelect,
     });
