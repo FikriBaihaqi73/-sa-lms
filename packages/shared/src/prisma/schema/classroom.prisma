@@ -16,6 +16,7 @@ model Classroom {
 
   // relations
   institution Institution @relation(fields: [institutionId], references: [id])
+  schedules   Schedule[]
 
   @@map("classrooms")
 }

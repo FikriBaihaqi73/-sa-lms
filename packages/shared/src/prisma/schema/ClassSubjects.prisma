@@ -20,6 +20,7 @@ model ClassSubjects {
   modules       Modules[]
   examinations  Examinations[]
   studentGrades StudentGrades[]
+  schedules     Schedule[]
 
   @@index([class_id])
   @@index([subject_id])
