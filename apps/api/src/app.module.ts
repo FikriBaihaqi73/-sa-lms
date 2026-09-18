@@ -4,6 +4,7 @@ import { AcademicStatusModule } from "./academic-status/academic-status.module";
 import { AcademicYearModule } from "./academic-year/academic-year.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { AssignmentSubmissionModule } from "./assignment-submission/assignment-submission.module";
 import { AssignmentTypeModule } from "./assignment-type/assignment-type.module";
 import { AttendanceModule } from "./attendance/attendance.module";
 import { AttendanceStatusModule } from "./attendance-status/attendance-status.module";
@@ -59,6 +60,7 @@ import { SubjectModule } from "./subject/subject.module";
     ReligionModule,
     ProfileModule,
     AssignmentTypeModule,
+    AssignmentSubmissionModule,
     DepartmentsModule,
     TeachersModule,
     UserModule,

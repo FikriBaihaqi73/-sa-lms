@@ -14,6 +14,10 @@ export const assignmentSubmissionSelect = {
   status: true,
   gradedBy: true,
   gradedAt: true,
+
+  assignment: true,
+  student: true,
+  grader: true,
 } satisfies Prisma.AssignmentSubmissionSelect;
 
 export type AssignmentSubmissionSelect = Prisma.AssignmentSubmissionGetPayload<{
