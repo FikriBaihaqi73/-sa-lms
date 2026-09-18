@@ -35,6 +35,8 @@ import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
 import { SubjectModule } from "./subject/subject.module";
+import { ClassroomModule } from "./classroom/classroom.module";
+import { ScheduleModule } from "./schedule/schedule.module";
 
 @Module({
   imports: [
@@ -71,6 +73,8 @@ import { SubjectModule } from "./subject/subject.module";
     ClassModule,
     SubjectModule,
     ClassSubjectModule,
+    ClassroomModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [

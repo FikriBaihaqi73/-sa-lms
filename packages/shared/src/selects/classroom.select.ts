@@ -9,6 +9,7 @@ export const classroomSelect = {
   floor: true,
   capacity: true,
   description: true,
+  institution: true,
   createdAt: true,
   updatedAt: true,
   deletedAt: true,

@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import { type ScheduleEntity, scheduleSelect } from "#selects/schedule.select";
 
 export interface CreateScheduleInput {
@@ -15,6 +15,10 @@ export interface UpdateScheduleInput {
   day?: string;
   startTime?: Date | null;
   endTime?: Date | null;
+}
+
+export interface ScheduleSearchInput {
+  search?: string | undefined;
 }
 
 export class ScheduleRepository {
@@ -63,13 +67,58 @@ export class ScheduleRepository {
     });
   }
 
-  async findAll(): Promise<ScheduleEntity[]> {
-    return this.prisma.schedule.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: ScheduleSearchInput,
+  ): Promise<{
+    data: ScheduleEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deletedAt: null,
+      ...(filters?.search
+        ? {
+            day: {
+              contains: filters.search,
+              mode: "insensitive",
+            },
+          }
+        : {}),
+    } satisfies Prisma.ScheduleWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.schedule.findMany({
+        where,
+        skip,
+        take: limit,
+        select: scheduleSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.schedule.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      select: scheduleSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateScheduleInput): Promise<ScheduleEntity> {
