@@ -1,4 +1,5 @@
 import type { Prisma } from "#generated/client";
+import { assignmentTypeSelect } from "./assignment-type.select";
 
 export const assignmentSelect = {
   id: true,
@@ -11,6 +12,27 @@ export const assignmentSelect = {
   description: true,
   due_date: true,
   max_score: true,
+  module: {
+    select: {
+      id: true,
+      title: true,
+      class_subject: {
+        select: {
+          id: true,
+          created_at: true,
+          updated_at: true,
+          deleted_at: true,
+          class_id: true,
+          subject_id: true,
+          teacher_id: true,
+          academic_year_id: true,
+        },
+      },
+    },
+  },
+  assignment_type: {
+    select: assignmentTypeSelect,
+  },
 } satisfies Prisma.AssignmentsSelect;
 
 export type AssignmentSelectType = typeof assignmentSelect;

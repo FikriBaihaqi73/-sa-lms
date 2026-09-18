@@ -22,6 +22,7 @@ export const CreateAssignmentSchema = z.object({
     .describe("Due date of the assignment"),
   max_score: z
     .number()
+    .nonnegative("Maximum score must be non-negative")
     .optional()
     .nullable()
     .describe("Maximum score achievable for this assignment"),
