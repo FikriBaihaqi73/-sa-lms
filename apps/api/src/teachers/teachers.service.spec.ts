@@ -10,7 +10,6 @@ jest.mock("@repo/shared/infrastructure/repository/teacher.repository");
 
 describe("TeachersService", () => {
   let service: TeachersService;
-  let prismaService: PrismaService;
   let mockRepositoryInstance: jest.Mocked<TeacherRepository>;
 
   beforeEach(async () => {
@@ -40,7 +39,6 @@ describe("TeachersService", () => {
     }).compile();
 
     service = module.get<TeachersService>(TeachersService);
-    prismaService = module.get<PrismaService>(PrismaService);
   });
 
   afterEach(() => {
