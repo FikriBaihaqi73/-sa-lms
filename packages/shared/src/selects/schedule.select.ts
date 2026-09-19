@@ -7,7 +7,6 @@ export const scheduleSelect = {
   day: true,
   startTime: true,
   endTime: true,
-  classSubject: true,
   classroom: true,
   createdAt: true,
   updatedAt: true,

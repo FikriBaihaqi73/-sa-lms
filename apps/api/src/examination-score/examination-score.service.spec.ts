@@ -52,7 +52,10 @@ describe("ExaminationScoreService", () => {
 
   it("rejects duplicate examination scores for the same exam and student", async () => {
     jest
-      .spyOn(ExaminationScoreRepository.prototype, "findByExaminationAndStudent")
+      .spyOn(
+        ExaminationScoreRepository.prototype,
+        "findByExaminationAndStudent",
+      )
       .mockResolvedValue({ id: "existing-score-id" } as never);
 
     await expect(
