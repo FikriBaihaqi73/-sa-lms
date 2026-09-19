@@ -1,5 +1,5 @@
 import type { Prisma } from "#generated/client";
-import { assignmentTypeSelect } from "./assignment-type.select";
+import { assignmentTypeSelect } from "./assignment-type.select.js";
 
 export const assignmentSelect = {
   id: true,

@@ -1,6 +1,6 @@
+import type { SubjectEntity } from "#entities/subject.entity";
 import type { Prisma, PrismaClient } from "#generated/client";
 import { subjectSelect } from "#selects/subject.select";
-import type { SubjectEntity } from "#entities/subject.entity";
 
 export interface CreateSubjectInput {
   code: string;

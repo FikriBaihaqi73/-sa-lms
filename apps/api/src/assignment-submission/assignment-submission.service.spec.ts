@@ -1,7 +1,7 @@
+import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaService } from "../prisma/prisma.service";
 import { AssignmentSubmissionService } from "./assignment-submission.service";
-import { NotFoundException } from "@nestjs/common";
 
 describe("AssignmentSubmissionService", () => {
   let service: AssignmentSubmissionService;
@@ -15,7 +15,7 @@ describe("AssignmentSubmissionService", () => {
         create: jest.fn(),
         update: jest.fn(),
       },
-    }
+    },
   };
 
   beforeEach(async () => {
@@ -34,10 +34,12 @@ describe("AssignmentSubmissionService", () => {
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
-  
+
   describe("findById", () => {
     it("should throw NotFoundException if not found", async () => {
-      mockPrismaService.client.assignmentSubmission.findFirst.mockResolvedValue(null);
+      mockPrismaService.client.assignmentSubmission.findFirst.mockResolvedValue(
+        null,
+      );
       await expect(service.findById("123")).rejects.toThrow(NotFoundException);
     });
   });

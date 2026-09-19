@@ -33,11 +33,30 @@ export class CreateSubjectDto extends createZodDto(CreateSubjectSchema) {}
 export class UpdateSubjectDto extends createZodDto(UpdateSubjectSchema) {}
 
 export const SubjectQuerySchema = z.object({
-  page: z.coerce.number().min(1).default(1).describe("Page number for pagination"),
-  limit: z.coerce.number().min(1).default(10).describe("Number of items per page"),
-  search: z.string().optional().describe("Search keyword for subject code or name"),
-  institutionId: z.string().uuid().optional().describe("Filter by institution ID"),
-  departmentId: z.string().uuid().optional().describe("Filter by department ID"),
+  page: z.coerce
+    .number()
+    .min(1)
+    .default(1)
+    .describe("Page number for pagination"),
+  limit: z.coerce
+    .number()
+    .min(1)
+    .default(10)
+    .describe("Number of items per page"),
+  search: z
+    .string()
+    .optional()
+    .describe("Search keyword for subject code or name"),
+  institutionId: z
+    .string()
+    .uuid()
+    .optional()
+    .describe("Filter by institution ID"),
+  departmentId: z
+    .string()
+    .uuid()
+    .optional()
+    .describe("Filter by department ID"),
 });
 
 export class SubjectQueryDto extends createZodDto(SubjectQuerySchema) {}

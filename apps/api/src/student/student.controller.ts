@@ -25,9 +25,7 @@ export class StudentController {
 
   @Post()
   @ApiOperation({ summary: "Create a student" })
-  create(
-    @Body(new ZodValidationPipe()) createStudentDto: CreateStudentDto,
-  ) {
+  create(@Body(new ZodValidationPipe()) createStudentDto: CreateStudentDto) {
     return this.studentService.create(createStudentDto);
   }
 

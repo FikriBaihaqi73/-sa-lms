@@ -1,7 +1,8 @@
 /// <reference types="jest" />
-import { SubjectRepository } from "./subject.repository.js";
+
 import type { PrismaClient } from "#generated/client";
 import { subjectSelect } from "#selects/subject.select";
+import { SubjectRepository } from "./subject.repository.js";
 
 describe("SubjectRepository", () => {
   let repository: SubjectRepository;
@@ -17,9 +18,10 @@ describe("SubjectRepository", () => {
   };
 
   beforeEach(() => {
-    repository = new SubjectRepository(mockPrismaClient as unknown as PrismaClient);
+    repository = new SubjectRepository(
+      mockPrismaClient as unknown as PrismaClient,
+    );
   });
-
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -89,7 +91,11 @@ describe("SubjectRepository", () => {
       mockPrismaClient.subject.findMany.mockResolvedValue(data);
       mockPrismaClient.subject.count.mockResolvedValue(total);
 
-      const result = await repository.findAll({ page: 1, limit: 10, search: "Math" });
+      const result = await repository.findAll({
+        page: 1,
+        limit: 10,
+        search: "Math",
+      });
 
       expect(mockPrismaClient.subject.findMany).toHaveBeenCalledWith({
         where: {
@@ -137,7 +143,7 @@ describe("SubjectRepository", () => {
           where: { id: "1" },
           data: { deletedAt: expect.any(Date) },
           select: subjectSelect,
-        })
+        }),
       );
       expect(result).toEqual(expectedResult);
     });

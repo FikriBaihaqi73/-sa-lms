@@ -15,8 +15,8 @@ import {
   CreateProfileDto,
   UpdateProfileDto,
 } from "@repo/shared/schemas/profile.schema";
-import { ProfileService } from "./profile.service";
 import { ZodValidationPipe } from "nestjs-zod";
+import { ProfileService } from "./profile.service";
 
 @ApiTags("Profiles")
 @ApiBearerAuth("JWT-auth")

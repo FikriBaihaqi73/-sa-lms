@@ -77,7 +77,8 @@
     },
     "moduleNameMapper": {
       "^@repo/shared/(.*)$": "<rootDir>/../../packages/shared/src/$1",
-      "^#(.*)$": "<rootDir>/../../packages/shared/src/$1"
+      "^#(.*)$": "<rootDir>/../../packages/shared/src/$1",
+      "^(\\.\\.?/.*)\\.js$": "$1"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"

@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
-import { SubjectRepository } from "@repo/shared/infrastructure/repository/subject.repository";
-import type { CreateSubjectDto, UpdateSubjectDto, SubjectQueryDto } from "@repo/shared/schemas/subject.schema";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import type { SubjectEntity } from "@repo/shared/entities/subject.entity";
+import { SubjectRepository } from "@repo/shared/infrastructure/repository/subject.repository";
+import type {
+  CreateSubjectDto,
+  SubjectQueryDto,
+  UpdateSubjectDto,
+} from "@repo/shared/schemas/subject.schema";
 
 import { PrismaService } from "../prisma/prisma.service";
 

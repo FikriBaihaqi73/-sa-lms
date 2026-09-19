@@ -32,9 +32,13 @@ export class ClassroomController {
   ) {
     const pageNumber = parseInt(page, 10) || 1;
     const limitNumber = parseInt(limit, 10) || 10;
-    const result = await this.classroomService.findAll(pageNumber, limitNumber, {
-      search,
-    });
+    const result = await this.classroomService.findAll(
+      pageNumber,
+      limitNumber,
+      {
+        search,
+      },
+    );
 
     return ResponseHelper.success(
       result.data,

@@ -33,7 +33,9 @@ export class ScheduleService {
       classSubjectId: dto.classSubjectId,
       classroomId: dto.classroomId,
       day: dto.day,
-      ...(dto.startTime !== undefined ? { startTime: new Date(dto.startTime) } : {}),
+      ...(dto.startTime !== undefined
+        ? { startTime: new Date(dto.startTime) }
+        : {}),
       ...(dto.endTime !== undefined ? { endTime: new Date(dto.endTime) } : {}),
     });
   }
@@ -41,10 +43,16 @@ export class ScheduleService {
   async update(id: string, dto: UpdateScheduleDto) {
     await this.findOne(id);
     return this.scheduleRepository.update(id, {
-      ...(dto.classSubjectId !== undefined ? { classSubjectId: dto.classSubjectId } : {}),
-      ...(dto.classroomId !== undefined ? { classroomId: dto.classroomId } : {}),
+      ...(dto.classSubjectId !== undefined
+        ? { classSubjectId: dto.classSubjectId }
+        : {}),
+      ...(dto.classroomId !== undefined
+        ? { classroomId: dto.classroomId }
+        : {}),
       ...(dto.day !== undefined ? { day: dto.day } : {}),
-      ...(dto.startTime !== undefined ? { startTime: new Date(dto.startTime) } : {}),
+      ...(dto.startTime !== undefined
+        ? { startTime: new Date(dto.startTime) }
+        : {}),
       ...(dto.endTime !== undefined ? { endTime: new Date(dto.endTime) } : {}),
     });
   }

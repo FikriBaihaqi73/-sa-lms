@@ -70,9 +70,7 @@ export class UserRepository {
     });
   }
 
-  async findAll(
-    params: FindAllUserInput = {},
-  ): Promise<FindAllUserResult> {
+  async findAll(params: FindAllUserInput = {}): Promise<FindAllUserResult> {
     const page = Math.max(params.page ?? 1, 1);
     const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
     const search = params.search?.trim();
