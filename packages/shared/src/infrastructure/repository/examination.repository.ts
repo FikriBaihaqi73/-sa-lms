@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type ExaminationEntity,
   examinationSelect,
@@ -24,6 +24,20 @@ export interface UpdateExaminationInput {
   examinationDate?: Date;
   duration?: number;
   maximumScore?: number;
+}
+
+export interface ExaminationSearchInput {
+  search?: string | undefined;
+}
+
+export interface ExaminationPaginationResult {
+  data: ExaminationEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class ExaminationRepository {
@@ -76,13 +90,47 @@ export class ExaminationRepository {
     });
   }
 
-  async findAll(): Promise<ExaminationEntity[]> {
-    return this.prisma.examinations.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: ExaminationSearchInput,
+  ): Promise<ExaminationPaginationResult> {
+    const currentPage = Math.max(Math.floor(page || 1), 1);
+    const perPage = Math.min(Math.max(Math.floor(limit || 10), 1), 100);
+    const search = filters?.search?.trim();
+
+    const where: Prisma.ExaminationsWhereInput = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              { title: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.examinations.findMany({
+        where,
+        skip: (currentPage - 1) * perPage,
+        take: perPage,
+        select: examinationSelect,
+        orderBy: { createdAt: "desc" },
+      }),
+      this.prisma.examinations.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages: Math.ceil(totalData / perPage),
+        currentPage,
+        perPage,
       },
-      select: examinationSelect,
-    });
+    };
   }
 
   async update(

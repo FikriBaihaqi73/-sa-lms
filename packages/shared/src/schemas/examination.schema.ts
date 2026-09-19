@@ -25,7 +25,6 @@ export const CreateExaminationSchema = z.object({
   description: z.string().optional().describe("Description of the examination"),
   examinationDate: z
     .string()
-    .datetime({ message: "Invalid date format" })
     .optional()
     .describe("Scheduled date of the examination"),
   duration: z
@@ -66,7 +65,6 @@ export const UpdateExaminationSchema = z.object({
   description: z.string().optional().describe("Description of the examination"),
   examinationDate: z
     .string()
-    .datetime({ message: "Invalid date format" })
     .optional()
     .describe("Scheduled date of the examination"),
   duration: z
