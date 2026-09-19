@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import {
-  ExaminationRepository,
   type ExaminationPaginationResult,
+  ExaminationRepository,
   type ExaminationSearchInput,
 } from "@repo/shared/infrastructure/repository/examination.repository";
-import type { ExaminationEntity } from "@repo/shared/selects/examination.select";
 import type {
   CreateExaminationDto,
   UpdateExaminationDto,
 } from "@repo/shared/schemas/examination.schema";
+import type { ExaminationEntity } from "@repo/shared/selects/examination.select";
 
 @Injectable()
 export class ExaminationService {
@@ -18,12 +18,20 @@ export class ExaminationService {
     return this.repository.create({
       title: data.title,
       ...(data.createdBy !== undefined && { createdBy: data.createdBy }),
-      ...(data.classSubjectId !== undefined && { classSubjectId: data.classSubjectId }),
-      ...(data.assignmentTypeId !== undefined && { assignmentTypeId: data.assignmentTypeId }),
+      ...(data.classSubjectId !== undefined && {
+        classSubjectId: data.classSubjectId,
+      }),
+      ...(data.assignmentTypeId !== undefined && {
+        assignmentTypeId: data.assignmentTypeId,
+      }),
       ...(data.description !== undefined && { description: data.description }),
-      ...(data.examinationDate !== undefined && { examinationDate: new Date(data.examinationDate) }),
+      ...(data.examinationDate !== undefined && {
+        examinationDate: new Date(data.examinationDate),
+      }),
       ...(data.duration !== undefined && { duration: data.duration }),
-      ...(data.maximumScore !== undefined && { maximumScore: data.maximumScore }),
+      ...(data.maximumScore !== undefined && {
+        maximumScore: data.maximumScore,
+      }),
     });
   }
 
@@ -52,13 +60,21 @@ export class ExaminationService {
 
     return this.repository.update(id, {
       ...(data.updatedBy !== undefined && { updatedBy: data.updatedBy }),
-      ...(data.classSubjectId !== undefined && { classSubjectId: data.classSubjectId }),
-      ...(data.assignmentTypeId !== undefined && { assignmentTypeId: data.assignmentTypeId }),
+      ...(data.classSubjectId !== undefined && {
+        classSubjectId: data.classSubjectId,
+      }),
+      ...(data.assignmentTypeId !== undefined && {
+        assignmentTypeId: data.assignmentTypeId,
+      }),
       ...(data.title !== undefined && { title: data.title }),
       ...(data.description !== undefined && { description: data.description }),
-      ...(data.examinationDate !== undefined && { examinationDate: new Date(data.examinationDate) }),
+      ...(data.examinationDate !== undefined && {
+        examinationDate: new Date(data.examinationDate),
+      }),
       ...(data.duration !== undefined && { duration: data.duration }),
-      ...(data.maximumScore !== undefined && { maximumScore: data.maximumScore }),
+      ...(data.maximumScore !== undefined && {
+        maximumScore: data.maximumScore,
+      }),
     });
   }
 

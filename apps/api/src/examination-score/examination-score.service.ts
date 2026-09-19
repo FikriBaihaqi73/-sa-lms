@@ -58,7 +58,9 @@ export class ExaminationScoreService {
       ...(dto.score !== undefined ? { score: dto.score } : {}),
       ...(dto.notes !== undefined ? { notes: dto.notes } : {}),
       ...(dto.gradedBy !== undefined ? { gradedBy: dto.gradedBy } : {}),
-      ...(dto.gradedAt !== undefined ? { gradedAt: new Date(dto.gradedAt) } : {}),
+      ...(dto.gradedAt !== undefined
+        ? { gradedAt: new Date(dto.gradedAt) }
+        : {}),
     });
   }
 

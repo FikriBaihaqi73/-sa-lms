@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import * as dotenv from "dotenv";
 
 dotenv.config();

@@ -24,10 +24,7 @@ export class ExaminationController {
 
   @Post()
   @ApiOperation({ summary: "Create a new examination" })
-  async create(
-    @Req() req: any,
-    @Body() data: CreateExaminationDto,
-  ) {
+  async create(@Req() req: any, @Body() data: CreateExaminationDto) {
     // If the authentication guard is used, req.user might be available.
     // Ensure createdBy is set correctly.
     if (req.user?.id) {
@@ -50,7 +47,7 @@ export class ExaminationController {
   ) {
     const pageNum = page ? parseInt(page, 10) : 1;
     const limitNum = limit ? parseInt(limit, 10) : 10;
-    
+
     const result = await this.service.findAll(pageNum, limitNum, search);
     return ResponseHelper.success(
       result,
@@ -62,10 +59,7 @@ export class ExaminationController {
   @ApiOperation({ summary: "Get a specific examination by ID" })
   async findById(@Param("id") id: string) {
     const result = await this.service.findById(id);
-    return ResponseHelper.success(
-      result,
-      "Examination retrieved successfully",
-    );
+    return ResponseHelper.success(result, "Examination retrieved successfully");
   }
 
   @Put(":id")
@@ -79,19 +73,13 @@ export class ExaminationController {
       data.updatedBy = req.user.id;
     }
     const result = await this.service.update(id, data);
-    return ResponseHelper.success(
-      result,
-      "Examination updated successfully",
-    );
+    return ResponseHelper.success(result, "Examination updated successfully");
   }
 
   @Delete(":id")
   @ApiOperation({ summary: "Soft delete an examination by ID" })
   async delete(@Param("id") id: string) {
     const result = await this.service.softDelete(id);
-    return ResponseHelper.success(
-      result,
-      "Examination deleted successfully",
-    );
+    return ResponseHelper.success(result, "Examination deleted successfully");
   }
 }

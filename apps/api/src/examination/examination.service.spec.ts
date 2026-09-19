@@ -1,7 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { ExaminationService } from "./examination.service";
-import { ExaminationRepository } from "@repo/shared/infrastructure/repository/examination.repository";
 import { NotFoundException } from "@nestjs/common";
+import { Test, TestingModule } from "@nestjs/testing";
+import { ExaminationRepository } from "@repo/shared/infrastructure/repository/examination.repository";
+import { ExaminationService } from "./examination.service";
 
 describe("ExaminationService", () => {
   let service: ExaminationService;

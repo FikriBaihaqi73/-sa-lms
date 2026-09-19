@@ -17,6 +17,7 @@ import { ClassSubjectModule } from "./class-subject/class-subject.module";
 import { ClassroomModule } from "./classroom/classroom.module";
 import { DepartmentsModule } from "./departments/departments.module";
 import { EmploymentStatusModule } from "./employment-status/employment-status.module";
+import { ExaminationModule } from "./examination/examination.module";
 import { GuardianModule } from "./guardian/guardian.module";
 import { InstitutionModule } from "./institution/institution.module";
 import { InstitutionLevelModule } from "./institution-level/institution-level.module";
@@ -39,7 +40,6 @@ import { SubjectModule } from "./subject/subject.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
-import { ExaminationModule } from "./examination/examination.module";
 
 @Module({
   imports: [
