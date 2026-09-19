@@ -36,20 +36,26 @@ export class ClassroomService {
       ...(dto.building !== undefined ? { building: dto.building } : {}),
       ...(dto.floor !== undefined ? { floor: dto.floor } : {}),
       ...(dto.capacity !== undefined ? { capacity: dto.capacity } : {}),
-      ...(dto.description !== undefined ? { description: dto.description } : {}),
+      ...(dto.description !== undefined
+        ? { description: dto.description }
+        : {}),
     });
   }
 
   async update(id: string, dto: UpdateClassroomDto) {
     await this.findOne(id);
     return this.classroomRepository.update(id, {
-      ...(dto.institutionId !== undefined ? { institutionId: dto.institutionId } : {}),
+      ...(dto.institutionId !== undefined
+        ? { institutionId: dto.institutionId }
+        : {}),
       ...(dto.roomCode !== undefined ? { roomCode: dto.roomCode } : {}),
       ...(dto.roomName !== undefined ? { roomName: dto.roomName } : {}),
       ...(dto.building !== undefined ? { building: dto.building } : {}),
       ...(dto.floor !== undefined ? { floor: dto.floor } : {}),
       ...(dto.capacity !== undefined ? { capacity: dto.capacity } : {}),
-      ...(dto.description !== undefined ? { description: dto.description } : {}),
+      ...(dto.description !== undefined
+        ? { description: dto.description }
+        : {}),
     });
   }
 

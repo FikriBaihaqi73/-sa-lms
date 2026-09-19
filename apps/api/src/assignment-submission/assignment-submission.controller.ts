@@ -24,7 +24,9 @@ export class AssignmentSubmissionController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: "Get all assignment submissions with pagination and search" })
+  @ApiOperation({
+    summary: "Get all assignment submissions with pagination and search",
+  })
   async findAll(
     @Query("page") page?: string,
     @Query("limit") limit?: string,
@@ -37,21 +39,30 @@ export class AssignmentSubmissionController {
       limit: limitNumber,
       ...(search ? { search } : {}),
     });
-    return ResponseHelper.success(result, "Success fetch assignment submissions");
+    return ResponseHelper.success(
+      result,
+      "Success fetch assignment submissions",
+    );
   }
 
   @Get(":id")
   @ApiOperation({ summary: "Get assignment submission by ID" })
   async findOne(@Param("id") id: string) {
     const result = await this.assignmentSubmissionService.findById(id);
-    return ResponseHelper.success(result, "Success fetch assignment submission");
+    return ResponseHelper.success(
+      result,
+      "Success fetch assignment submission",
+    );
   }
 
   @Post()
   @ApiOperation({ summary: "Create new assignment submission" })
   async create(@Body() body: CreateAssignmentSubmissionDto) {
     const result = await this.assignmentSubmissionService.create(body);
-    return ResponseHelper.success(result, "Success create assignment submission");
+    return ResponseHelper.success(
+      result,
+      "Success create assignment submission",
+    );
   }
 
   @Put(":id")
@@ -61,13 +72,19 @@ export class AssignmentSubmissionController {
     @Body() body: UpdateAssignmentSubmissionDto,
   ) {
     const result = await this.assignmentSubmissionService.update(id, body);
-    return ResponseHelper.success(result, "Success update assignment submission");
+    return ResponseHelper.success(
+      result,
+      "Success update assignment submission",
+    );
   }
 
   @Delete(":id")
   @ApiOperation({ summary: "Delete assignment submission" })
   async remove(@Param("id") id: string) {
     const result = await this.assignmentSubmissionService.delete(id);
-    return ResponseHelper.success(result, "Success delete assignment submission");
+    return ResponseHelper.success(
+      result,
+      "Success delete assignment submission",
+    );
   }
 }

@@ -56,7 +56,9 @@ export class ClassService {
         ? { academic_year_id: dto.academic_year_id }
         : {}),
       ...(dto.name !== undefined ? { name: dto.name } : {}),
-      ...(dto.grade_level !== undefined ? { grade_level: dto.grade_level } : {}),
+      ...(dto.grade_level !== undefined
+        ? { grade_level: dto.grade_level }
+        : {}),
       ...(dto.capacity !== undefined ? { capacity: dto.capacity } : {}),
     });
   }

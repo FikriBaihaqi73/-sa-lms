@@ -4,11 +4,7 @@ import { assignmentSubmissionSelect } from "#selects/assignment-submission.selec
 export class AssignmentSubmissionRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async findAll(params?: {
-    page?: number;
-    limit?: number;
-    search?: string;
-  }) {
+  async findAll(params?: { page?: number; limit?: number; search?: string }) {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 10;
     const skip = (page - 1) * limit;
@@ -21,8 +17,18 @@ export class AssignmentSubmissionRepository {
       where.OR = [
         { feedback: { contains: params.search, mode: "insensitive" } },
         { status: { contains: params.search, mode: "insensitive" } },
-        { student: { profile: { fullName: { contains: params.search, mode: "insensitive" } } } },
-        { assignment: { title: { contains: params.search, mode: "insensitive" } } },
+        {
+          student: {
+            profile: {
+              fullName: { contains: params.search, mode: "insensitive" },
+            },
+          },
+        },
+        {
+          assignment: {
+            title: { contains: params.search, mode: "insensitive" },
+          },
+        },
       ];
     }
 
@@ -65,7 +71,10 @@ export class AssignmentSubmissionRepository {
     });
   }
 
-  async update(id: string, data: Prisma.AssignmentSubmissionUncheckedUpdateInput) {
+  async update(
+    id: string,
+    data: Prisma.AssignmentSubmissionUncheckedUpdateInput,
+  ) {
     return this.prisma.assignmentSubmission.update({
       where: { id },
       data,

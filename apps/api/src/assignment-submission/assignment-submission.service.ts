@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
 import { AssignmentSubmissionRepository } from "@repo/shared/infrastructure/repository/assignment-submission.repository";
 import {
   CreateAssignmentSubmissionDto,
   UpdateAssignmentSubmissionDto,
 } from "@repo/shared/schemas/assignment-submission.schema";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class AssignmentSubmissionService {
@@ -14,11 +14,7 @@ export class AssignmentSubmissionService {
     this.repository = new AssignmentSubmissionRepository(this.prisma.client);
   }
 
-  async findAll(params?: {
-    page?: number;
-    limit?: number;
-    search?: string;
-  }) {
+  async findAll(params?: { page?: number; limit?: number; search?: string }) {
     return this.repository.findAll(params);
   }
 

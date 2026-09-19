@@ -40,7 +40,9 @@ export class ClassroomRepository {
         ...(data.building !== undefined && { building: data.building }),
         ...(data.floor !== undefined && { floor: data.floor }),
         ...(data.capacity !== undefined && { capacity: data.capacity }),
-        ...(data.description !== undefined && { description: data.description }),
+        ...(data.description !== undefined && {
+          description: data.description,
+        }),
       },
       select: classroomSelect,
     });
@@ -120,19 +122,26 @@ export class ClassroomRepository {
     };
   }
 
-  async update(id: string, data: UpdateClassroomInput): Promise<ClassroomEntity> {
+  async update(
+    id: string,
+    data: UpdateClassroomInput,
+  ): Promise<ClassroomEntity> {
     return this.prisma.classroom.update({
       where: {
         id,
       },
       data: {
-        ...(data.institutionId !== undefined && { institutionId: data.institutionId }),
+        ...(data.institutionId !== undefined && {
+          institutionId: data.institutionId,
+        }),
         ...(data.roomCode !== undefined && { roomCode: data.roomCode }),
         ...(data.roomName !== undefined && { roomName: data.roomName }),
         ...(data.building !== undefined && { building: data.building }),
         ...(data.floor !== undefined && { floor: data.floor }),
         ...(data.capacity !== undefined && { capacity: data.capacity }),
-        ...(data.description !== undefined && { description: data.description }),
+        ...(data.description !== undefined && {
+          description: data.description,
+        }),
       },
       select: classroomSelect,
     });

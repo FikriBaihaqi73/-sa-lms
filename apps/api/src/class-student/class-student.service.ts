@@ -16,7 +16,9 @@ export class ClassStudentService {
   private readonly classStudentRepository: ClassStudentRepository;
 
   constructor(private readonly prisma: PrismaService) {
-    this.classStudentRepository = new ClassStudentRepository(this.prisma.client);
+    this.classStudentRepository = new ClassStudentRepository(
+      this.prisma.client,
+    );
   }
 
   async findAll(page = 1, limit = 10, search?: string) {

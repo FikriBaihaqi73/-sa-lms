@@ -62,9 +62,7 @@ export class ClassRepository {
     });
   }
 
-  async findAll(
-    params: FindAllClassInput = {},
-  ): Promise<FindAllClassResult> {
+  async findAll(params: FindAllClassInput = {}): Promise<FindAllClassResult> {
     const page = Math.max(params.page ?? 1, 1);
     const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
     const search = params.search?.trim();

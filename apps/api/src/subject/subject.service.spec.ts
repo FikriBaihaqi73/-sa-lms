@@ -1,7 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { SubjectService } from "./subject.service";
 import { ConflictException, NotFoundException } from "@nestjs/common";
+import { Test, TestingModule } from "@nestjs/testing";
 import { PrismaService } from "../prisma/prisma.service";
+import { SubjectService } from "./subject.service";
 
 describe("SubjectService", () => {
   let service: SubjectService;
@@ -39,7 +39,7 @@ describe("SubjectService", () => {
     }).compile();
 
     service = module.get<SubjectService>(SubjectService);
-    
+
     // We can spy on the manually created repository inside the service if needed,
     // but the easiest way is to mock Prisma directly.
     mockRepository.create = mockPrismaService.client.subject.create;
@@ -52,7 +52,7 @@ describe("SubjectService", () => {
     });
     mockRepository.update = mockPrismaService.client.subject.update;
     mockRepository.delete = mockPrismaService.client.subject.update;
-    
+
     // override the internal repository for testing
     (service as any).subjectRepository = mockRepository;
   });
@@ -87,7 +87,9 @@ describe("SubjectService", () => {
       };
       mockRepository.findByCode.mockResolvedValue({ id: "1", ...createDto });
 
-      await expect(service.create(createDto)).rejects.toThrow(ConflictException);
+      await expect(service.create(createDto)).rejects.toThrow(
+        ConflictException,
+      );
       expect(mockRepository.create).not.toHaveBeenCalled();
     });
   });
@@ -147,7 +149,9 @@ describe("SubjectService", () => {
       mockRepository.findById.mockResolvedValue(existing);
       mockRepository.findByCode.mockResolvedValue(existingOther);
 
-      await expect(service.update("1", updateDto)).rejects.toThrow(ConflictException);
+      await expect(service.update("1", updateDto)).rejects.toThrow(
+        ConflictException,
+      );
     });
 
     it("should throw NotFoundException if subject not found", async () => {
