@@ -2,7 +2,10 @@ import { NotFoundException } from "@nestjs/common";
 import { AssignmentRepository } from "@repo/shared/infrastructure/repository/assignment.repository";
 import { AssignmentTypeRepository } from "@repo/shared/infrastructure/repository/assignment-type.repository";
 import { ModuleRepository } from "@repo/shared/infrastructure/repository/module.repository";
-import type { CreateAssignmentDto } from "@repo/shared/schemas/assignment.schema";
+import type {
+  CreateAssignmentDto,
+  UpdateAssignmentDto,
+} from "@repo/shared/schemas/assignment.schema";
 import type { PrismaService } from "../prisma/prisma.service";
 import { AssignmentService } from "./assignment.service";
 
@@ -66,5 +69,56 @@ describe("AssignmentService", () => {
       assignment_type_id: "type-1",
       title: "Algebra quiz",
     });
+  });
+
+  it("throws when an assignment cannot be found", async () => {
+    jest
+      .spyOn(AssignmentRepository.prototype, "findById")
+      .mockResolvedValue(null);
+
+    await expect(service.findOne("missing-assignment")).rejects.toEqual(
+      expect.objectContaining({ message: "Assignment not found" }),
+    );
+  });
+
+  it("validates changed relations before updating an assignment", async () => {
+    jest
+      .spyOn(AssignmentRepository.prototype, "findById")
+      .mockResolvedValue({ id: "assignment-1" } as never);
+    jest
+      .spyOn(ModuleRepository.prototype, "findById")
+      .mockResolvedValue({ id: "module-2" } as never);
+    jest
+      .spyOn(AssignmentTypeRepository.prototype, "findById")
+      .mockResolvedValue({ id: "type-2" } as never);
+    const update = jest
+      .spyOn(AssignmentRepository.prototype, "update")
+      .mockResolvedValue({ id: "assignment-1" } as never);
+
+    await service.update("assignment-1", {
+      module_id: "module-2",
+      assignment_type_id: "type-2",
+      due_date: null,
+      max_score: 90,
+    } as UpdateAssignmentDto);
+
+    expect(update).toHaveBeenCalledWith("assignment-1", {
+      module_id: "module-2",
+      assignment_type_id: "type-2",
+      due_date: null,
+      max_score: 90,
+    });
+  });
+
+  it("does not delete an assignment that is already missing", async () => {
+    jest
+      .spyOn(AssignmentRepository.prototype, "findById")
+      .mockResolvedValue(null);
+    const remove = jest.spyOn(AssignmentRepository.prototype, "delete");
+
+    await expect(service.remove("missing-assignment")).rejects.toEqual(
+      expect.objectContaining({ message: "Assignment not found" }),
+    );
+    expect(remove).not.toHaveBeenCalled();
   });
 });
