@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -49,7 +50,7 @@ export class AssignmentController {
 
   @Get(":id")
   @ApiOperation({ summary: "Get an assignment by ID" })
-  async findOne(@Param("id") id: string) {
+  async findOne(@Param("id", ParseUUIDPipe) id: string) {
     return ResponseHelper.success(
       await this.assignmentService.findOne(id),
       "Assignment detail retrieved successfully",
@@ -69,7 +70,7 @@ export class AssignmentController {
   @Patch(":id")
   @ApiOperation({ summary: "Update an assignment" })
   async update(
-    @Param("id") id: string,
+    @Param("id", ParseUUIDPipe) id: string,
     @Body(new ZodValidationPipe()) dto: UpdateAssignmentDto,
   ) {
     return ResponseHelper.success(
@@ -80,7 +81,7 @@ export class AssignmentController {
 
   @Delete(":id")
   @ApiOperation({ summary: "Soft-delete an assignment" })
-  async remove(@Param("id") id: string) {
+  async remove(@Param("id", ParseUUIDPipe) id: string) {
     return ResponseHelper.success(
       await this.assignmentService.remove(id),
       "Assignment deleted successfully",
