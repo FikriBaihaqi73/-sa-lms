@@ -17,6 +17,7 @@ model StudyResult {
   // relations
   student        Student           @relation(fields: [studentId], references: [id])
   academicYear   AcademicYears     @relation(fields: [academicYearId], references: [id])
+  semester       Semesters         @relation(fields: [semesterId], references: [id])
   academicStatus AcademicStatuses? @relation(fields: [academicStatusId], references: [id])
 
   @@unique([studentId, academicYearId, semesterId])
