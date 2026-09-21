@@ -30,8 +30,8 @@ export class NotificationRepository {
     const [data, total] = await Promise.all([
       this.prisma.notifications.findMany({
         where,
-        skip,
-        take,
+        ...(skip !== undefined ? { skip } : {}),
+        ...(take !== undefined ? { take } : {}),
         select: notificationSelect,
         orderBy: { created_at: "desc" },
       }),

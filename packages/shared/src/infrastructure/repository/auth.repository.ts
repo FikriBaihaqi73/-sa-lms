@@ -90,7 +90,7 @@ export class AuthRepository {
     institutionName: string,
     roleId: string,
   ): Promise<UserEntity> {
-    return this.prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx: any) => {
       const user = await tx.users.create({
         data: { ...userPayload, is_active: true },
       });

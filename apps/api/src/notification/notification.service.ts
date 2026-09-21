@@ -11,24 +11,25 @@ export class NotificationService {
   constructor(private readonly notificationRepository: NotificationRepository) {}
 
   async create(data: CreateNotificationDto) {
-    return this.notificationRepository.create({
+    const createData: any = {
       user_id: data.userId,
       title: data.title,
-      message: data.message,
-      is_read: data.isRead,
-      read_at: data.readAt ? new Date(data.readAt) : undefined,
-    });
+    };
+    if (data.message !== undefined) createData.message = data.message;
+    if (data.isRead !== undefined) createData.is_read = data.isRead;
+    if (data.readAt !== undefined) createData.read_at = data.readAt ? new Date(data.readAt) : null;
+
+    return this.notificationRepository.create(createData);
   }
 
   async findAll(query: NotificationQueryDto) {
     const { page, limit, search } = query;
     const skip = (page - 1) * limit;
 
-    const [data, total] = await this.notificationRepository.findMany({
-      skip,
-      take: limit,
-      search,
-    });
+    const findParams: any = { skip, take: limit };
+    if (search !== undefined) findParams.search = search;
+
+    const [data, total] = await this.notificationRepository.findMany(findParams);
 
     const totalPages = Math.ceil(total / limit);
 
