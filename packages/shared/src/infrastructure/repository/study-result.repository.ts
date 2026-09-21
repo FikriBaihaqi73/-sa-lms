@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type StudyResultEntity,
   studyResultSelect,
@@ -8,20 +8,34 @@ export interface CreateStudyResultInput {
   studentId: string;
   academicYearId: string;
   semesterId: string;
-  totalCredits?: number | null;
-  semesterGpa?: number | null;
-  cumulativeGpa?: number | null;
-  academicStatusId?: string | null;
+  totalCredits?: number | null | undefined;
+  semesterGpa?: number | null | undefined;
+  cumulativeGpa?: number | null | undefined;
+  academicStatusId?: string | null | undefined;
 }
 
 export interface UpdateStudyResultInput {
-  studentId?: string;
-  academicYearId?: string;
-  semesterId?: string;
-  totalCredits?: number | null;
-  semesterGpa?: number | null;
-  cumulativeGpa?: number | null;
-  academicStatusId?: string | null;
+  studentId?: string | undefined;
+  academicYearId?: string | undefined;
+  semesterId?: string | undefined;
+  totalCredits?: number | null | undefined;
+  semesterGpa?: number | null | undefined;
+  cumulativeGpa?: number | null | undefined;
+  academicStatusId?: string | null | undefined;
+}
+
+export interface StudyResultSearchInput {
+  search?: string | undefined;
+}
+
+export interface StudyResultPaginationResult {
+  data: StudyResultEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class StudyResultRepository {
@@ -52,13 +66,134 @@ export class StudyResultRepository {
     });
   }
 
-  async findAll(): Promise<StudyResultEntity[]> {
+  async findByStudentId(studentId: string): Promise<StudyResultEntity[]> {
     return this.prisma.studyResult.findMany({
       where: {
+        studentId,
+        deletedAt: null,
+      },
+      select: studyResultSelect,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async findByAcademicYearId(
+    academicYearId: string,
+  ): Promise<StudyResultEntity[]> {
+    return this.prisma.studyResult.findMany({
+      where: {
+        academicYearId,
+        deletedAt: null,
+      },
+      select: studyResultSelect,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async findBySemesterId(semesterId: string): Promise<StudyResultEntity[]> {
+    return this.prisma.studyResult.findMany({
+      where: {
+        semesterId,
+        deletedAt: null,
+      },
+      select: studyResultSelect,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }
+
+  async findByUniqueCombination(
+    studentId: string,
+    academicYearId: string,
+    semesterId: string,
+  ): Promise<StudyResultEntity | null> {
+    return this.prisma.studyResult.findFirst({
+      where: {
+        studentId,
+        academicYearId,
+        semesterId,
         deletedAt: null,
       },
       select: studyResultSelect,
     });
+  }
+
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: StudyResultSearchInput,
+  ): Promise<StudyResultPaginationResult> {
+    const skip = (page - 1) * limit;
+    const search = filters?.search?.trim();
+
+    const where: Prisma.StudyResultWhereInput = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                student: {
+                  studentNumber: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                student: {
+                  profile: {
+                    fullName: { contains: search, mode: "insensitive" },
+                  },
+                },
+              },
+              {
+                academicYear: {
+                  academic_year: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                semester: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                academicStatus: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.studyResult.findMany({
+        where,
+        skip,
+        take: limit,
+        select: studyResultSelect,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      this.prisma.studyResult.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
+      },
+    };
   }
 
   async update(
@@ -108,3 +243,4 @@ export class StudyResultRepository {
     });
   }
 }
+
