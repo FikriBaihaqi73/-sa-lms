@@ -1,5 +1,28 @@
 import type { Prisma } from "#generated/client";
 
+const announcementInstitutionSelect = {
+  id: true,
+  name: true,
+  shortName: true,
+  city: true,
+  province: true,
+} satisfies Prisma.InstitutionSelect;
+
+const announcementUserSelect = {
+  id: true,
+  email: true,
+  is_active: true,
+  last_login: true,
+  profile: {
+    select: {
+      id: true,
+      fullName: true,
+      institutionId: true,
+      roleId: true,
+    },
+  },
+} satisfies Prisma.UsersSelect;
+
 export const announcementSelect = {
   id: true,
   created_by: true,
@@ -14,6 +37,18 @@ export const announcementSelect = {
   is_published: true,
   published_at: true,
   expired_at: true,
+  institution: {
+    select: announcementInstitutionSelect,
+  },
+  creator: {
+    select: announcementUserSelect,
+  },
+  updater: {
+    select: announcementUserSelect,
+  },
+  deleter: {
+    select: announcementUserSelect,
+  },
 } satisfies Prisma.AnnouncementsSelect;
 
 export type AnnouncementSelectType = typeof announcementSelect;

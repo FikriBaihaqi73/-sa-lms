@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type AnnouncementEntity,
   announcementSelect,
@@ -22,6 +22,20 @@ export interface UpdateAnnouncementInput {
   published_at?: Date | null;
   expired_at?: Date | null;
   updated_by?: string | null;
+}
+
+export interface AnnouncementSearchInput {
+  search?: string | undefined;
+}
+
+export interface AnnouncementPaginationResult {
+  data: AnnouncementEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class AnnouncementsRepository {
@@ -75,13 +89,65 @@ export class AnnouncementsRepository {
     });
   }
 
-  async findAll(): Promise<AnnouncementEntity[]> {
-    return this.prisma.announcements.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: AnnouncementSearchInput,
+  ): Promise<AnnouncementPaginationResult> {
+    const currentPage = Math.max(Math.floor(page || 1), 1);
+    const perPage = Math.min(Math.max(Math.floor(limit || 10), 1), 100);
+    const search = filters?.search?.trim();
+    const where: Prisma.AnnouncementsWhereInput = {
+      deleted_at: null,
+      ...(search
+        ? {
+            OR: [
+              { title: { contains: search, mode: "insensitive" } },
+              { content: { contains: search, mode: "insensitive" } },
+              {
+                institution: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                creator: {
+                  email: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                creator: {
+                  profile: {
+                    some: {
+                      fullName: { contains: search, mode: "insensitive" },
+                    },
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.announcements.findMany({
+        where,
+        skip: (currentPage - 1) * perPage,
+        take: perPage,
+        select: announcementSelect,
+        orderBy: { created_at: "desc" },
+      }),
+      this.prisma.announcements.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages: Math.ceil(totalData / perPage),
+        currentPage,
+        perPage,
       },
-      select: announcementSelect,
-    });
+    };
   }
 
   async update(
