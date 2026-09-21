@@ -10,10 +10,16 @@ export const notificationSelect = {
   message: true,
   is_read: true,
   read_at: true,
+  users: {
+    select: {
+      email: true,
+      profile: {
+        select: {
+          fullName: true,
+        },
+      },
+    },
+  },
 } satisfies Prisma.NotificationsSelect;
 
 export type NotificationSelectType = typeof notificationSelect;
-
-export type NotificationEntity = Prisma.NotificationsGetPayload<{
-  select: NotificationSelectType;
-}>;

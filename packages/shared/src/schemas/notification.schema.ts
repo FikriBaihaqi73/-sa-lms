@@ -25,6 +25,12 @@ export const CreateNotificationSchema = z.object({
 
 export const UpdateNotificationSchema = CreateNotificationSchema.partial();
 
+export const NotificationQuerySchema = z.object({
+  page: z.coerce.number().min(1).default(1).describe("Page number"),
+  limit: z.coerce.number().min(1).default(10).describe("Number of items per page"),
+  search: z.string().optional().describe("Search term for title and message"),
+});
+
 export const createNotificationSchema = CreateNotificationSchema;
 export const updateNotificationSchema = UpdateNotificationSchema;
 
@@ -33,4 +39,7 @@ export class CreateNotificationDto extends createZodDto(
 ) {}
 export class UpdateNotificationDto extends createZodDto(
   UpdateNotificationSchema,
+) {}
+export class NotificationQueryDto extends createZodDto(
+  NotificationQuerySchema,
 ) {}
