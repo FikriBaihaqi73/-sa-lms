@@ -7,7 +7,7 @@ import { apiFetch } from '@/lib/api';
 export const loginApi = async (credentials: LoginCredentials): Promise<User> => {
   // We assume the backend expects { email, password }
   // and returns { data: { user, token } } or similar based on ResponseHelper
-  const response = await apiFetch('/api/auth/login', {
+  const response = await apiFetch('/auth/login', {
     method: 'POST',
     body: JSON.stringify(credentials),
   });

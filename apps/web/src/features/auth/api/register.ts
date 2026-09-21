@@ -8,7 +8,7 @@ type RegisterDto = z.infer<typeof RegisterSchema>;
  * Real API call for registering via the NestJS Backend
  */
 export const registerApi = async (data: RegisterDto): Promise<void> => {
-  await apiFetch('/api/auth/register', {
+  await apiFetch('/auth/register', {
     method: 'POST',
     body: JSON.stringify(data),
   });
