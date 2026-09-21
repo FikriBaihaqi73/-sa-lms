@@ -187,3 +187,34 @@ Always run these commands from the project root:
 
 ---
 *Note: Adhere strictly to the established layered architecture and modular patterns in this repository for all new feature implementations.*
+
+## 14. Frontend Architecture (apps/web)
+
+This monorepo includes a Frontend application built with Vite and React, located in `apps/web`. When working on the frontend, adhere to the following stack and rules:
+
+### A. Tech Stack
+- **Framework**: React 18+ (via Vite).
+- **Language**: TypeScript (Strict mode).
+- **Routing**: `@tanstack/react-router` for type-safe routing.
+- **State Management & Fetching**: `@tanstack/react-query` for server state.
+- **Styling**: Tailwind CSS.
+- **UI Components**: `shadcn/ui` (accessible, customizable components).
+- **Forms**: `react-hook-form`.
+- **Validation**: `zod` (integrated with React Hook Form using `@hookform/resolvers/zod`).
+
+### B. Directory Structure (`apps/web/src`)
+- `assets/`: Static assets like images and global CSS.
+- `components/`: Generic, reusable UI components (e.g., shadcn/ui components).
+- `features/`: Domain-specific modules containing their own components, hooks, api calls, and state (e.g., `features/auth`).
+- `hooks/`: Global custom React hooks.
+- `lib/`: Utility functions (e.g., `utils.ts` for tailwind class merging).
+- `routes/`: TanStack Router file-based routing components.
+
+### C. Development Guidelines
+- **Component Design**: Favor functional components with hooks. Keep components small and focused.
+- **Data Fetching**: Always use TanStack Query for remote data fetching. Do not use `useEffect` for data fetching.
+- **Form Handling**: Use React Hook Form for all forms. Validate all inputs using Zod schemas before submission.
+- **Styling**: Use Tailwind CSS utility classes. For complex conditional classes, use the `cn` utility (`clsx` + `tailwind-merge`) found in `lib/utils.ts`.
+- **Routing**: Define routes in the `src/routes` directory following TanStack Router conventions (`__root.tsx`, `index.tsx`, etc.). Use loaders for critical data fetching before rendering the route.
+- **Environment Variables**: NEVER hardcode API URLs. Always use `VITE_API_URL` from `.env` files.
+- **API Integration**: All remote network calls must go through a centralized API client wrapper (e.g., `lib/api.ts`) that automatically prepends the `VITE_API_URL` and attaches necessary headers (like Authorization tokens). Direct `fetch` or `axios` calls scattering URLs across components are strictly forbidden.

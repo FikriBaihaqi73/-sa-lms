@@ -1,0 +1,43 @@
+import { createContext, useState, type ReactNode } from 'react';
+import type { AuthState, LoginCredentials } from '../types';
+import { loginApi } from '../api/login';
+
+export interface AuthContextType extends AuthState {
+  login: (credentials: LoginCredentials) => Promise<void>;
+  logout: () => void;
+}
+
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: false,
+  });
+
+  const login = async (credentials: LoginCredentials) => {
+    setState((prev) => ({ ...prev, isLoading: true }));
+    try {
+      const user = await loginApi(credentials);
+      setState({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      setState((prev) => ({ ...prev, isLoading: false }));
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    setState({ user: null, isAuthenticated: false, isLoading: false });
+  };
+
+  return (
+    <AuthContext.Provider value={{ ...state, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
