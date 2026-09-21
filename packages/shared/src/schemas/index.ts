@@ -1,6 +1,7 @@
 export * from "#schemas/academic-status.schema";
 export * from "#schemas/academic-year.schema";
 export * from "#schemas/activity-logs.schema";
+export * from "#schemas/announcement.schema";
 export * from "#schemas/assignment.schema";
 export * from "#schemas/assignment-submission.schema";
 export * from "#schemas/assignment-type.schema";
