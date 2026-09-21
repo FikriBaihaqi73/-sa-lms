@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import { type FilesEntity, filesSelect } from "#selects/files.select";
 
 export interface CreateFileInput {
@@ -19,6 +19,20 @@ export interface UpdateFileInput {
   mimeType?: string | null;
   fileSize?: bigint | number | null;
   uploadedBy?: string | null;
+}
+
+export interface FileSearchInput {
+  search?: string | undefined;
+}
+
+export interface FilePaginationResult {
+  data: FilesEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class FilesRepository {
@@ -74,13 +88,53 @@ export class FilesRepository {
     });
   }
 
-  async findAll(): Promise<FilesEntity[]> {
-    return this.prisma.files.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: FileSearchInput,
+  ): Promise<FilePaginationResult> {
+    const currentPage = Math.max(Math.floor(page || 1), 1);
+    const perPage = Math.min(Math.max(Math.floor(limit || 10), 1), 100);
+    const search = filters?.search?.trim();
+    const where: Prisma.FilesWhereInput = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              { originalName: { contains: search, mode: "insensitive" } },
+              { fileName: { contains: search, mode: "insensitive" } },
+              { fileExtension: { contains: search, mode: "insensitive" } },
+              { mimeType: { contains: search, mode: "insensitive" } },
+              {
+                uploader: {
+                  email: { contains: search, mode: "insensitive" },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.files.findMany({
+        where,
+        skip: (currentPage - 1) * perPage,
+        take: perPage,
+        select: filesSelect,
+        orderBy: { createdAt: "desc" },
+      }),
+      this.prisma.files.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages: Math.ceil(totalData / perPage),
+        currentPage,
+        perPage,
       },
-      select: filesSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateFileInput): Promise<FilesEntity> {

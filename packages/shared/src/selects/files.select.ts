@@ -12,6 +12,13 @@ export const filesSelect = {
   mimeType: true,
   fileSize: true,
   uploadedBy: true,
+  uploader: {
+    select: {
+      id: true,
+      email: true,
+      is_active: true,
+    },
+  },
 } satisfies Prisma.FilesSelect;
 
 export type FilesSelectType = typeof filesSelect;
