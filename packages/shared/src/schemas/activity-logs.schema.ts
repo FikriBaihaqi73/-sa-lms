@@ -41,3 +41,11 @@ export class CreateActivityLogDto extends createZodDto(
 export class UpdateActivityLogDto extends createZodDto(
   UpdateActivityLogSchema,
 ) {}
+
+export const ActivityLogQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).optional().describe("Page number"),
+  limit: z.coerce.number().int().min(1).optional().describe("Items per page"),
+  search: z.string().trim().optional().describe("Search keyword"),
+});
+
+export class ActivityLogQueryDto extends createZodDto(ActivityLogQuerySchema) {}

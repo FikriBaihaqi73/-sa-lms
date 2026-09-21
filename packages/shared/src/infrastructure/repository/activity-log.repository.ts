@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type ActivityLogEntity,
   activityLogSelect,
@@ -8,19 +8,23 @@ export interface CreateActivityLogInput {
   user_id: string;
   module: string;
   action: string;
-  table_name?: string;
-  record_id?: string;
-  ip_address?: string;
-  user_agent?: string;
+  table_name?: string | undefined;
+  record_id?: string | undefined;
+  ip_address?: string | undefined;
+  user_agent?: string | undefined;
 }
 
 export interface UpdateActivityLogInput {
-  module?: string;
-  action?: string;
-  table_name?: string;
-  record_id?: string;
-  ip_address?: string;
-  user_agent?: string;
+  module?: string | undefined;
+  action?: string | undefined;
+  table_name?: string | undefined;
+  record_id?: string | undefined;
+  ip_address?: string | undefined;
+  user_agent?: string | undefined;
+}
+
+export interface ActivityLogSearchInput {
+  search?: string | undefined;
 }
 
 export class ActivityLogRepository {
@@ -63,16 +67,68 @@ export class ActivityLogRepository {
     });
   }
 
-  async findAll(): Promise<ActivityLogEntity[]> {
-    return this.prisma.activityLogs.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    page: number,
+    limit: number,
+    filters?: ActivityLogSearchInput,
+  ): Promise<{
+    data: ActivityLogEntity[];
+    meta: {
+      totalData: number;
+      totalPages: number;
+      currentPage: number;
+      perPage: number;
+    };
+  }> {
+    const skip = (page - 1) * limit;
+    const where = {
+      deleted_at: null,
+      ...(filters?.search
+        ? {
+            OR: [
+              {
+                module: {
+                  contains: filters.search,
+                  mode: "insensitive",
+                },
+              },
+              {
+                action: {
+                  contains: filters.search,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }
+        : {}),
+    } satisfies Prisma.ActivityLogsWhereInput;
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.activityLogs.findMany({
+        where,
+        skip,
+        take: limit,
+        select: activityLogSelect,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.activityLogs.count({
+        where,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(totalData / limit);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
       },
-      orderBy: {
-        created_at: "desc",
-      },
-      select: activityLogSelect,
-    });
+    };
   }
 
   async findByUserId(user_id: string): Promise<ActivityLogEntity[]> {

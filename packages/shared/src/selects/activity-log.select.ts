@@ -13,6 +13,18 @@ export const activityLogSelect = {
   record_id: true,
   ip_address: true,
   user_agent: true,
+
+  users: {
+    select: {
+      id: true,
+      email: true,
+      profile: {
+        select: {
+          fullName: true,
+        }
+      }
+    },
+  },
 } satisfies Prisma.ActivityLogsSelect;
 
 export type ActivityLogSelectType = typeof activityLogSelect;
