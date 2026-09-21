@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { ActivityLogModule } from "./activity-log/activity-log.module";
 import { APP_GUARD } from "@nestjs/core";
 import { NotificationModule } from "./notification/notification.module";
 import { AcademicStatusModule } from "./academic-status/academic-status.module";
@@ -85,6 +86,7 @@ import { UserModule } from "./user/user.module";
     StudentGradeModule,
     ExaminationModule,
     NotificationModule,
+    ActivityLogModule,
   ],
   controllers: [AppController],
   providers: [
