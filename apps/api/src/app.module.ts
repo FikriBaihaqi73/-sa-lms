@@ -36,6 +36,7 @@ import { StudentModule } from "./student/student.module";
 import { StudentGradeModule } from "./student-grade/student-grade.module";
 import { StudentGuardianModule } from "./student-guardian/student-guardian.module";
 import { StudyPlanModule } from "./study-plan/study-plan.module";
+import { StudyResultModule } from "./study-result/study-result.module";
 import { SubjectModule } from "./subject/subject.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
@@ -58,6 +59,7 @@ import { UserModule } from "./user/user.module";
     SpecializationModule,
     AttendanceModule,
     StudyPlanModule,
+    StudyResultModule,
     LearningModuleModule,
     ModuleContentModule,
     TeachingJournalModule,

@@ -2,42 +2,42 @@ import { createZodDto } from "nestjs-zod/dto";
 import { z } from "zod";
 
 export const CreateStudyResultSchema = z.object({
-  student_id: z
+  studentId: z
     .string()
-    .uuid("Invalid student_id UUID format")
+    .uuid("Invalid studentId UUID format")
     .describe("Student ID"),
-  academic_year_id: z
+  academicYearId: z
     .string()
-    .uuid("Invalid academic_year_id UUID format")
+    .uuid("Invalid academicYearId UUID format")
     .describe("Academic Year ID"),
-  semester_id: z
+  semesterId: z
     .string()
-    .uuid("Invalid semester_id UUID format")
+    .uuid("Invalid semesterId UUID format")
     .describe("Semester ID"),
-  total_credits: z
+  totalCredits: z
     .number()
-    .int()
-    .nonnegative()
+    .int("Total credits must be an integer")
+    .min(0, "Total credits must be non-negative")
     .optional()
     .nullable()
     .describe("Total credits taken"),
-  semester_gpa: z
+  semesterGpa: z
     .number()
-    .min(0)
-    .max(4)
+    .min(0, "GPA must be at least 0.0")
+    .max(4, "GPA must not exceed 4.0")
     .optional()
     .nullable()
     .describe("Semester GPA (0.0 - 4.0)"),
-  cumulative_gpa: z
+  cumulativeGpa: z
     .number()
-    .min(0)
-    .max(4)
+    .min(0, "GPA must be at least 0.0")
+    .max(4, "GPA must not exceed 4.0")
     .optional()
     .nullable()
     .describe("Cumulative GPA (0.0 - 4.0)"),
-  academic_status_id: z
+  academicStatusId: z
     .string()
-    .uuid("Invalid academic_status_id UUID format")
+    .uuid("Invalid academicStatusId UUID format")
     .optional()
     .nullable()
     .describe("Academic Status ID"),
@@ -45,9 +45,21 @@ export const CreateStudyResultSchema = z.object({
 
 export const UpdateStudyResultSchema = CreateStudyResultSchema.partial();
 
+export const QueryStudyResultSchema = z.object({
+  page: z.string().optional().describe("Page number (default: 1)"),
+  limit: z.string().optional().describe("Items per page (default: 10)"),
+  search: z.string().optional().describe("Search term for filtering"),
+});
+
 export class CreateStudyResultDto extends createZodDto(
   CreateStudyResultSchema,
 ) {}
+
 export class UpdateStudyResultDto extends createZodDto(
   UpdateStudyResultSchema,
 ) {}
+
+export class QueryStudyResultDto extends createZodDto(
+  QueryStudyResultSchema,
+) {}
+
