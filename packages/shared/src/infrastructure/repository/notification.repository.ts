@@ -1,11 +1,13 @@
+import type { NotificationEntity } from "#entities/notification.entity";
 import type { Prisma, PrismaClient } from "#generated/client";
 import { notificationSelect } from "#selects/notification.select";
-import type { NotificationEntity } from "#entities/notification.entity";
 
 export class NotificationRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
-  async create(data: Prisma.NotificationsUncheckedCreateInput): Promise<NotificationEntity> {
+  async create(
+    data: Prisma.NotificationsUncheckedCreateInput,
+  ): Promise<NotificationEntity> {
     return this.prisma.notifications.create({
       data,
       select: notificationSelect,
@@ -48,7 +50,10 @@ export class NotificationRepository {
     });
   }
 
-  async update(id: string, data: Prisma.NotificationsUncheckedUpdateInput): Promise<NotificationEntity> {
+  async update(
+    id: string,
+    data: Prisma.NotificationsUncheckedUpdateInput,
+  ): Promise<NotificationEntity> {
     return this.prisma.notifications.update({
       where: { id },
       data,

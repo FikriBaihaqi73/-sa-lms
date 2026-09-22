@@ -27,7 +27,11 @@ export const UpdateNotificationSchema = CreateNotificationSchema.partial();
 
 export const NotificationQuerySchema = z.object({
   page: z.coerce.number().min(1).default(1).describe("Page number"),
-  limit: z.coerce.number().min(1).default(10).describe("Number of items per page"),
+  limit: z.coerce
+    .number()
+    .min(1)
+    .default(10)
+    .describe("Number of items per page"),
   search: z.string().optional().describe("Search term for title and message"),
 });
 

@@ -1,5 +1,7 @@
 import type { Prisma } from "#generated/client";
 
+import { userSelect } from "./user.select.js";
+
 export const settingsSelect = {
   id: true,
   updatedBy: true,
@@ -9,6 +11,9 @@ export const settingsSelect = {
   settingKey: true,
   settingValue: true,
   description: true,
+  updater: {
+    select: userSelect,
+  },
 } satisfies Prisma.SettingsSelect;
 
 export type SettingsSelectType = typeof settingsSelect;

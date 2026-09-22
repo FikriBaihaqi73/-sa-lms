@@ -8,7 +8,9 @@ import type {
 
 @Injectable()
 export class NotificationService {
-  constructor(private readonly notificationRepository: NotificationRepository) {}
+  constructor(
+    private readonly notificationRepository: NotificationRepository,
+  ) {}
 
   async create(data: CreateNotificationDto) {
     const createData: any = {
@@ -17,7 +19,8 @@ export class NotificationService {
     };
     if (data.message !== undefined) createData.message = data.message;
     if (data.isRead !== undefined) createData.is_read = data.isRead;
-    if (data.readAt !== undefined) createData.read_at = data.readAt ? new Date(data.readAt) : null;
+    if (data.readAt !== undefined)
+      createData.read_at = data.readAt ? new Date(data.readAt) : null;
 
     return this.notificationRepository.create(createData);
   }
@@ -29,7 +32,8 @@ export class NotificationService {
     const findParams: any = { skip, take: limit };
     if (search !== undefined) findParams.search = search;
 
-    const [data, total] = await this.notificationRepository.findMany(findParams);
+    const [data, total] =
+      await this.notificationRepository.findMany(findParams);
 
     const totalPages = Math.ceil(total / limit);
 
@@ -59,7 +63,8 @@ export class NotificationService {
     if (data.title !== undefined) updateData.title = data.title;
     if (data.message !== undefined) updateData.message = data.message;
     if (data.isRead !== undefined) updateData.is_read = data.isRead;
-    if (data.readAt !== undefined) updateData.read_at = data.readAt ? new Date(data.readAt) : null;
+    if (data.readAt !== undefined)
+      updateData.read_at = data.readAt ? new Date(data.readAt) : null;
 
     return this.notificationRepository.update(id, updateData);
   }

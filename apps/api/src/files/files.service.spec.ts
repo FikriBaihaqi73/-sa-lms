@@ -32,9 +32,7 @@ describe("FilesService", () => {
   });
 
   it("rejects a missing file", async () => {
-    jest
-      .spyOn(FilesRepository.prototype, "findById")
-      .mockResolvedValue(null);
+    jest.spyOn(FilesRepository.prototype, "findById").mockResolvedValue(null);
 
     await expect(service.findOne("missing-id")).rejects.toBeInstanceOf(
       NotFoundException,
