@@ -12,10 +12,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ResponseHelper } from "@repo/shared/http/response";
-import {
-  CreateFileDto,
-  UpdateFileDto,
-} from "@repo/shared/schemas/file.schema";
+import { CreateFileDto, UpdateFileDto } from "@repo/shared/schemas/file.schema";
 import { ZodValidationPipe } from "nestjs-zod";
 import { FilesService } from "./files.service";
 

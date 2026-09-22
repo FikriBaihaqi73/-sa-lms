@@ -59,7 +59,4 @@ export class UpdateStudyResultDto extends createZodDto(
   UpdateStudyResultSchema,
 ) {}
 
-export class QueryStudyResultDto extends createZodDto(
-  QueryStudyResultSchema,
-) {}
-
+export class QueryStudyResultDto extends createZodDto(QueryStudyResultSchema) {}

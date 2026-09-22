@@ -1,10 +1,9 @@
 import { Module } from "@nestjs/common";
-import { ActivityLogModule } from "./activity-log/activity-log.module";
-import { AnnouncementModule } from "./announcement/announcement.module";
 import { APP_GUARD } from "@nestjs/core";
-import { NotificationModule } from "./notification/notification.module";
 import { AcademicStatusModule } from "./academic-status/academic-status.module";
 import { AcademicYearModule } from "./academic-year/academic-year.module";
+import { ActivityLogModule } from "./activity-log/activity-log.module";
+import { AnnouncementModule } from "./announcement/announcement.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AssignmentModule } from "./assignment/assignment.module";
@@ -29,6 +28,7 @@ import { InstitutionLevelModule } from "./institution-level/institution-level.mo
 import { LearningModuleModule } from "./module/module.module";
 import { ModuleContentModule } from "./module-content/module-content.module";
 import { NationalityModule } from "./nationality/nationality.module";
+import { NotificationModule } from "./notification/notification.module";
 import { PermissionModule } from "./permission/permission.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { ProfileModule } from "./profile/profile.module";
@@ -36,6 +36,7 @@ import { ReligionModule } from "./religion/religion.module";
 import { RoleModule } from "./role/role.module";
 import { RolePermissionModule } from "./role-permission/role-permission.module";
 import { ScheduleModule } from "./schedule/schedule.module";
+import { SettingsModule } from "./settings/settings.module";
 import { SpecializationModule } from "./specialization/specialization.module";
 import { StudentModule } from "./student/student.module";
 import { StudentGradeModule } from "./student-grade/student-grade.module";
@@ -93,6 +94,7 @@ import { UserModule } from "./user/user.module";
     NotificationModule,
     ActivityLogModule,
     AnnouncementModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [

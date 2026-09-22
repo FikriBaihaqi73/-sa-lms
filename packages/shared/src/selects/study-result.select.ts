@@ -36,4 +36,3 @@ export type StudyResultSelectType = typeof studyResultSelect;
 export type StudyResultEntity = Prisma.StudyResultGetPayload<{
   select: StudyResultSelectType;
 }>;
-

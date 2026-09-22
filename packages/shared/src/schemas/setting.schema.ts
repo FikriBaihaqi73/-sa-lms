@@ -23,5 +23,10 @@ export const CreateSettingSchema = z.object({
 
 export const UpdateSettingSchema = CreateSettingSchema.partial();
 
+export const SettingSearchSchema = z.object({
+  search: z.string().optional(),
+});
+
 export class CreateSettingDto extends createZodDto(CreateSettingSchema) {}
 export class UpdateSettingDto extends createZodDto(UpdateSettingSchema) {}
+export class SettingSearchDto extends createZodDto(SettingSearchSchema) {}

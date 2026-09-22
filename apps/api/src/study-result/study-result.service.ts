@@ -146,10 +146,7 @@ export class StudyResultService {
       }
     }
 
-    if (
-      dto.semesterId !== undefined &&
-      dto.semesterId !== current.semesterId
-    ) {
+    if (dto.semesterId !== undefined && dto.semesterId !== current.semesterId) {
       const semesterExists = await this.prisma.client.semesters.findFirst({
         where: { id: dto.semesterId, deleted_at: null },
       });
@@ -163,11 +160,10 @@ export class StudyResultService {
       dto.academicStatusId !== current.academicStatusId
     ) {
       if (dto.academicStatusId !== null) {
-        const statusExists = await this.prisma.client.academicStatuses.findFirst(
-          {
+        const statusExists =
+          await this.prisma.client.academicStatuses.findFirst({
             where: { id: dto.academicStatusId, deleted_at: null },
-          },
-        );
+          });
         if (!statusExists) {
           throw new NotFoundException("Academic status not found");
         }
@@ -196,9 +192,7 @@ export class StudyResultService {
       ...(dto.academicYearId !== undefined
         ? { academicYearId: dto.academicYearId }
         : {}),
-      ...(dto.semesterId !== undefined
-        ? { semesterId: dto.semesterId }
-        : {}),
+      ...(dto.semesterId !== undefined ? { semesterId: dto.semesterId } : {}),
       ...(dto.totalCredits !== undefined
         ? { totalCredits: dto.totalCredits }
         : {}),

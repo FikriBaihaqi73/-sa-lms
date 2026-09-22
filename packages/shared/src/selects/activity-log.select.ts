@@ -21,8 +21,8 @@ export const activityLogSelect = {
       profile: {
         select: {
           fullName: true,
-        }
-      }
+        },
+      },
     },
   },
 } satisfies Prisma.ActivityLogsSelect;
