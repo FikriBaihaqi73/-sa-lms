@@ -48,6 +48,7 @@ import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
 import { SemesterModule } from "./semester/semester.module";
+import { ClassAnnouncementsModule } from "./class-announcements/class-announcements.module";
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { SemesterModule } from "./semester/semester.module";
     AnnouncementModule,
     SettingsModule,
     SemesterModule,
+    ClassAnnouncementsModule,
   ],
   controllers: [AppController],
   providers: [

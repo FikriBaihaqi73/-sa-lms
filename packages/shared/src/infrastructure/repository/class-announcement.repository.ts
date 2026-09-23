@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type ClassAnnouncementEntity,
   classAnnouncementSelect,
@@ -44,16 +44,44 @@ export class ClassAnnouncementRepository {
     });
   }
 
-  async findAll(): Promise<ClassAnnouncementEntity[]> {
-    return this.prisma.classAnnouncement.findMany({
-      where: {
-        deletedAt: null,
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    search?: string;
+  }): Promise<{ data: ClassAnnouncementEntity[]; meta: { total: number } }> {
+    const { skip, take, search } = params;
+
+    const whereInput: Prisma.ClassAnnouncementWhereInput = {
+      deletedAt: null,
+      ...(search && {
+        OR: [
+          { title: { contains: search, mode: "insensitive" } },
+          { content: { contains: search, mode: "insensitive" } },
+        ],
+      }),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.classAnnouncement.findMany({
+        where: whereInput,
+        ...(skip !== undefined && { skip }),
+        ...(take !== undefined && { take }),
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: classAnnouncementSelect,
+      }),
+      this.prisma.classAnnouncement.count({
+        where: whereInput,
+      }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        total,
       },
-      orderBy: {
-        createdAt: "desc",
-      },
-      select: classAnnouncementSelect,
-    });
+    };
   }
 
   async findByClassId(classId: string): Promise<ClassAnnouncementEntity[]> {
