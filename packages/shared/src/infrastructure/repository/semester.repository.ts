@@ -17,6 +17,23 @@ export interface UpdateSemesterInput {
   is_active?: boolean;
 }
 
+export interface FindAllSemesterInput {
+  page?: number;
+  limit?: number;
+  search?: string;
+  academic_year_id?: string;
+}
+
+export interface FindAllSemesterResult {
+  data: SemesterEntity[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
 export class SemesterRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
@@ -55,13 +72,62 @@ export class SemesterRepository {
     });
   }
 
-  async findAll(): Promise<SemesterEntity[]> {
-    return this.prisma.semesters.findMany({
-      where: {
-        deleted_at: null,
+  async findAll(
+    params: FindAllSemesterInput = {},
+  ): Promise<FindAllSemesterResult> {
+    const page = Math.max(params.page ?? 1, 1);
+    const limit = Math.min(Math.max(params.limit ?? 10, 1), 100);
+    const search = params.search?.trim();
+
+    const where = {
+      deleted_at: null,
+      ...(params.academic_year_id !== undefined && {
+        academic_year_id: params.academic_year_id,
+      }),
+      ...(search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+              {
+                academicYear: {
+                  academic_year: {
+                    contains: search,
+                    mode: "insensitive" as const,
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, total] = await Promise.all([
+      this.prisma.semesters.findMany({
+        where,
+        select: semesterSelect,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: {
+          created_at: "desc",
+        },
+      }),
+      this.prisma.semesters.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-      select: semesterSelect,
-    });
+    };
   }
 
   async update(id: string, data: UpdateSemesterInput): Promise<SemesterEntity> {

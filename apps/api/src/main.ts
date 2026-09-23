@@ -8,7 +8,7 @@ import { apiReference } from "@scalar/nestjs-api-reference";
 import compression from "compression";
 import { Request, Response } from "express";
 import helmet from "helmet";
-import { cleanupOpenApiDoc } from "nestjs-zod";
+import { cleanupOpenApiDoc, ZodValidationPipe } from "nestjs-zod";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -22,6 +22,9 @@ async function bootstrap() {
     }),
   );
   app.use(compression());
+
+  // Global Validation
+  app.useGlobalPipes(new ZodValidationPipe());
 
   // Swagger Configuration
   const config = new DocumentBuilder()
