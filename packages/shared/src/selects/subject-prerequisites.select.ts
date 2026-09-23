@@ -1,4 +1,5 @@
 import type { Prisma } from "#generated/client";
+import { subjectSelect } from "#selects/subject.select";
 
 export const subjectPrerequisitesSelect = {
   id: true,
@@ -7,6 +8,12 @@ export const subjectPrerequisitesSelect = {
   createdAt: true,
   updatedAt: true,
   deletedAt: true,
+  subject: {
+    select: subjectSelect,
+  },
+  prerequisiteSubject: {
+    select: subjectSelect,
+  },
 } satisfies Prisma.SubjectPrerequisitesSelect;
 
 export type SubjectPrerequisitesSelectType = typeof subjectPrerequisitesSelect;

@@ -1,4 +1,4 @@
-import type { PrismaClient } from "#generated/client";
+import type { Prisma, PrismaClient } from "#generated/client";
 import {
   type SubjectPrerequisitesEntity,
   subjectPrerequisitesSelect,
@@ -12,6 +12,20 @@ export interface CreateSubjectPrerequisitesInput {
 export interface UpdateSubjectPrerequisitesInput {
   subjectId?: string;
   prerequisiteSubjectId?: string;
+}
+
+export interface SubjectPrerequisitesSearchInput {
+  search?: string | undefined;
+}
+
+export interface SubjectPrerequisitesPaginationResult {
+  data: SubjectPrerequisitesEntity[];
+  meta: {
+    totalData: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+  };
 }
 
 export class SubjectPrerequisitesRepository {
@@ -77,13 +91,77 @@ export class SubjectPrerequisitesRepository {
     });
   }
 
-  async findAll(): Promise<SubjectPrerequisitesEntity[]> {
-    return this.prisma.subjectPrerequisites.findMany({
+  async findByUniqueCombination(
+    subjectId: string,
+    prerequisiteSubjectId: string,
+  ): Promise<SubjectPrerequisitesEntity | null> {
+    return this.prisma.subjectPrerequisites.findFirst({
       where: {
-        deletedAt: null,
+        subjectId,
+        prerequisiteSubjectId,
       },
       select: subjectPrerequisitesSelect,
     });
+  }
+
+  async findAll(
+    page = 1,
+    limit = 10,
+    filters?: SubjectPrerequisitesSearchInput,
+  ): Promise<SubjectPrerequisitesPaginationResult> {
+    const skip = (page - 1) * limit;
+    const search = filters?.search?.trim();
+
+    const where: Prisma.SubjectPrerequisitesWhereInput = {
+      deletedAt: null,
+      ...(search
+        ? {
+            OR: [
+              {
+                subject: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                subject: {
+                  code: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                prerequisiteSubject: {
+                  name: { contains: search, mode: "insensitive" },
+                },
+              },
+              {
+                prerequisiteSubject: {
+                  code: { contains: search, mode: "insensitive" },
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
+    const [data, totalData] = await Promise.all([
+      this.prisma.subjectPrerequisites.findMany({
+        where,
+        skip,
+        take: limit,
+        select: subjectPrerequisitesSelect,
+        orderBy: { createdAt: "desc" },
+      }),
+      this.prisma.subjectPrerequisites.count({ where }),
+    ]);
+
+    return {
+      data,
+      meta: {
+        totalData,
+        totalPages: Math.ceil(totalData / limit),
+        currentPage: page,
+        perPage: limit,
+      },
+    };
   }
 
   async update(
