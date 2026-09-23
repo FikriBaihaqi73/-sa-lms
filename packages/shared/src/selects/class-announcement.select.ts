@@ -1,4 +1,5 @@
 import type { Prisma } from "#generated/client";
+import { classSelect } from "./class.select.js";
 
 export const classAnnouncementSelect = {
   id: true,
@@ -9,6 +10,9 @@ export const classAnnouncementSelect = {
   classId: true,
   title: true,
   content: true,
+  class: {
+    select: classSelect,
+  },
 } satisfies Prisma.ClassAnnouncementSelect;
 
 export type ClassAnnouncementSelectType = typeof classAnnouncementSelect;
