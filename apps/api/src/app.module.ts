@@ -47,6 +47,7 @@ import { SubjectModule } from "./subject/subject.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
+import { ClassAnnouncementsModule } from "./class-announcements/class-announcements.module.js";
 
 @Module({
   imports: [
@@ -95,6 +96,7 @@ import { UserModule } from "./user/user.module";
     ActivityLogModule,
     AnnouncementModule,
     SettingsModule,
+    ClassAnnouncementsModule,
   ],
   controllers: [AppController],
   providers: [

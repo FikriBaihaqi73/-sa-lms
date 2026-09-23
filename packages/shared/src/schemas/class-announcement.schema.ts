@@ -13,10 +13,18 @@ export const UpdateClassAnnouncementSchema = z.object({
   content: z.string().optional().describe("Announcement content"),
 });
 
+export const ClassAnnouncementSearchSchema = z.object({
+  search: z.string().optional().describe("Search keyword for title or content"),
+});
+
 export class CreateClassAnnouncementDto extends createZodDto(
   CreateClassAnnouncementSchema,
 ) {}
 
 export class UpdateClassAnnouncementDto extends createZodDto(
   UpdateClassAnnouncementSchema,
+) {}
+
+export class ClassAnnouncementSearchDto extends createZodDto(
+  ClassAnnouncementSearchSchema,
 ) {}

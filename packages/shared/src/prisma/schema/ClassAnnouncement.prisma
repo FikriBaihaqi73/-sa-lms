@@ -10,6 +10,9 @@ model ClassAnnouncement {
   title   String
   content String? @db.Text
 
+  // relations
+  class Classes @relation(fields: [classId], references: [id])
+
   @@index([classId])
   @@map("class_announcements")
 }
