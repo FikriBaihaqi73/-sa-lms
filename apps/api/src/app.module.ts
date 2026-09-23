@@ -14,6 +14,7 @@ import { AttendanceStatusModule } from "./attendance-status/attendance-status.mo
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 import { ClassModule } from "./class/class.module";
+import { ClassAnnouncementsModule } from "./class-announcements/class-announcements.module";
 import { ClassStudentModule } from "./class-student/class-student.module";
 import { ClassSubjectModule } from "./class-subject/class-subject.module";
 import { ClassroomModule } from "./classroom/classroom.module";
@@ -36,6 +37,7 @@ import { ReligionModule } from "./religion/religion.module";
 import { RoleModule } from "./role/role.module";
 import { RolePermissionModule } from "./role-permission/role-permission.module";
 import { ScheduleModule } from "./schedule/schedule.module";
+import { SemesterModule } from "./semester/semester.module";
 import { SettingsModule } from "./settings/settings.module";
 import { SpecializationModule } from "./specialization/specialization.module";
 import { StudentModule } from "./student/student.module";
@@ -44,11 +46,10 @@ import { StudentGuardianModule } from "./student-guardian/student-guardian.modul
 import { StudyPlanModule } from "./study-plan/study-plan.module";
 import { StudyResultModule } from "./study-result/study-result.module";
 import { SubjectModule } from "./subject/subject.module";
+import { SubjectPrerequisiteModule } from "./subject-prerequisite/subject-prerequisite.module";
 import { TeachersModule } from "./teachers/teachers.module";
 import { TeachingJournalModule } from "./teaching-journal/teaching-journal.module";
 import { UserModule } from "./user/user.module";
-import { SemesterModule } from "./semester/semester.module";
-import { ClassAnnouncementsModule } from "./class-announcements/class-announcements.module";
 
 @Module({
   imports: [
@@ -86,6 +87,7 @@ import { ClassAnnouncementsModule } from "./class-announcements/class-announceme
     ClassModule,
     ClassModule,
     SubjectModule,
+    SubjectPrerequisiteModule,
     ClassSubjectModule,
     ClassroomModule,
     ScheduleModule,
