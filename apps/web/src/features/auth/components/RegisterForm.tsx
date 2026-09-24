@@ -57,8 +57,8 @@ export function RegisterForm({ onLoginClick }: { onLoginClick: () => void }) {
         institutionName: data.institutionName,
       });
       setSuccess('Account created successfully! You can now sign in.');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
     }
   };
 
